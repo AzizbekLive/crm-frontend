@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-
+import { useProfileStore } from '../../stores/profile';
 //import images
 import avatar1 from '../../assets/images/users/avatar-1.jpg';
 import { Link } from 'react-router-dom/dist';
 
 const ProfileDropdown = () => {
-    const { user } = useSelector((state) => ({
-        user: state.Profile.user,
-    }));
+    const { profile } = useProfileStore();
 
     const [userName, setUserName] = useState('Admin');
 
@@ -17,7 +14,7 @@ const ProfileDropdown = () => {
         if (sessionStorage.getItem('authUser')) {
             setUserName('Admin');
         }
-    }, [userName, user]);
+    }, [userName, profile]);
 
     //Dropdown Toggle
     const [isProfileDropdown, setIsProfileDropdown] = useState(false);

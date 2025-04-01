@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route } from 'react-router-dom';
 import { setAuthorization } from '../helpers/api_helper';
-import { useDispatch } from 'react-redux';
-
 import { useProfile } from '../Components/Hooks/UserHooks';
-
-import { logoutUser } from '../slices/thunks';
+import { useProfileStore } from '../stores/profile';
 
 const AuthProtected = (props) => {
-    const dispatch = useDispatch();
+    const { logOutProfile } = useProfileStore();
+
     const { userProfile, loading, token } = useProfile();
     useEffect(() => {
         if (userProfile && !loading && token) {
             setAuthorization(token);
         } else if (!userProfile && loading && !token) {
-            dispatch(logoutUser());
+            logOutProfile();
         }
-    }, [token, userProfile, loading, dispatch]);
+    }, [token, userProfile, loading]);
 
     /*
     Navigate is un-auth access protected routes via url

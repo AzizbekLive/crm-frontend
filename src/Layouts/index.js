@@ -7,26 +7,9 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import RightSidebar from '../Components/Common/RightSidebar';
-
-//import actions
-import {
-    changeLayout,
-    changeSidebarTheme,
-    changeLayoutMode,
-    changeLayoutWidth,
-    changeLayoutPosition,
-    changeTopbarTheme,
-    changeLeftsidebarSizeType,
-    changeLeftsidebarViewType,
-    changeSidebarImageType,
-    changeSidebarVisibility,
-} from '../slices/thunks';
-
-//redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useLayoutStore } from '../stores/layouts';
 
 const Layout = (props) => {
-    const dispatch = useDispatch();
     const {
         layoutType,
         leftSidebarType,
@@ -38,18 +21,17 @@ const Layout = (props) => {
         leftSidebarViewType,
         leftSidebarImageType,
         sidebarVisibilitytype,
-    } = useSelector((state) => ({
-        layoutType: state.Layout.layoutType,
-        leftSidebarType: state.Layout.leftSidebarType,
-        layoutModeType: state.Layout.layoutModeType,
-        layoutWidthType: state.Layout.layoutWidthType,
-        layoutPositionType: state.Layout.layoutPositionType,
-        topbarThemeType: state.Layout.topbarThemeType,
-        leftsidbarSizeType: state.Layout.leftsidbarSizeType,
-        leftSidebarViewType: state.Layout.leftSidebarViewType,
-        leftSidebarImageType: state.Layout.leftSidebarImageType,
-        sidebarVisibilitytype: state.Layout.sidebarVisibilitytype,
-    }));
+        changeLayout,
+        changeSidebarTheme,
+        changeLayoutMode,
+        changeLayoutWidth,
+        changeLayoutPosition,
+        changeTopbarTheme,
+        changeLeftsidebarSizeType,
+        changeLeftsidebarViewType,
+        changeSidebarImageType,
+        changeSidebarVisibility,
+    } = useLayoutStore();
 
     /*
     layout settings
@@ -68,16 +50,16 @@ const Layout = (props) => {
             sidebarVisibilitytype
         ) {
             window.dispatchEvent(new Event('resize'));
-            dispatch(changeLeftsidebarViewType(leftSidebarViewType));
-            dispatch(changeLeftsidebarSizeType(leftsidbarSizeType));
-            dispatch(changeSidebarTheme(leftSidebarType));
-            dispatch(changeLayoutMode(layoutModeType));
-            dispatch(changeLayoutWidth(layoutWidthType));
-            dispatch(changeLayoutPosition(layoutPositionType));
-            dispatch(changeTopbarTheme(topbarThemeType));
-            dispatch(changeLayout(layoutType));
-            dispatch(changeSidebarImageType(leftSidebarImageType));
-            dispatch(changeSidebarVisibility(sidebarVisibilitytype));
+            changeLeftsidebarViewType(leftSidebarViewType);
+            changeLeftsidebarSizeType(leftsidbarSizeType);
+            changeSidebarTheme(leftSidebarType);
+            changeLayoutMode(layoutModeType);
+            changeLayoutWidth(layoutWidthType);
+            changeLayoutPosition(layoutPositionType);
+            changeTopbarTheme(topbarThemeType);
+            changeLayout(layoutType);
+            changeSidebarImageType(leftSidebarImageType);
+            changeSidebarVisibility(sidebarVisibilitytype);
         }
     }, [
         layoutType,
@@ -90,15 +72,12 @@ const Layout = (props) => {
         leftSidebarViewType,
         leftSidebarImageType,
         sidebarVisibilitytype,
-        dispatch,
     ]);
     /*
     call dark/light mode
     */
     const onChangeLayoutMode = (value) => {
-        if (changeLayoutMode) {
-            dispatch(changeLayoutMode(value));
-        }
+        changeLayoutMode(value);
         localStorage.setItem('theme', value);
     };
 

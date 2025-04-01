@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Card, CardBody, Col, Container, Input, Label, Row, Button, Form, FormFeedback, Alert, Spinner } from 'reactstrap';
 import ParticlesAuth from '../AuthenticationInner/ParticlesAuth';
 
-//redux
-
 import { Link, useNavigate } from 'react-router-dom';
 import withRouter from '../../Components/Common/withRouter';
 
@@ -35,7 +33,6 @@ const Login = (props) => {
             password: Yup.string().required('Пожалуйста, введите ваш пароль'),
         }),
         onSubmit: (values) => {
-            // dispatch(loginUser(values, props.router.navigate));
             sessionStorage.setItem('authUser', JSON.stringify({}));
             navigate('/');
         },

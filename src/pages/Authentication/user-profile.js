@@ -7,8 +7,6 @@ import { Container, Row, Col, Card, Alert, CardBody, Button, Label, Input, FormF
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-//redux
-
 import avatar from '../../assets/images/users/avatar-1.jpg';
 // actions
 

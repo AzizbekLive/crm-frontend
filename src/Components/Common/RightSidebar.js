@@ -1,24 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import withRouter from './withRouter';
 import { Offcanvas, OffcanvasHeader, OffcanvasBody, Collapse } from 'reactstrap';
-
-//redux
-import {
-    changeLayout,
-    changeSidebarTheme,
-    changeLayoutMode,
-    changeLayoutWidth,
-    changeLayoutPosition,
-    changeTopbarTheme,
-    changeLeftsidebarSizeType,
-    changeLeftsidebarViewType,
-    changeSidebarImageType,
-    changePreLoader,
-    changeSidebarVisibility,
-    // resetValue
-} from '../../slices/thunks';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useLayoutStore } from '../../stores/layouts';
 
 //import Constant
 import {
@@ -46,19 +29,8 @@ import img03 from '../../assets/images/sidebar/img-3.jpg';
 import img04 from '../../assets/images/sidebar/img-4.jpg';
 
 const RightSidebar = (props) => {
-    const dispatch = useDispatch();
     const [show, setShow] = useState(false);
-    function tog_show() {
-        setShow(!show);
-        dispatch(changeSidebarTheme('gradient'));
-    }
 
-    useEffect(() => {
-        if (show && document.getElementById('sidebar-color-dark') && document.getElementById('sidebar-color-light')) {
-            document.getElementById('sidebar-color-dark').checked = false;
-            document.getElementById('sidebar-color-light').checked = false;
-        }
-    });
     const {
         layoutType,
         leftSidebarType,
@@ -71,19 +43,30 @@ const RightSidebar = (props) => {
         leftSidebarImageType,
         preloader,
         sidebarVisibilitytype,
-    } = useSelector((state) => ({
-        layoutType: state.Layout.layoutType,
-        leftSidebarType: state.Layout.leftSidebarType,
-        layoutModeType: state.Layout.layoutModeType,
-        layoutWidthType: state.Layout.layoutWidthType,
-        layoutPositionType: state.Layout.layoutPositionType,
-        topbarThemeType: state.Layout.topbarThemeType,
-        leftsidbarSizeType: state.Layout.leftsidbarSizeType,
-        leftSidebarViewType: state.Layout.leftSidebarViewType,
-        leftSidebarImageType: state.Layout.leftSidebarImageType,
-        preloader: state.Layout.preloader,
-        sidebarVisibilitytype: state.Layout.sidebarVisibilitytype,
-    }));
+        changeLayout,
+        changeSidebarTheme,
+        changeLayoutMode,
+        changeLayoutWidth,
+        changeLayoutPosition,
+        changeTopbarTheme,
+        changeLeftsidebarSizeType,
+        changeLeftsidebarViewType,
+        changeSidebarImageType,
+        changePreLoader,
+        changeSidebarVisibility,
+    } = useLayoutStore();
+
+    function tog_show() {
+        setShow(!show);
+        changeSidebarTheme('gradient');
+    }
+
+    useEffect(() => {
+        if (show && document.getElementById('sidebar-color-dark') && document.getElementById('sidebar-color-light')) {
+            document.getElementById('sidebar-color-dark').checked = false;
+            document.getElementById('sidebar-color-light').checked = false;
+        }
+    });
 
     // open offcanvas
     const [open, setOpen] = useState(false);
@@ -168,7 +151,7 @@ const RightSidebar = (props) => {
                                                 checked={layoutType === layoutTypes.VERTICAL}
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
-                                                        dispatch(changeLayout(e.target.value));
+                                                        changeLayout(e.target.value);
                                                     }
                                                 }}
                                                 className="form-check-input"
@@ -204,7 +187,7 @@ const RightSidebar = (props) => {
                                                 checked={layoutType === layoutTypes.HORIZONTAL}
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
-                                                        dispatch(changeLayout(e.target.value));
+                                                        changeLayout(e.target.value);
                                                     }
                                                 }}
                                                 className="form-check-input"
@@ -234,7 +217,7 @@ const RightSidebar = (props) => {
                                                 checked={layoutType === layoutTypes.SEMIBOX}
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
-                                                        dispatch(changeLayout(e.target.value));
+                                                        changeLayout(e.target.value);
                                                     }
                                                 }}
                                             />
@@ -277,7 +260,7 @@ const RightSidebar = (props) => {
                                                     checked={layoutModeType === layoutModeTypes.LIGHTMODE}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            dispatch(changeLayoutMode(e.target.value));
+                                                            changeLayoutMode(e.target.value);
                                                         }
                                                     }}
                                                 />
@@ -314,7 +297,7 @@ const RightSidebar = (props) => {
                                                     checked={layoutModeType === layoutModeTypes.DARKMODE}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            dispatch(changeLayoutMode(e.target.value));
+                                                            changeLayoutMode(e.target.value);
                                                         }
                                                     }}
                                                 />
@@ -358,7 +341,7 @@ const RightSidebar = (props) => {
                                                         checked={sidebarVisibilitytype === sidebarVisibilitytypes.SHOW}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarVisibility(e.target.value));
+                                                                changeSidebarVisibility(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -394,7 +377,7 @@ const RightSidebar = (props) => {
                                                         checked={sidebarVisibilitytype === sidebarVisibilitytypes.HIDDEN}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarVisibility(e.target.value));
+                                                                changeSidebarVisibility(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -433,8 +416,8 @@ const RightSidebar = (props) => {
                                                                 checked={layoutWidthType === layoutWidthTypes.FLUID}
                                                                 onChange={(e) => {
                                                                     if (e.target.checked) {
-                                                                        dispatch(changeLayoutWidth(e.target.value));
-                                                                        dispatch(changeLeftsidebarSizeType('lg'));
+                                                                        changeLayoutWidth(e.target.value);
+                                                                        changeLeftsidebarSizeType('lg');
                                                                     }
                                                                 }}
                                                             />
@@ -470,8 +453,8 @@ const RightSidebar = (props) => {
                                                                 checked={layoutWidthType === layoutWidthTypes.BOXED}
                                                                 onChange={(e) => {
                                                                     if (e.target.checked) {
-                                                                        dispatch(changeLayoutWidth(e.target.value));
-                                                                        dispatch(changeLeftsidebarSizeType('sm-hover'));
+                                                                        changeLayoutWidth(e.target.value);
+                                                                        changeLeftsidebarSizeType('sm-hover');
                                                                     }
                                                                 }}
                                                             />
@@ -514,7 +497,7 @@ const RightSidebar = (props) => {
                                                     checked={layoutPositionType === layoutPositionTypes.FIXED}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            dispatch(changeLayoutPosition(e.target.value));
+                                                            changeLayoutPosition(e.target.value);
                                                         }
                                                     }}
                                                 />
@@ -531,7 +514,7 @@ const RightSidebar = (props) => {
                                                     checked={layoutPositionType === layoutPositionTypes.SCROLLABLE}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            dispatch(changeLayoutPosition(e.target.value));
+                                                            changeLayoutPosition(e.target.value);
                                                         }
                                                     }}
                                                 />
@@ -558,7 +541,7 @@ const RightSidebar = (props) => {
                                                 checked={topbarThemeType === topbarThemeTypes.LIGHT}
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
-                                                        dispatch(changeTopbarTheme(e.target.value));
+                                                        changeTopbarTheme(e.target.value);
                                                     }
                                                 }}
                                             />
@@ -594,7 +577,7 @@ const RightSidebar = (props) => {
                                                 checked={topbarThemeType === topbarThemeTypes.DARK}
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
-                                                        dispatch(changeTopbarTheme(e.target.value));
+                                                        changeTopbarTheme(e.target.value);
                                                     }
                                                 }}
                                             />
@@ -639,7 +622,7 @@ const RightSidebar = (props) => {
                                                             checked={leftsidbarSizeType === leftsidbarSizeTypes.DEFAULT}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeLeftsidebarSizeType(e.target.value));
+                                                                    changeLeftsidebarSizeType(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -676,7 +659,7 @@ const RightSidebar = (props) => {
                                                             checked={leftsidbarSizeType === leftsidbarSizeTypes.COMPACT}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeLeftsidebarSizeType(e.target.value));
+                                                                    changeLeftsidebarSizeType(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -713,7 +696,7 @@ const RightSidebar = (props) => {
                                                             checked={leftsidbarSizeType === leftsidbarSizeTypes.SMALLICON}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeLeftsidebarSizeType(e.target.value));
+                                                                    changeLeftsidebarSizeType(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -750,7 +733,7 @@ const RightSidebar = (props) => {
                                                             checked={leftsidbarSizeType === leftsidbarSizeTypes.SMALLHOVER}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeLeftsidebarSizeType(e.target.value));
+                                                                    changeLeftsidebarSizeType(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -794,7 +777,7 @@ const RightSidebar = (props) => {
                                                             checked={leftSidebarViewType === leftSidebarViewTypes.DEFAULT}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeLeftsidebarViewType(e.target.value));
+                                                                    changeLeftsidebarViewType(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -830,7 +813,7 @@ const RightSidebar = (props) => {
                                                             checked={leftSidebarViewType === leftSidebarViewTypes.DETACHED}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeLeftsidebarViewType(e.target.value));
+                                                                    changeLeftsidebarViewType(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -882,7 +865,7 @@ const RightSidebar = (props) => {
                                                             onChange={(e) => {
                                                                 setShow(false);
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeSidebarTheme(e.target.value));
+                                                                    changeSidebarTheme(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -919,7 +902,7 @@ const RightSidebar = (props) => {
                                                             onChange={(e) => {
                                                                 setShow(false);
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeSidebarTheme(e.target.value));
+                                                                    changeSidebarTheme(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -988,7 +971,7 @@ const RightSidebar = (props) => {
                                                             checked={leftSidebarType === leftSidebarTypes.GRADIENT}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeSidebarTheme(e.target.value));
+                                                                    changeSidebarTheme(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -1008,7 +991,7 @@ const RightSidebar = (props) => {
                                                             checked={leftSidebarType === leftSidebarTypes.GRADIENT_2}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeSidebarTheme(e.target.value));
+                                                                    changeSidebarTheme(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -1028,7 +1011,7 @@ const RightSidebar = (props) => {
                                                             checked={leftSidebarType === leftSidebarTypes.GRADIENT_3}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeSidebarTheme(e.target.value));
+                                                                    changeSidebarTheme(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -1048,7 +1031,7 @@ const RightSidebar = (props) => {
                                                             checked={leftSidebarType === leftSidebarTypes.GRADIENT_4}
                                                             onChange={(e) => {
                                                                 if (e.target.checked) {
-                                                                    dispatch(changeSidebarTheme(e.target.value));
+                                                                    changeSidebarTheme(e.target.value);
                                                                 }
                                                             }}
                                                         />
@@ -1076,7 +1059,7 @@ const RightSidebar = (props) => {
                                                         checked={leftSidebarImageType === leftSidebarImageTypes.NONE}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarImageType(e.target.value));
+                                                                changeSidebarImageType(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -1097,7 +1080,7 @@ const RightSidebar = (props) => {
                                                         checked={leftSidebarImageType === leftSidebarImageTypes.IMG1}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarImageType(e.target.value));
+                                                                changeSidebarImageType(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -1116,7 +1099,7 @@ const RightSidebar = (props) => {
                                                         checked={leftSidebarImageType === leftSidebarImageTypes.IMG2}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarImageType(e.target.value));
+                                                                changeSidebarImageType(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -1134,7 +1117,7 @@ const RightSidebar = (props) => {
                                                         checked={leftSidebarImageType === leftSidebarImageTypes.IMG3}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarImageType(e.target.value));
+                                                                changeSidebarImageType(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -1152,7 +1135,7 @@ const RightSidebar = (props) => {
                                                         checked={leftSidebarImageType === leftSidebarImageTypes.IMG4}
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                dispatch(changeSidebarImageType(e.target.value));
+                                                                changeSidebarImageType(e.target.value);
                                                             }
                                                         }}
                                                     />
@@ -1180,7 +1163,7 @@ const RightSidebar = (props) => {
                                                     checked={preloader === preloaderTypes.ENABLE}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            dispatch(changePreLoader(e.target.value));
+                                                            changePreLoader(e.target.value);
                                                         }
                                                     }}
                                                 />
@@ -1224,7 +1207,7 @@ const RightSidebar = (props) => {
                                                     checked={preloader === preloaderTypes.DISABLE}
                                                     onChange={(e) => {
                                                         if (e.target.checked) {
-                                                            dispatch(changePreLoader(e.target.value));
+                                                            changePreLoader(e.target.value);
                                                         }
                                                     }}
                                                 />

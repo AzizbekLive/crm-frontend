@@ -7,8 +7,8 @@ export const Widgets = () => {
         <React.Fragment>
             <Row>
                 {(cryptoSlider || []).map((item, key) => (
-                    <Col lg={4}>
-                        <Card key={key}>
+                    <Col lg={4} key={key}>
+                        <Card>
                             <CardBody>
                                 <div className="float-end">
                                     <UncontrolledDropdown direction="start">
