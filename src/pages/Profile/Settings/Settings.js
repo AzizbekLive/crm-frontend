@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import Flatpickr from 'react-flatpickr';
 
 //import images
-import progileBg from '../../../assets/images/profile-bg.jpg';
+// import progileBg from '../../../assets/images/profile-bg.jpg';
 import avatar1 from '../../../assets/images/users/avatar-1.jpg';
 
 const Settings = () => {
@@ -21,7 +21,7 @@ const Settings = () => {
                 <Container fluid>
                     <div className="position-relative mx-n4 mt-n4">
                         <div className="profile-wid-bg profile-setting-img">
-                            <img src={progileBg} className="profile-wid-img" alt="" />
+                            {/* <img src={progileBg} className="profile-wid-img" alt="" /> */}
                             <div className="overlay-content">
                                 <div className="text-end p-3">
                                     <div className="p-0 ms-auto rounded-circle profile-photo-edit">

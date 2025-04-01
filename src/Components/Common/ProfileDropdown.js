@@ -38,14 +38,18 @@ const ProfileDropdown = () => {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
                     <h6 className="dropdown-header">Welcome {userName}!</h6>
-                    <DropdownItem href={process.env.PUBLIC_URL + '/profile'}>
-                        <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
-                        <span className="align-middle">Profile</span>
+                    <DropdownItem>
+                        <Link to="/profile" className="d-block">
+                            <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>{' '}
+                            <span className="align-middle text-dark">Profile</span>
+                        </Link>
                     </DropdownItem>
                     <div className="dropdown-divider"></div>
-                    <DropdownItem href={process.env.PUBLIC_URL + '/profile-settings'}>
-                        <Link to="/profile-settings"></Link>
-                        <i className="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Settings</span>
+                    <DropdownItem>
+                        <Link to="/profile-settings" className="d-block">
+                            <i className="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>{' '}
+                            <span className="align-middle text-dark">Settings</span>
+                        </Link>
                     </DropdownItem>
                     <DropdownItem href={process.env.PUBLIC_URL + '/logout'}>
                         <i className="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>{' '}

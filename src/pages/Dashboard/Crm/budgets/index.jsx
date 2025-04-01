@@ -83,7 +83,7 @@ export const Budgets = () => {
                 <CardBody className="p-0 pb-2">
                     <div className="w-100">
                         <div dir="ltr">
-                            <BudgetsCharts series={chartData} dataColors='["--vz-warning", "--vz-secondary", "--vz-danger"]' />
+                            <BudgetsCharts series={chartData} dataColors='["--vz-warning", "--vz-primary", "--vz-danger"]' />
                         </div>
                     </div>
                 </CardBody>

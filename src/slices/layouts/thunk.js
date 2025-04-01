@@ -40,6 +40,7 @@ export const changeLayoutMode = (layoutMode) => async (dispatch) => {
     try {
         changeHTMLAttribute("data-layout-mode", layoutMode);
         dispatch(changeLayoutModeAction(layoutMode));
+        
     } catch (error) { }
 };
 

@@ -99,6 +99,7 @@ const Layout = (props) => {
         if (changeLayoutMode) {
             dispatch(changeLayoutMode(value));
         }
+        localStorage.setItem('theme', value);
     };
 
     const [headerClass, setHeaderClass] = useState('');

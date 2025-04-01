@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 
 // actions
 
-import logoLight from '../../assets/images/logo-light.png';
+// import logoLight from '../../assets/images/logo-light.png';
 //Import config
 
 const Login = (props) => {
@@ -52,7 +52,7 @@ const Login = (props) => {
                                 <div className="text-center mt-sm-5 mb-4 text-white-50">
                                     <div>
                                         <Link to="/" className="d-inline-block auth-logo">
-                                            <img src={logoLight} alt="" height="20" />
+                                            {/* <img src={logoLight} alt="" height="20" /> */} Logo
                                         </Link>
                                     </div>
                                     <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard</p>
