@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <React.Fragment>
             <footer className="footer">
-                <Container fluid>
+                {/* <Container fluid>
                     <Row>
                         <Col sm={6}>
                             {new Date().getFullYear()} © Velzon.
@@ -16,7 +16,7 @@ const Footer = () => {
                             </div>
                         </Col>
                     </Row>
-                </Container>
+                </Container> */}
             </footer>
         </React.Fragment>
     );

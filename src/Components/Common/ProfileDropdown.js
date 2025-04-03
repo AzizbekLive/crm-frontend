@@ -4,9 +4,12 @@ import { useProfileStore } from '../../stores/profile';
 //import images
 import avatar1 from '../../assets/images/users/avatar-1.jpg';
 import { Link } from 'react-router-dom/dist';
+import { useNavigate } from 'react-router-dom/dist';
 
 const ProfileDropdown = () => {
-    const { profile } = useProfileStore();
+    const navigate = useNavigate();
+
+    const { profile, logOutProfile } = useProfileStore();
 
     const [userName, setUserName] = useState('Admin');
 
@@ -20,6 +23,12 @@ const ProfileDropdown = () => {
     const [isProfileDropdown, setIsProfileDropdown] = useState(false);
     const toggleProfileDropdown = () => {
         setIsProfileDropdown(!isProfileDropdown);
+    };
+
+    const logoutHandler = () => {
+        sessionStorage.clear();
+        logOutProfile();
+        navigate('/login');
     };
     return (
         <React.Fragment>
@@ -48,7 +57,7 @@ const ProfileDropdown = () => {
                             <span className="align-middle text-dark">Settings</span>
                         </Link>
                     </DropdownItem>
-                    <DropdownItem href={process.env.PUBLIC_URL + '/logout'}>
+                    <DropdownItem onClick={logoutHandler}>
                         <i className="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>{' '}
                         <span className="align-middle" data-key="t-logout">
                             Logout

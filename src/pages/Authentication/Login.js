@@ -9,12 +9,16 @@ import withRouter from '../../Components/Common/withRouter';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
+import { toast } from 'sonner';
+import { postService } from '../../service';
+import { AUTH_ENDPOINT } from '../../helpers/url_helper';
+
 // actions
 
 // import logoLight from '../../assets/images/logo-light.png';
 //Import config
 
-const Login = (props) => {
+const Login = () => {
     const navigate = useNavigate();
 
     const [passwordShow, setPasswordShow] = useState(false);
@@ -25,16 +29,27 @@ const Login = (props) => {
         enableReinitialize: true,
 
         initialValues: {
-            login: 'admin@in.com',
+            username: 'admin@in.com',
             password: 'admin',
         },
         validationSchema: Yup.object({
-            login: Yup.string().required('Пожалуйста, введите ваше имя пользователя'),
+            username: Yup.string().required('Пожалуйста, введите ваше имя пользователя'),
             password: Yup.string().required('Пожалуйста, введите ваш пароль'),
         }),
-        onSubmit: (values) => {
-            sessionStorage.setItem('authUser', JSON.stringify({}));
-            navigate('/');
+        onSubmit: async (values) => {
+            try {
+                setLoading(true);
+                const res = await postService(AUTH_ENDPOINT, values);
+                if (res?.access) {
+                    sessionStorage.setItem('authUser', JSON.stringify(res));
+                    navigate('/');
+                }
+            } catch (error) {
+                const errorMessage = Object.values(error?.message)[0] || 'Error occured';
+                toast.error(errorMessage);
+            } finally {
+                setLoading(false);
+            }
         },
     });
 
@@ -74,30 +89,25 @@ const Login = (props) => {
                                                 }}
                                                 action="#">
                                                 <div className="mb-3">
-                                                    <Label htmlFor="login" className="form-label">
+                                                    <Label htmlFor="username" className="form-label">
                                                         Имя пользователя
                                                     </Label>
                                                     <Input
-                                                        name="login"
+                                                        name="username"
                                                         className="form-control"
                                                         placeholder="Введите имя пользователя"
-                                                        type="login"
+                                                        type="text"
                                                         onChange={validation.handleChange}
                                                         onBlur={validation.handleBlur}
-                                                        value={validation.values.login || ''}
-                                                        invalid={validation.touched.login && validation.errors.login ? true : false}
+                                                        value={validation.values.username || ''}
+                                                        invalid={validation.touched.username && validation.errors.username ? true : false}
                                                     />
-                                                    {validation.touched.login && validation.errors.login ? (
-                                                        <FormFeedback type="invalid">{validation.errors.login}</FormFeedback>
+                                                    {validation.touched.username && validation.errors.username ? (
+                                                        <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
                                                     ) : null}
                                                 </div>
 
                                                 <div className="mb-3">
-                                                    {/* <div className="float-end">
-                                                        <Link to="/forgot-password" className="text-muted">
-                                                            Forgot password?
-                                                        </Link>
-                                                    </div> */}
                                                     <Label className="form-label" htmlFor="password-input">
                                                         Пароль
                                                     </Label>
@@ -130,12 +140,7 @@ const Login = (props) => {
                                                         color="success"
                                                         className="btn btn-success w-100"
                                                         type="submit">
-                                                        {loading ? (
-                                                            <Spinner size="sm" className="me-2">
-                                                                {' '}
-                                                                Loading...{' '}
-                                                            </Spinner>
-                                                        ) : null}
+                                                        {loading ? <Spinner size="sm" className="me-2" /> : null}
                                                         Войти
                                                     </Button>
                                                 </div>
