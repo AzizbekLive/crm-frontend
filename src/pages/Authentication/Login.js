@@ -37,19 +37,22 @@ const Login = () => {
             password: Yup.string().required('Пожалуйста, введите ваш пароль'),
         }),
         onSubmit: async (values) => {
-            try {
-                setLoading(true);
-                const res = await postService(AUTH_ENDPOINT, values);
-                if (res?.access) {
-                    sessionStorage.setItem('authUser', JSON.stringify(res));
-                    navigate('/');
-                }
-            } catch (error) {
-                const errorMessage = Object.values(error?.message)[0] || 'Error occured';
-                toast.error(errorMessage);
-            } finally {
-                setLoading(false);
-            }
+            setLoading(true);
+            // try {
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+            // const res = await postService(AUTH_ENDPOINT, values);
+            // if (res?.access) {
+            //     sessionStorage.setItem('authUser', JSON.stringify(res));
+            //     navigate('/');
+            // }
+            // } catch (error) {
+            //     const errorMessage = Object.values(error?.message)[0] || 'Error occured';
+            //     toast.error(errorMessage);
+            // } finally {
+            //     setLoading(false);
+            // }
         },
     });
 

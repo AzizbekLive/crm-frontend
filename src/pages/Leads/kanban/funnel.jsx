@@ -32,13 +32,14 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn }) => {
     const onCancelEditing = () => {
         setColumnTitle(column.title);
         setMainColor(column.color);
-        setIsEditing(column?.isEditing);
+
         setIsEditing(false);
     };
 
     useEffect(() => {
         setColumnTitle(column.title);
         setMainColor(column.color);
+        setIsEditing(column?.isEditing);
     }, [column.id]);
 
     return (
