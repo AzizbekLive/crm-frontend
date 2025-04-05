@@ -56,7 +56,6 @@ const Login = () => {
         },
     });
 
-    document.title = 'Basic SignIn | Velzon - React Admin & Dashboard Template';
     return (
         <React.Fragment>
             <ParticlesAuth>

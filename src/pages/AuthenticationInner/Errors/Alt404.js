@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 
 const Alt404 = () => {
-    document.title="404 Error Alt | Velzon - React Admin & Dashboard Template";
 
     return (
         <React.Fragment>
