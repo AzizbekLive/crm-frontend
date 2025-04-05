@@ -293,7 +293,7 @@ $value in $theme-colors {
     // ghost
     .btn-ghost-light {
         color: var(--#{$prefix}dark);
-
+        background-color: transparent;
         &:is(:hover, :focus, :active, :focus-visible) {
             color: var(--#{$prefix}dark);
             background-color: rgba(var(--#{$prefix}light-rgb), 0.5);
@@ -302,7 +302,7 @@ $value in $theme-colors {
 
     .btn-ghost-dark {
         color: var(--#{$prefix}dark);
-
+        background-color: transparent;
         &:is(:hover, :focus, :active, :focus-visible) {
             color: var(--#{$prefix}dark);
             background-color: rgba(var(--#{$prefix}dark-rgb), 0.1);

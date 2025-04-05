@@ -1,0 +1,30 @@
+.tasks-list-content {
+    min-width: 320px;
+    margin-right: 24px;
+}
+
+.funnel-header .dropdown-menu {
+    width: fit-content !important;
+    padding: 0 !important;
+}
+
+.funnel-header-toolbar {
+    display: none !important;
+}
+.funnel-header:hover .funnel-header-toolbar {
+    display: flex !important;
+}
+.funnel-header-toolbar i,
+.funnel-header-editing i {
+    transform: scale(1.4);
+}
+.funnel-title-input {
+    width: 60%;
+}
+
+.add-task-btn.light:hover {
+    background-color: #fff;
+}
+.add-task-btn.dark:hover {
+    background-color: #212529;
+}

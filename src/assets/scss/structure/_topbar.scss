@@ -90,6 +90,30 @@
         padding-left: calc(#{$grid-gutter-width} / 2);
     }
 }
+.kanban-search {
+    .form-control {
+        padding-left: 40px;
+        padding-right: 30px;
+    }
+      span.search-widget-icon {
+        position: absolute;
+        z-index: 10;
+        font-size: 18px;
+        line-height: 38px;
+        left: 13px;
+        top: 0;
+        color: $gray-600;
+    }
+
+    .search-widget-icon-close {
+        right: 7px;
+        left: auto !important;
+    }
+
+    @media (max-width: 1023.99px) {
+        padding-left: calc(#{$grid-gutter-width} / 2);
+    }
+}
 
 // Mega menu
 

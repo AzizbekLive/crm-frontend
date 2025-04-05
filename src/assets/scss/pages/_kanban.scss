@@ -8,7 +8,7 @@
     align-items: stretch;
 
     .tasks-list {
-        min-width: 300px;
+        min-width: 320px;
         margin-right: 24px;
     }
 
@@ -58,7 +58,7 @@
 
 
 .tasks {
-    min-height: 180px;
+    // min-height: 180px;
     position: relative;
 
     &.noTask{
