@@ -3,7 +3,7 @@ import avatar from '../../../assets/images/users/avatar-1.jpg';
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 import avatar4 from '../../../assets/images/users/avatar-4.jpg';
-import { Card, CardBody } from 'reactstrap';
+import { Button, Card, CardBody } from 'reactstrap';
 import TooltipElement from '../../../Components/Common/Tooltip';
 import Funnel from './funnel';
 import SearchOptions from './search-options';
@@ -218,6 +218,10 @@ const index = () => {
                                         </div>
                                     </TooltipElement>
                                 </div>
+                                <Button type="button" color="primary" className="me-2">
+                                    <i className="ri-edit-line me-1 align-bottom" />
+                                    Edit
+                                </Button>
                             </div>
                         </div>
                     </div>
