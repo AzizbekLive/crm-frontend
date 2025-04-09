@@ -75,6 +75,16 @@ const Navdata = () => {
             },
         },
         {
+            id: 'clients',
+            label: 'Clients',
+            icon: 'ri-user-follow-line',
+            link: '/clients',
+            click: function (e) {
+                e.preventDefault();
+                updateIconSidebar(e);
+            },
+        },
+        {
             label: 'OTHERS',
             isHeader: true,
         },

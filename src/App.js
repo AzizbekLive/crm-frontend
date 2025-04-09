@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 
 //import Scss
 import './assets/scss/themes.scss';
+import './App.css';
 
 //imoprt Route
 import Route from './Routes';

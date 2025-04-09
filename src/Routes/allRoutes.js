@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 // Main
 import Apartments from '../pages/Apartments';
 import Leads from '../pages/Leads';
+import Clients from '../pages/Clients';
 
 // Dashboard
 import Crm from '../pages/Dashboard/Crm';
@@ -23,6 +24,7 @@ const authProtectedRoutes = [
     // Main
     { path: '/apartments', component: <Apartments /> },
     { path: '/leads', component: <Leads /> },
+    { path: '/clients', component: <Clients /> },
 
     // Dashboard
     { path: '/crm', component: <Crm /> },
