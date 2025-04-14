@@ -112,8 +112,8 @@ const Starter = () => {
                                         <Col lg={2} md={4} sm={6}>
                                             <FormSelect options={blockOptions} label="Block" />
                                         </Col>
-                                        <Col lg={2} md={4} sm={6} className="align-self-end ms-auto">
-                                            <Button type="button" color="dark" outline className="w-100">
+                                        <Col lg={2} md={4} sm={6} className="align-self-end d-flex justify-content-end">
+                                            <Button type="button" color="dark" outline className="ms-auto">
                                                 <i className="bx bx-refresh me-1 align-middle fs-5" />
                                                 Clear
                                             </Button>
