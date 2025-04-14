@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Input } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 
-const SearchOptions = () => {
-    const [value, setValue] = useState('');
+const SearchOptions = ({ initialValue = '', onInitialChange }) => {
+    const [value, setValue] = useState(initialValue);
     const [isDropdownVisible, setDropdownVisible] = useState(false);
 
     const inputRef = useRef(null);
@@ -15,6 +15,7 @@ const SearchOptions = () => {
         const newValue = e.target.value;
         setValue(newValue);
         setDropdownVisible(newValue.length > 0);
+        onInitialChange(e);
     };
 
     const handleClearSearch = () => {
@@ -38,7 +39,7 @@ const SearchOptions = () => {
         <React.Fragment>
             <div className="kanban-search">
                 <div className="position-relative" ref={inputRef}>
-                    <Input type="text" className="form-control" placeholder="Search..." value={value} onChange={handleInputChange} />
+                    <Input type="text" className="form-control" placeholder="Search..." name="search" value={value} onChange={handleInputChange} />
                     <span className="ri-search-line search-widget-icon"></span>
                     {value.length > 0 && (
                         <span

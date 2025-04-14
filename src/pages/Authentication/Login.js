@@ -12,6 +12,7 @@ import { useFormik } from 'formik';
 import { toast } from 'sonner';
 import { postService } from '../../service';
 import { AUTH_ENDPOINT } from '../../helpers/url_helper';
+import { setAuthorization } from '../../helpers/api_helper';
 
 // actions
 
@@ -29,30 +30,34 @@ const Login = () => {
         enableReinitialize: true,
 
         initialValues: {
-            username: 'admin@in.com',
-            password: 'admin',
+            login: 'admin',
+            password: '12345',
         },
         validationSchema: Yup.object({
-            username: Yup.string().required('Пожалуйста, введите ваше имя пользователя'),
+            login: Yup.string().required('Пожалуйста, введите ваше имя пользователя'),
             password: Yup.string().required('Пожалуйста, введите ваш пароль'),
         }),
         onSubmit: async (values) => {
             setLoading(true);
             // try {
-            setTimeout(() => {
-                navigate('/');
-            }, 1000);
-            // const res = await postService(AUTH_ENDPOINT, values);
-            // if (res?.access) {
-            //     sessionStorage.setItem('authUser', JSON.stringify(res));
+            // setTimeout(() => {
             //     navigate('/');
-            // }
-            // } catch (error) {
-            //     const errorMessage = Object.values(error?.message)[0] || 'Error occured';
-            //     toast.error(errorMessage);
-            // } finally {
-            //     setLoading(false);
-            // }
+            // }, 1000);
+            const { token } = await postService(AUTH_ENDPOINT, values);
+            try {
+                if (token) {
+                    console.log({ token });
+
+                    setAuthorization(token);
+                    sessionStorage.setItem('authUser', token);
+                    navigate('/');
+                }
+            } catch (error) {
+                const errorMessage = 'Error occured';
+                toast.error(errorMessage);
+            } finally {
+                setLoading(false);
+            }
         },
     });
 
@@ -91,21 +96,21 @@ const Login = () => {
                                                 }}
                                                 action="#">
                                                 <div className="mb-3">
-                                                    <Label htmlFor="username" className="form-label">
+                                                    <Label htmlFor="login" className="form-label">
                                                         Имя пользователя
                                                     </Label>
                                                     <Input
-                                                        name="username"
+                                                        name="login"
                                                         className="form-control"
                                                         placeholder="Введите имя пользователя"
                                                         type="text"
                                                         onChange={validation.handleChange}
                                                         onBlur={validation.handleBlur}
-                                                        value={validation.values.username || ''}
-                                                        invalid={validation.touched.username && validation.errors.username ? true : false}
+                                                        value={validation.values.login || ''}
+                                                        invalid={validation.touched.login && validation.errors.login ? true : false}
                                                     />
-                                                    {validation.touched.username && validation.errors.username ? (
-                                                        <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
+                                                    {validation.touched.login && validation.errors.login ? (
+                                                        <FormFeedback type="invalid">{validation.errors.login}</FormFeedback>
                                                     ) : null}
                                                 </div>
 

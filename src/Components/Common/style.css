@@ -92,3 +92,13 @@
     --alpha-pointer-background-color: #6a6a6a !important;
     --alpha-pointer-box-shadow: rgb(0 0 0 / 37%) 0px 1px 4px 0px !important;
 }
+
+.emty-data {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* .emty-data  */

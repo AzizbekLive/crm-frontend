@@ -1,6 +1,6 @@
 .tasks-list-content {
-    min-width: 320px;
-    margin-right: 24px;
+    min-width: 320px !important;
+    margin-right: 24px !important;
 }
 
 .funnel-header .dropdown-menu {

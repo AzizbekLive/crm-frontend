@@ -1,26 +1,28 @@
 import { useEffect, useState } from 'react';
 import { getLoggedinUser } from '../../helpers/api_helper';
-import { useProfileStore } from '../../stores/profile';
+import { fetchProfile } from '../../service/profile';
 
 const useProfile = () => {
-    const { setToken, setProfile } = useProfileStore();
-
     const userProfileSession = getLoggedinUser();
     var token = userProfileSession && userProfileSession['token'];
-    const [loading, setLoading] = useState(userProfileSession ? false : true);
-    const [userProfile, setUserProfile] = useState(userProfileSession ? userProfileSession : null);
+    const [loading, setLoading] = useState(false);
+    const [userProfile, setUserProfile] = useState(null);
 
     useEffect(() => {
-        const userProfileSession = getLoggedinUser();
-        var token = userProfileSession && userProfileSession['token'];
-        setUserProfile(userProfileSession ? userProfileSession : null);
-        setLoading(token ? false : true);
-
-        setToken(token);
-        setProfile(userProfileSession);
+        setLoading(true);
+        const getProfile = async () => {
+            try {
+                const res = await fetchProfile();
+                setUserProfile(res);
+            } catch (error) {
+            } finally {
+                setLoading(false);
+            }
+        };
+        getProfile();
     }, []);
 
-    return { userProfile, loading, token };
+    return { token, loading, userProfile };
 };
 
 export { useProfile };

@@ -16,8 +16,10 @@ import ProfileDropdown from '../Components/Common/ProfileDropdown';
 import LightDark from '../Components/Common/LightDark';
 import { useLayoutStore } from '../stores/layouts';
 
+
 const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
     const { changeSidebarVisibility, sidebarVisibilitytype } = useLayoutStore();
+
 
     const [search, setSearch] = useState(false);
     const toogleSearch = () => {

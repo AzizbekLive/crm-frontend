@@ -5,3 +5,7 @@ export function decreaseColor(hexColor, alpha = '20') {
 
     return `${hexColor}${alpha}`;
 }
+
+export function isEmptyObject() {
+    
+}

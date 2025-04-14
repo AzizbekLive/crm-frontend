@@ -1,2 +1,5 @@
 // AUTH
-export const AUTH_ENDPOINT = "/auth/token/";
+export const AUTH_ENDPOINT = '/login';
+export const KANBAN_ENDPOINT = '/kanban';
+export const USER_ENDPOINT = '/user';
+export const CLIENTS_ENDPOINT = '/clients';

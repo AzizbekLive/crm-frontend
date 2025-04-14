@@ -6,7 +6,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // content type
-const token = JSON.parse(sessionStorage.getItem('authUser')) ? JSON.parse(sessionStorage.getItem('authUser')).token : null;
+const token = sessionStorage.getItem('authUser') ?? null;
 if (token) axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 // intercepting to capture errors
 axios.interceptors.response.use(
@@ -15,12 +15,12 @@ axios.interceptors.response.use(
     },
     function (error) {
         if (error) {
-            if (error.response?.status === 401) {
-                // clearStorage();
-                if (error.response.config.url !== '/auth/token/') {
-                    location.href = '/login';
-                }
-            }
+            // if (error.response?.status === 401) {
+            // clearStorage();
+            // if (error.response.config.url !== '/auth/token/') {
+            // location.href = '/login';
+            // }
+            // }
             throw error.response.data;
         }
     }
@@ -74,11 +74,11 @@ class APIClient {
     };
 }
 const getLoggedinUser = () => {
-    const user = sessionStorage.getItem('authUser');
-    if (!user) {
+    const token = sessionStorage.getItem('authUser');
+    if (!token) {
         return null;
     } else {
-        return JSON.parse(user);
+        return { token };
     }
 };
 

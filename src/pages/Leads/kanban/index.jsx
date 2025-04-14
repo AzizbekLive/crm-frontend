@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import avatar from '../../../assets/images/users/avatar-1.jpg';
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 import avatar4 from '../../../assets/images/users/avatar-4.jpg';
-import { Button, Card, CardBody } from 'reactstrap';
+import { Button, Card, CardBody, Spinner } from 'reactstrap';
 import TooltipElement from '../../../Components/Common/Tooltip';
 import Funnel from './funnel';
 import SearchOptions from './search-options';
 import './style.css';
 import { DndContext } from '@dnd-kit/core';
 import DeleteModal from '../../../Components/Common/DeleteModal';
+import { getService } from '../../../service';
+import { KANBAN_ENDPOINT } from '../../../helpers/url_helper';
+import { Link } from 'react-router-dom';
 
 const INITIAL_COLUMNS = [
     {
@@ -140,6 +143,7 @@ const INITIAL_LEADS = [
 const index = () => {
     const [columns, setColumns] = useState(INITIAL_COLUMNS);
     const [leads, setLeads] = useState(INITIAL_LEADS);
+    const [loading, setLoading] = useState(false);
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [selectedColumn, setSelectedColumn] = useState(null);
@@ -186,6 +190,20 @@ const index = () => {
         setIsDeleting(false);
     };
 
+    useEffect(() => {
+        async function getKanban() {
+            setLoading(true);
+            try {
+                const res = await getService(KANBAN_ENDPOINT);
+                console.log({ res });
+            } catch (error) {
+            } finally {
+                setLoading(false);
+            }
+        }
+        getKanban();
+    }, []);
+
     return (
         <div>
             <Card>
@@ -227,22 +245,27 @@ const index = () => {
                     </div>
                     <div className="border-top my-4"></div>
                     <div className="tasks-board mb-3" id="kanbanboard">
-                        <DndContext onDragEnd={handleDragEnd}>
-                            {columns.map((column, index) => (
-                                <Funnel
-                                    key={index}
-                                    column={column}
-                                    leads={leads.filter((lead) => lead.status === column.id)}
-                                    setLeads={setLeads}
-                                    toggleDelete={toggleDeleteModal}
-                                    handleCreatingColumn={handleCreatingColumn}
-                                />
-                            ))}
-                        </DndContext>
+                        {loading ? (
+                            <div className="d-flex justify-content-center w-100 py-5">
+                                <Spinner />
+                            </div>
+                        ) : (
+                            <DndContext onDragEnd={handleDragEnd}>
+                                {columns.map((column, index) => (
+                                    <Funnel
+                                        key={index}
+                                        column={column}
+                                        leads={leads.filter((lead) => lead.status === column.id)}
+                                        setLeads={setLeads}
+                                        toggleDelete={toggleDeleteModal}
+                                        handleCreatingColumn={handleCreatingColumn}
+                                    />
+                                ))}
+                            </DndContext>
+                        )}
                     </div>
                 </CardBody>
             </Card>
-
             <DeleteModal
                 title={'Delete Column'}
                 text="Do you want to delete this column? All information in this column will be deleted."
@@ -255,3 +278,24 @@ const index = () => {
 };
 
 export default index;
+{
+    /* <Card> */
+}
+{
+    /* <img src={img2} className="card-img-top" alt="card dummy img" /> */
+}
+{
+    /* <CardBody>
+                                <h5 className="card-title placeholder-glow">
+                                    <span className="placeholder col-6"></span>
+                                </h5>
+                                <p className="card-text placeholder-glow">
+                                    <span className="placeholder col-12"></span>
+                                    <span className="placeholder col-4"></span>
+                                    <span className="placeholder col-4"></span>
+                                    <span className="placeholder col-6"></span>
+                                </p>
+                                <Link to="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></Link>
+                            </CardBody>
+                        </Card> */
+}
