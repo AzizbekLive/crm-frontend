@@ -19,7 +19,7 @@ axios.interceptors.response.use(
 
             if (error.response?.status === 401) {
                 sessionStorage.clear();
-                location.href = '/login';
+                window.location.href = '/login';
             }
             throw error.response.data;
         }
