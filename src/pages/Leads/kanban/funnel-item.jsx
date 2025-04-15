@@ -2,32 +2,30 @@ import React from 'react';
 import { CardBody, CardFooter } from 'reactstrap';
 import TooltipElement from '../../../Components/Common/Tooltip';
 import { decreaseColor } from '../../../helpers/methods';
-import { Link } from 'react-router-dom';
 import { useDraggable } from '@dnd-kit/core';
+import { toast } from 'sonner';
 const FunnelItem = ({ color, lead }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id: lead.id });
 
     const style = transform
         ? {
-              transform: `translate(${transform.x}px, ${transform.y}px) rotate(5deg)`,
+              transform: `translate(${transform.x}px, ${transform.y}px) rotate(3deg)`,
               zIndex: 9999,
           }
         : undefined;
 
+    const openLead = () => {
+        toast.info('Lead is opened');
+    };
     return (
-        <div className="card tasks-box shadow-md" ref={setNodeRef} style={style}>
+        <div className="card tasks-box shadow-md" ref={setNodeRef} style={style} {...attributes} {...listeners} onDoubleClick={openLead}>
             <CardBody>
                 <div className="d-flex mb-2 align-items-center">
                     <h5 className="fs-15 mb-0 flex-grow-1 text-truncate task-title">
-                        <Link to={'#'} className="text-body">
-                            {lead.name}
-                        </Link>
+                        <span className="text-body">{lead.name}</span>
                     </h5>
-                    <div {...attributes} {...listeners}>
-                        <i className="mdi mdi-drag fs-4 text-muted cursor-pointer" style={{ lineHeight: 1, cursor: 'move' }}></i>
-                    </div>
                 </div>
-                <div className="mb-3 d-flex flex-column gap-1">
+                <div className="mb- d-flex flex-column gap-1">
                     {lead.phones.map((phone, index) => (
                         <div className="d-flex" key={index}>
                             <div className="d-flex gap-2 align-items-center">
@@ -36,7 +34,7 @@ const FunnelItem = ({ color, lead }) => {
                             </div>
                         </div>
                     ))}
-                    <div className="d-flex mt-2">
+                    <div className="d-flex">
                         <div className="d-flex gap-2 align-items-center">
                             <i className="ri-map-pin-line align-bottom fs-18"></i>
                             <span>{lead.address}</span>

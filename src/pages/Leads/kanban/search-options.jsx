@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { Input } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
+import { useTranslation } from 'react-i18next';
 
 const SearchOptions = ({ initialValue = '', onInitialChange }) => {
+    const { t } = useTranslation();
+
     const [value, setValue] = useState(initialValue);
     const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -15,7 +18,9 @@ const SearchOptions = ({ initialValue = '', onInitialChange }) => {
         const newValue = e.target.value;
         setValue(newValue);
         setDropdownVisible(newValue.length > 0);
-        onInitialChange(e);
+        if (typeof onInitialChange === 'function') {
+            onInitialChange(e);
+        }
     };
 
     const handleClearSearch = () => {
@@ -39,7 +44,14 @@ const SearchOptions = ({ initialValue = '', onInitialChange }) => {
         <React.Fragment>
             <div className="kanban-search">
                 <div className="position-relative" ref={inputRef}>
-                    <Input type="text" className="form-control" placeholder="Search..." name="search" value={value} onChange={handleInputChange} />
+                    <Input
+                        type="text"
+                        className="form-control"
+                        placeholder={t('Search') + '...'}
+                        name="search"
+                        value={value}
+                        onChange={handleInputChange}
+                    />
                     <span className="ri-search-line search-widget-icon"></span>
                     {value.length > 0 && (
                         <span

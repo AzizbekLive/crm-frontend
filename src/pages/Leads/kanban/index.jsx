@@ -12,7 +12,9 @@ import { DndContext } from '@dnd-kit/core';
 import DeleteModal from '../../../Components/Common/DeleteModal';
 import { getService } from '../../../service';
 import { KANBAN_ENDPOINT } from '../../../helpers/url_helper';
-import { Link } from 'react-router-dom';
+import warningImage from '../../../assets/images/warning.png';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const INITIAL_COLUMNS = [
     {
@@ -141,9 +143,13 @@ const INITIAL_LEADS = [
 ];
 
 const index = () => {
+    const { t } = useTranslation();
+
     const [columns, setColumns] = useState(INITIAL_COLUMNS);
     const [leads, setLeads] = useState(INITIAL_LEADS);
     const [loading, setLoading] = useState(false);
+
+    const [activeCardStatus, setActiveCardStatus] = useState(null);
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [selectedColumn, setSelectedColumn] = useState(null);
@@ -159,6 +165,8 @@ const index = () => {
 
         if (!over) return;
 
+        console.log({ over });
+
         const leadId = active.id;
         const newStatus = over.id;
 
@@ -166,6 +174,14 @@ const index = () => {
             const newLeads = prevLeads.map((lead) => (lead.id === leadId ? { ...lead, status: newStatus } : lead));
             return newLeads;
         });
+
+        setActiveCardStatus(null);
+    }
+
+    function handleDragStart(event) {
+        const { active } = event;
+        const activeCard = leads.find((lead) => active.id === lead.id);
+        setActiveCardStatus(activeCard.status);
     }
 
     const handleCreatingColumn = (columnId) => {
@@ -201,7 +217,7 @@ const index = () => {
                 setLoading(false);
             }
         }
-        getKanban();
+        // getKanban();
     }, []);
 
     return (
@@ -210,7 +226,7 @@ const index = () => {
                 <CardBody>
                     <div className="row g-2">
                         <div className="col-lg-3 col-auto">
-                            <SearchOptions />
+                            <SearchOptions onInitialChange={() => {}} />
                         </div>
                         <div className="col-auto ms-sm-auto">
                             <div className="d-flex align-items-center gap-2">
@@ -238,37 +254,45 @@ const index = () => {
                                 </div>
                                 <Button type="button" color="primary" className="me-2">
                                     <i className="ri-edit-line me-1 align-bottom" />
-                                    Edit
+                                    {t('Edit')}
                                 </Button>
                             </div>
                         </div>
                     </div>
                     <div className="border-top my-4"></div>
-                    <div className="tasks-board mb-3" id="kanbanboard">
+                    <div className=" mb-3" id="kanbanboard">
                         {loading ? (
                             <div className="d-flex justify-content-center w-100 py-5">
                                 <Spinner />
                             </div>
                         ) : (
-                            <DndContext onDragEnd={handleDragEnd}>
-                                {columns.map((column, index) => (
-                                    <Funnel
-                                        key={index}
-                                        column={column}
-                                        leads={leads.filter((lead) => lead.status === column.id)}
-                                        setLeads={setLeads}
-                                        toggleDelete={toggleDeleteModal}
-                                        handleCreatingColumn={handleCreatingColumn}
-                                    />
-                                ))}
+                            <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+                                <motion.div className="tasks-board" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+                                    {columns.map((column, index) => (
+                                        <Funnel
+                                            key={index}
+                                            funnelIndex={index}
+                                            column={column}
+                                            leads={leads.filter((lead) => lead.status === column.id)}
+                                            setLeads={setLeads}
+                                            toggleDelete={toggleDeleteModal}
+                                            handleCreatingColumn={handleCreatingColumn}
+                                            activeCardStatus={activeCardStatus}
+                                        />
+                                    ))}
+                                </motion.div>
                             </DndContext>
                         )}
                     </div>
                 </CardBody>
             </Card>
             <DeleteModal
-                title={'Delete Column'}
-                text="Do you want to delete this column? All information in this column will be deleted."
+                title={
+                    <h4>
+                        Delete Column <img src={warningImage} alt="" width={30} />
+                    </h4>
+                }
+                text={<span className="text-danger">Do you want to delete this column? All information in this column will be deleted.</span>}
                 show={isDeleting}
                 onCloseClick={toggleDeleteModal}
                 onDeleteClick={deleteColumn}
@@ -278,24 +302,3 @@ const index = () => {
 };
 
 export default index;
-{
-    /* <Card> */
-}
-{
-    /* <img src={img2} className="card-img-top" alt="card dummy img" /> */
-}
-{
-    /* <CardBody>
-                                <h5 className="card-title placeholder-glow">
-                                    <span className="placeholder col-6"></span>
-                                </h5>
-                                <p className="card-text placeholder-glow">
-                                    <span className="placeholder col-12"></span>
-                                    <span className="placeholder col-4"></span>
-                                    <span className="placeholder col-4"></span>
-                                    <span className="placeholder col-6"></span>
-                                </p>
-                                <Link to="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></Link>
-                            </CardBody>
-                        </Card> */
-}

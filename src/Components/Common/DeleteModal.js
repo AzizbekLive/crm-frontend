@@ -16,7 +16,7 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text }) => {
             <ModalBody className="py-3 px-5">
                 <div className="mt-2 text-center">
                     <div className="mt-4 pt-2 fs-15">
-                        <h4>{title}</h4>
+                        <div>{title}</div>
                         <p className="text-muted mx-4 mb-0">{text}</p>
                     </div>
                 </div>

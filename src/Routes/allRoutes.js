@@ -4,7 +4,7 @@ import Apartments from '../pages/Apartments';
 import Leads from '../pages/Leads';
 import Clients from '../pages/Clients';
 import ClientDetail from '../pages/ClientDetail';
-import Crm from '../pages/Dashboard/Crm';
+import Dashboard from '../pages/Dashboard';
 import Login from '../pages/Authentication/Login';
 import Settings from '../pages/Settings';
 import Support from '../pages/Support';
@@ -16,7 +16,7 @@ const authProtectedRoutes = [
     { path: '/leads', component: <Leads /> },
     { path: '/clients', component: <Clients /> },
     { path: '/clients/:id', component: <ClientDetail /> },
-    { path: '/crm', component: <Crm /> },
+    { path: '/dashboard', component: <Dashboard /> },
     { path: '/settings', component: <Settings /> },
     { path: '/support', component: <Support /> },
     { path: '/profile', component: <UserProfile /> },
@@ -25,9 +25,9 @@ const authProtectedRoutes = [
     {
         path: '/',
         exact: true,
-        component: <Navigate to="/crm" />,
+        component: <Navigate to="/dashboard" />,
     },
-    { path: '*', component: <Navigate to="/crm" /> },
+    { path: '*', component: <Navigate to="/dashboard" /> },
 ];
 
 const publicRoutes = [{ path: '/login', component: <Login /> }];

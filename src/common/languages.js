@@ -7,7 +7,7 @@ const languages = {
         label: 'English',
         flag: flagus,
     },
-    rs: {
+    ru: {
         label: 'Pусский',
         flag: flagrussia,
     },

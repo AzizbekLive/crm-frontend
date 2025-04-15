@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 const Navdata = () => {
-    const history = useNavigate();
     //state data
-    const [isDashboard, setIsDashboard] = useState(false);
-
-    const [iscurrentState, setIscurrentState] = useState('Dashboard');
 
     function updateIconSidebar(e) {
         if (e && e.target && e.target.getAttribute('subitems')) {
@@ -21,13 +16,6 @@ const Navdata = () => {
         }
     }
 
-    useEffect(() => {
-        document.body.classList.remove('twocolumn-panel');
-        if (iscurrentState !== 'Dashboard') {
-            setIsCatalogues(false);
-        }
-    }, [history, iscurrentState, isDashboard]);
-
     const menuItems = [
         {
             label: 'MAIN',
@@ -35,24 +23,13 @@ const Navdata = () => {
         },
         {
             id: 'dashboard',
-            label: 'Dashboards',
+            label: 'Dashboard',
             icon: 'ri-dashboard-2-line',
-            link: '/#',
-            stateVariables: isDashboard,
+            link: '/dashboard',
             click: function (e) {
                 e.preventDefault();
-                setIsDashboard(!isDashboard);
-                setIscurrentState('Dashboard');
                 updateIconSidebar(e);
             },
-            subItems: [
-                {
-                    id: 'crm',
-                    label: 'CRM',
-                    link: '/crm',
-                    parentId: 'dashboard',
-                },
-            ],
         },
         {
             id: 'leads',

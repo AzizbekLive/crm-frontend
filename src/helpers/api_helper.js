@@ -15,12 +15,12 @@ axios.interceptors.response.use(
     },
     function (error) {
         if (error) {
-            // if (error.response?.status === 401) {
-            // clearStorage();
-            // if (error.response.config.url !== '/auth/token/') {
-            // location.href = '/login';
-            // }
-            // }
+            console.log({ status: error.response?.status });
+
+            if (error.response?.status === 401) {
+                sessionStorage.clear();
+                location.href = '/login';
+            }
             throw error.response.data;
         }
     }

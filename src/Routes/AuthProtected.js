@@ -14,7 +14,7 @@ const AuthProtected = (props) => {
             setProfile(userProfile);
         } else if (!userProfile && loading && !token) {
             logOutProfile();
-            // return <Navigate to={{ pathname: '/login', state: { from: props.location } }} />;
+            return <Navigate to={{ pathname: '/login', state: { from: props.location } }} />;
         }
     }, [token, userProfile]);
 

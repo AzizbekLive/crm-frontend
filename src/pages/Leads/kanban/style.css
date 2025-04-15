@@ -3,6 +3,10 @@
     margin-right: 24px !important;
 }
 
+.tasks-list-content-over {
+    background-color: rgba(0, 0, 0, 0.13);
+}
+
 .funnel-header .dropdown-menu {
     width: fit-content !important;
     padding: 0 !important;
@@ -27,4 +31,10 @@
 }
 .add-task-btn.dark:hover {
     background-color: #212529;
+}
+.w-color-sketch {
+    background: transparent !important;
+    border-radius: 4px;
+    box-shadow: none !important;
+    /* width: 218px; */
 }

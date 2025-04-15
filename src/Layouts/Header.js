@@ -9,17 +9,15 @@ import { Dropdown, DropdownMenu, DropdownToggle, Form } from 'reactstrap';
 
 //import Components
 import SearchOption from '../Components/Common/SearchOption';
-// import LanguageDropdown from '../Components/Common/LanguageDropdown';
+import LanguageDropdown from '../Components/Common/LanguageDropdown';
 import FullScreenDropdown from '../Components/Common/FullScreenDropdown';
 import NotificationDropdown from '../Components/Common/NotificationDropdown';
 import ProfileDropdown from '../Components/Common/ProfileDropdown';
 import LightDark from '../Components/Common/LightDark';
 import { useLayoutStore } from '../stores/layouts';
 
-
 const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
     const { changeSidebarVisibility, sidebarVisibilitytype } = useLayoutStore();
-
 
     const [search, setSearch] = useState(false);
     const toogleSearch = () => {
@@ -125,7 +123,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                             </Dropdown>
 
                             {/* LanguageDropdown */}
-                            {/* <LanguageDropdown /> */}
+                            <LanguageDropdown />
 
                             {/* FullScreenDropdown */}
                             <FullScreenDropdown />
