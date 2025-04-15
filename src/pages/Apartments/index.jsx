@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, Col, Container, Nav, NavItem, NavLi
 import classnames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import FormSelect from '../../Components/Form/FormSelect';
-
+import { useTranslation } from 'react-i18next';
 const tabs = [
     {
         hash: '#apartments',
@@ -61,6 +61,7 @@ const blockOptions = [
 ];
 const Starter = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const [activeTab, setActiveTab] = useState(window.location.hash || '#apartments');
 
@@ -78,7 +79,7 @@ const Starter = () => {
                         <Col xs={12}>
                             <Card>
                                 <CardHeader>
-                                    <h5 className="mb-0">Apartments</h5>
+                                    <h5 className="mb-0">{t('Apartments')}</h5>
                                 </CardHeader>
                                 <CardHeader>
                                     <div className="row align-items-center border-0">
@@ -90,7 +91,7 @@ const Starter = () => {
                                                             className={classnames({ active: activeTab === tab.hash }, 'fw-semibold')}
                                                             onClick={() => toggleTab(tab.hash)}
                                                             href="#">
-                                                            {tab.label}
+                                                            {t(tab.label)}
                                                         </NavLink>
                                                     </NavItem>
                                                 ))}
@@ -101,21 +102,21 @@ const Starter = () => {
                                 <CardHeader className="border-0 bg-light">
                                     <Row>
                                         <Col lg={2} md={4} sm={6}>
-                                            <FormSelect options={terraceOptions} label="Terrace" />
+                                            <FormSelect options={terraceOptions} label={t('Terrace')} />
                                         </Col>
                                         <Col lg={2} md={4} sm={6}>
-                                            <FormSelect options={roomOptions} label="Room" />
+                                            <FormSelect options={roomOptions} label={t('Room')} />
                                         </Col>
                                         <Col lg={2} md={4} sm={6}>
-                                            <FormSelect options={floorOptions} label="Floor" />
+                                            <FormSelect options={floorOptions} label={t('Floor')} />
                                         </Col>
                                         <Col lg={2} md={4} sm={6}>
-                                            <FormSelect options={blockOptions} label="Block" />
+                                            <FormSelect options={blockOptions} label={t('Block')} />
                                         </Col>
-                                        <Col lg={2} md={4} sm={6} className="align-self-end d-flex justify-content-end">
-                                            <Button type="button" color="dark" outline className="ms-auto">
+                                        <Col lg={2} md={4} sm={6} className="ms-auto align-self-end d-flex justify-content-end">
+                                            <Button type="button" color="info" outline className="ms-auto">
                                                 <i className="bx bx-refresh me-1 align-middle fs-5" />
-                                                Clear
+                                                {t('Clear')}
                                             </Button>
                                         </Col>
                                     </Row>
@@ -124,14 +125,14 @@ const Starter = () => {
                                     <Table className="align-middle" hover>
                                         <thead className="table-light">
                                             <tr>
-                                                <th>Rooms</th>
-                                                <th>Total area</th>
-                                                <th>Floor</th>
-                                                <th>Block</th>
+                                                <th>{t('Rooms')}</th>
+                                                <th>{t('Total Area')}</th>
+                                                <th>{t('Floor')}</th>
+                                                <th>{t('Block')}</th>
                                                 <th>
-                                                    Total price per m<sup>2</sup>
+                                                    {t('Price For Per')} m<sup>2</sup>
                                                 </th>
-                                                <th>Total price</th>
+                                                <th>{t('Total Price')}</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

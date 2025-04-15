@@ -41,5 +41,12 @@
     "Note": "Eslatma",
     "Optional": "Ixtiyoriy",
     "Employee": "Xodim",
-    "Sum": "Summa"
+    "Sum": "Summa",
+
+    "Send sms": "SMS yuborish",
+    "Delete": "O'chirish",
+    "Send Sms Immediately": "SMS ni darhol yuborish",
+    "Choose Time": "Vaqtni tanlash",
+    "SMS": "SMS",
+    "Send": "Yuborish"
 }

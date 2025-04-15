@@ -2,19 +2,19 @@ import React, { forwardRef } from 'react';
 import { FormFeedback, Label } from 'reactstrap';
 
 const FormTextarea = forwardRef(({ validation, ...props }, ref) => {
-    const isInvalid = validation.touched[props.name] && validation.errors[props.name];
+    const isInvalid = validation && validation.touched[props.name] && validation.errors[props.name];
     return (
         <React.Fragment>
             <Label className="form-label">{props.label}</Label>
             <textarea
-                className={`form-control ${isInvalid ? 'is-invalid' : ''}`}
+                className={`form-control no-resize ${isInvalid ? 'is-invalid' : ''}`}
                 rows={5}
                 ref={ref}
-                onChange={validation.handleChange}
-                onBlur={validation.handleBlur}
-                value={validation.values[props.name] || ''}
+                onChange={validation && validation.handleChange}
+                onBlur={validation && validation.handleBlur}
+                value={(validation && validation.values[props.name]) || ''}
                 {...props}></textarea>
-            {isInvalid && <FormFeedback>{validation.errors[props.name]}</FormFeedback>}
+            {isInvalid && <FormFeedback>{validation && validation.errors[props.name]}</FormFeedback>}
         </React.Fragment>
     );
 });

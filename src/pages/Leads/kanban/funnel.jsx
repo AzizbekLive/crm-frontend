@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import FunnelItem from './funnel-item';
-import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Input, UncontrolledDropdown } from 'reactstrap';
-import SimpleBar from 'simplebar-react';
+import {
+    Button,
+    Card,
+    CardBody,
+    Collapse,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Input,
+    Label,
+    Modal,
+    ModalBody,
+    UncontrolledDropdown,
+} from 'reactstrap';
+import Flatpickr from 'react-flatpickr';
 import { useLayoutStore } from '../../../stores/layouts';
 import FunnelItemForm from './funnel-item-form';
 // import TooltipElement from '../../../Components/Common/Tooltip';
@@ -10,6 +23,7 @@ import { decreaseColor } from '../../../helpers/methods';
 import { useDroppable } from '@dnd-kit/core';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import FormTextarea from '../../../Components/Form/FormTextarea';
 
 const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex, activeCardStatus }) => {
     const { t } = useTranslation();
@@ -18,10 +32,17 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
 
     const layoutModeType = useLayoutStore((state) => state.layoutModeType);
 
+    const [isScheduled, setIsScheduled] = useState(false);
+
     const [curFunnel, setCurFunnel] = useState({ ...column });
 
     const [isEditing, setIsEditing] = useState(!!column?.isEditing);
     const toggleEditing = () => setIsEditing((p) => !p);
+
+    // sms modal
+    const [smsModal, setSmsModal] = useState(false);
+    const openSmsModal = () => setSmsModal(true);
+    const closeSmsModal = () => setSmsModal(false);
 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const openForm = () => setIsFormOpen(true);
@@ -111,13 +132,13 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                                     <i className="ri-more-2-fill align-middle"></i>
                                                 </DropdownToggle>
                                                 <DropdownMenu>
-                                                    <DropdownItem href="#">
+                                                    <DropdownItem href="#" onClick={openSmsModal}>
                                                         <i className="bx bx-message-detail me-2 text-muted align-bottom"></i>
                                                         {t('Send sms')}
                                                     </DropdownItem>
                                                     <DropdownItem href="#">
                                                         <i className="ri-share-line me-2 text-muted align-bottom"></i>
-                                                        Forward
+                                                        {t('Forward')}
                                                     </DropdownItem>
                                                     {funnelIndex !== 0 && (
                                                         <DropdownItem href="#" className="text-danger" onClick={() => toggleDelete(column)}>
@@ -140,7 +161,7 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                         outline
                                         className={`w-100 border-dashed border-dark text-dark add-task-btn ${layoutModeType}`}
                                         onClick={openForm}>
-                                        <i className="ri-add-line align-bottom me-1"></i> Add Lead
+                                        <i className="ri-add-line align-bottom me-1"></i> {t('Add Lead')}
                                     </Button>
                                 </div>
                             )}
@@ -171,7 +192,8 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                         leads.map((lead) => <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} />)
                                     ) : (
                                         <div className="p-3 rounded-2 border border-dashed border-dark opacity-50 text-center">
-                                            <i className="mdi mdi-folder-alert-outline align-middle fs-18"></i> Empty
+                                            <i className="mdi mdi-folder-alert-outline align-middle fs-18 me-1"></i>
+                                            {t('Empty')}
                                         </div>
                                     )}
                                 </div>
@@ -180,6 +202,57 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                     </Card>
                 </div>
             </motion.div>
+
+            <Modal isOpen={smsModal} toggle={() => setSmsModal((p) => !p)} centered={true}>
+                <div className="position-relative py-3">
+                    <span
+                        className="position-absolute fs-2"
+                        style={{ top: '10px', right: '20px', cursor: 'pointer', zIndex: '999' }}
+                        onClick={closeSmsModal}>
+                        &times;
+                    </span>
+                </div>
+                <ModalBody className="py-3 px-5">
+                    <div className="d-flex flex-column gap-3">
+                        <div className="form-check form-switch mb-3" dir="ltr">
+                            <Input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="customSwitchsizesm"
+                                defaultChecked={isScheduled}
+                                onChange={() => setIsScheduled((p) => !p)}
+                            />
+                            <Label className="form-check-label" htmlFor="customSwitchsizesm">
+                                {t('Send Sms Immediately')}
+                            </Label>
+                        </div>
+                        {isScheduled && (
+                            <div>
+                                <Label className="form-label">{t('Choose Time')}</Label>
+                                <Flatpickr
+                                    className="form-control"
+                                    name="time"
+                                    options={{
+                                        enableTime: true,
+                                        dateFormat: 'Y-m-d H:i',
+                                    }}
+                                />
+                            </div>
+                        )}
+                        <div>
+                            <FormTextarea name="text" label={t('SMS')} />
+                        </div>
+                    </div>
+                    <div className="d-flex gap-2 justify-content-end mt-4 mb-2">
+                        <button type="button" className="btn w-sm btn-light" data-bs-dismiss="modal" onClick={closeSmsModal}>
+                            {t('Cancel')}
+                        </button>
+                        <button type="button" className="btn w-sm btn-success " id="delete-record" onClick={closeSmsModal}>
+                            {t('Send')}
+                        </button>
+                    </div>
+                </ModalBody>
+            </Modal>
         </React.Fragment>
     );
 };

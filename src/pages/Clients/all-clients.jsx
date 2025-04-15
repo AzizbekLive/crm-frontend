@@ -7,6 +7,7 @@ import EmptyData from '../../Components/Common/EmptyData';
 import FormCheckbox from '../../Components/Form/FormCheckbox';
 import { getService } from '../../service';
 import { CLIENTS_ENDPOINT } from '../../helpers/url_helper';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter = {
     search: '',
@@ -14,6 +15,7 @@ const initialFilter = {
 };
 
 const AllClients = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [clients, setClients] = useState([1]);
 
@@ -72,7 +74,7 @@ const AllClients = () => {
                                     {!isEmptyFilter() && (
                                         <Button type="button" color="primary" outline>
                                             <i className="bx bx-refresh me-1 align-middle fs-5" />
-                                            Clear
+                                            {t('Clear')}
                                         </Button>
                                     )}
                                     <Button type="button" color="success">
@@ -89,11 +91,11 @@ const AllClients = () => {
                                     <thead className="table-light text-muted">
                                         <tr>
                                             <th className="fw-bold">#</th>
-                                            <th className="fw-bold">Full Name</th>
-                                            <th className="fw-bold">Attached apartment</th>
-                                            <th className="fw-bold">Paid</th>
-                                            <th className="fw-bold">Status</th>
-                                            <th className="fw-bold">Contract</th>
+                                            <th className="fw-bold">{t('Full Name')}</th>
+                                            <th className="fw-bold">{t('Attached Apartment')}</th>
+                                            <th className="fw-bold">{t('Paid')}</th>
+                                            <th className="fw-bold">{t('Status')}</th>
+                                            <th className="fw-bold">{t('Contract')}</th>
                                             <th className="fw-bold text-end"></th>
                                         </tr>
                                     </thead>
@@ -144,17 +146,17 @@ const AllClients = () => {
                                             <td>N-001.pdf</td>
                                             <td className="text-end">
                                                 <div className="d-flex gap-1 justify-content-end">
-                                                    <TooltipElement tooltipText={'Download contract'}>
+                                                    <TooltipElement tooltipText={t('Download Contract')}>
                                                         <Button className="btn-soft-primary btn-icon">
                                                             <i className="ri-download-cloud-2-line" style={{ transform: 'scale(1.3)' }}></i>
                                                         </Button>
                                                     </TooltipElement>
-                                                    <TooltipElement tooltipText={'Chat'}>
+                                                    <TooltipElement tooltipText={t('Chat')}>
                                                         <Button className="btn-soft-warning btn-icon">
                                                             <i className="mdi mdi-chat-processing-outline" style={{ transform: 'scale(1.3)' }}></i>
                                                         </Button>
                                                     </TooltipElement>
-                                                    <TooltipElement tooltipText={'View Client'}>
+                                                    <TooltipElement tooltipText={t('View Client')}>
                                                         <Button className="btn-soft-secondary btn-icon" onClick={() => viewClient(1)}>
                                                             <i className="mdi mdi-eye" style={{ transform: 'scale(1.3)' }}></i>
                                                         </Button>

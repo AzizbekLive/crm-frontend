@@ -9,19 +9,8 @@ const index = () => {
             <div className="page-content">
                 <Container fluid>
                     {/* <Row>
-                        <Col xs={12}>
-                            <Card>
-                                <CardHeader>
-                                    <Row>
-                                                                                
-                                    </Row>
-                                </CardHeader>
-                            </Card>
-                        </Col>
-                    </Row> */}
-                    <Row>
                         <Widgets />
-                    </Row>
+                    </Row> */}
                     <AllClients />
                 </Container>
             </div>
