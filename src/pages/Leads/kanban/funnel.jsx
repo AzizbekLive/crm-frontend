@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FunnelItem from './funnel-item';
 import {
     Button,
@@ -12,6 +12,7 @@ import {
     Label,
     Modal,
     ModalBody,
+    Spinner,
     UncontrolledDropdown,
 } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
@@ -24,20 +25,31 @@ import { useDroppable } from '@dnd-kit/core';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import FormTextarea from '../../../Components/Form/FormTextarea';
+import { deleteService, updateService } from '../../../service';
+import { KANBAN_ENDPOINT } from '../../../helpers/url_helper';
+import DeleteModal from '../../../Components/Common/DeleteModal';
+import warningImage from '../../../assets/images/warning.png';
+import { toast } from 'sonner';
 
-const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData }) => {
+const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData, toggleCanvas }) => {
     const { t } = useTranslation();
+
+    const titleInputElement = useRef(null);
 
     const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
     const layoutModeType = useLayoutStore((state) => state.layoutModeType);
 
     const [isScheduled, setIsScheduled] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const toggleDeleteModal = () => setShowDeleteModal((p) => !p);
 
     const [curFunnel, setCurFunnel] = useState({ ...column });
 
     const [isEditing, setIsEditing] = useState(!!column?.isEditing);
-    const toggleEditing = () => setIsEditing((p) => !p);
+    const toggleEditing = () => funnelIndex !== 0 && setIsEditing((p) => !p);
 
     // sms modal
     const [smsModal, setSmsModal] = useState(false);
@@ -54,7 +66,16 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
 
     const changeMainColor = (color) => {
         changeFunnel('color', color);
-        console.log('color change');
+        updateKanban({ color, title: curFunnel.title }, () => {
+            toast.success(t('Successfully Updated'));
+        });
+    };
+
+    const changeMainTitle = () => {
+        updateKanban({ title: curFunnel.title, color: curFunnel.color }, () => {
+            toggleEditing();
+            toast.success(t('Successfully Updated'));
+        });
     };
 
     const onCancelEditing = () => {
@@ -69,11 +90,41 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
         setIsEditing(column?.isEditing);
     }, [column.id]);
 
+    async function updateKanban(payload, cb) {
+        try {
+            setIsLoading(true);
+            const res = await updateService(`/superadmin${KANBAN_ENDPOINT}/${curFunnel.id}`, { order: curFunnel.order, ...payload });
+            if (res) {
+                cb();
+            }
+        } catch (error) {
+            onCancelEditing();
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function deleteKanban() {
+        setIsLoading(true);
+        try {
+            const res = deleteService(`/superadmin${KANBAN_ENDPOINT}/${curFunnel.id}`);
+            console.log({ res });
+
+            fetchData();
+        } catch (error) {
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <React.Fragment>
             <motion.div ref={setNodeRef}>
                 <div className="tasks-list-content">
-                    <Card className={isOver ? 'tasks-list-content-over' : 'bg-light'} style={{ transition: 'all 0.2s linear' }}>
+                    <Card
+                        className={isOver ? 'tasks-list-content-over' : 'bg-light'}
+                        style={{ transition: 'all 0.2s linear', borderTop: `3px solid ${curFunnel.color}` }}>
+                        {JSON.stringify(column)}
                         <CardBody className="funnel-header">
                             <div className="d-flex align-items-center position-relative">
                                 <div className="flex-grow-1">
@@ -85,11 +136,12 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                             <span
                                                 className="badge align-bottom ms-2 totaltask-badge fs-11 fw-bold"
                                                 style={{ backgroundColor: decreaseColor(curFunnel.color), color: curFunnel.color }}>
-                                                {column.counts}
+                                                {leads.length}
                                             </span>
                                         </div>
                                     ) : (
                                         <Input
+                                            ref={titleInputElement}
                                             value={curFunnel.title}
                                             onChange={(e) => changeFunnel('title', e.target.value)}
                                             type="text"
@@ -100,14 +152,14 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                 {/* // Toolbar */}
                                 <div className="d-flex gap-1 position-absolute end-0 funnel-header-toolbar bg-light">
                                     {isEditing ? (
-                                        <React.Fragment>
-                                            <Button size="sm" className="p-3 btn-icon btn-ghost-dark rounded-circle" onClick={toggleEditing}>
+                                        <>
+                                            <Button size="sm" className="p-3 btn-icon btn-ghost-dark rounded-circle" onClick={changeMainTitle}>
                                                 <i className="ri-check-fill align-middle text-success"></i>
                                             </Button>
                                             <Button size="sm" className="p-3 btn-icon btn-ghost-dark rounded-circle" onClick={onCancelEditing}>
                                                 <i className="ri-close-line align-middle text-danger"></i>
                                             </Button>
-                                        </React.Fragment>
+                                        </>
                                     ) : (
                                         <React.Fragment>
                                             <UncontrolledDropdown>
@@ -141,7 +193,7 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                                         {t('Forward')}
                                                     </DropdownItem>
                                                     {funnelIndex !== 0 && (
-                                                        <DropdownItem href="#" className="text-danger" onClick={() => toggleDelete(column)}>
+                                                        <DropdownItem href="#" className="text-danger" onClick={toggleDeleteModal}>
                                                             <i className="ri-delete-bin-5-line me-2 align-bottom"></i>
                                                             {t('Delete')}
                                                         </DropdownItem>
@@ -191,7 +243,9 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                         )}
                                     </AnimatePresence>
                                     {leads && leads.length > 0 ? (
-                                        leads.map((lead, index) => <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} index={index}/>)
+                                        leads.map((lead) => (
+                                            <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
+                                        ))
                                     ) : (
                                         <div className="p-3 rounded-2 border border-dashed border-dark opacity-50 text-center">
                                             <i className="mdi mdi-folder-alert-outline align-middle fs-18 me-1"></i>
@@ -204,6 +258,19 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                     </Card>
                 </div>
             </motion.div>
+
+            <DeleteModal
+                title={
+                    <h4>
+                        Delete Column <img src={warningImage} alt="" width={30} />
+                    </h4>
+                }
+                text={<span className="text-danger">Do you want to delete this column? All information in this column will be deleted.</span>}
+                show={showDeleteModal}
+                loading={isLoading}
+                onCloseClick={toggleDeleteModal}
+                onDeleteClick={deleteKanban}
+            />
 
             <Modal isOpen={smsModal} toggle={() => setSmsModal((p) => !p)} centered={true}>
                 <div className="position-relative py-3">

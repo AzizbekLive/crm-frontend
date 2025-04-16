@@ -51,6 +51,9 @@
     "Send": "Send",
 
     "Successfully Added": "Successfully added",
+    "Successfully Created": "Successfully created",
+    "Successfully Updated": "Successfully updated",
+    "Successfully Deleted": "Successfully deleted",
     "Error Occured": "Error occured",
     "Date": "Date"
 }

@@ -6,7 +6,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { toast } from 'sonner';
 import { formatDate } from '@fullcalendar/core/index.js';
 // import { formatDate } from '@fullcalendar/core/index.js';
-const FunnelItem = ({ color, lead, index }) => {
+const FunnelItem = ({ color, lead, toggleCanvas }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id: lead.id });
 
     const style = transform
@@ -18,13 +18,14 @@ const FunnelItem = ({ color, lead, index }) => {
 
     const openLead = () => {
         toast.info('Lead is opened');
+        toggleCanvas();
     };
     return (
         <div className="card tasks-box shadow-md" ref={setNodeRef} style={style} {...attributes} {...listeners} onDoubleClick={openLead}>
             <CardBody>
                 <div className="d-flex mb-2 align-items-center">
                     <h5 className="fs-15 mb-0 flex-grow-1 text-truncate task-title">
-                        <span className="text-body">{lead.name}</span> - {index}
+                        <span className="text-body">{lead.name}</span>
                     </h5>
                 </div>
                 <div className="mb- d-flex flex-column gap-1">

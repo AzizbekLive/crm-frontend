@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Modal, ModalBody } from 'reactstrap';
+import { Modal, ModalBody, Spinner } from 'reactstrap';
 
-const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text }) => {
+const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text, loading }) => {
     return (
         <Modal isOpen={show} toggle={onCloseClick} centered={true}>
             <div className="position-relative">
@@ -24,7 +24,13 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text }) => {
                     <button type="button" className="btn w-sm btn-light" data-bs-dismiss="modal" onClick={onCloseClick}>
                         Close
                     </button>
-                    <button type="button" className="btn w-sm btn-danger " id="delete-record" onClick={onDeleteClick}>
+                    <button
+                        type="button"
+                        className="btn w-sm btn-danger d-flex align-items-center gap-2"
+                        id="delete-record"
+                        onClick={onDeleteClick}
+                        disabled={loading}>
+                        {loading && <Spinner size={'sm'} />}
                         Yes, Delete It!
                     </button>
                 </div>

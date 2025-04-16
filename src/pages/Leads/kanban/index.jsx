@@ -3,19 +3,19 @@ import avatar from '../../../assets/images/users/avatar-1.jpg';
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 import avatar4 from '../../../assets/images/users/avatar-4.jpg';
-import { Button, Card, CardBody, Spinner } from 'reactstrap';
+import { Button, Card, CardBody, Offcanvas, OffcanvasBody, OffcanvasHeader, Spinner } from 'reactstrap';
 import TooltipElement from '../../../Components/Common/Tooltip';
 import Funnel from './funnel';
 import SearchOptions from './search-options';
 import './style.css';
 import { DndContext } from '@dnd-kit/core';
-import DeleteModal from '../../../Components/Common/DeleteModal';
-import { getService, updateService } from '../../../service';
+import { getService, postService, updateService } from '../../../service';
 import { KANBAN_ENDPOINT, LEADS_ENDPOINT } from '../../../helpers/url_helper';
-import warningImage from '../../../assets/images/warning.png';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import EmptyData from '../../../Components/Common/EmptyData';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export const INITIAL_COLUMNS = [
     {
@@ -124,6 +124,8 @@ const index = () => {
 
     const [columns, setColumns] = useState([]);
     const [leads, setLeads] = useState([]);
+    const [openCanvas, setOpenCanvas] = useState(false);
+    const toggleCanvas = () => setOpenCanvas((p) => !p);
 
     const groupedLeads = useMemo(() => {
         return leads.reduce((acc, lead) => {
@@ -136,15 +138,6 @@ const index = () => {
     const [loading, setLoading] = useState(false);
 
     const [activeCardStatus, setActiveCardStatus] = useState(null);
-
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [selectedColumn, setSelectedColumn] = useState(null);
-    const toggleDeleteModal = (column) => {
-        if (column) {
-            setSelectedColumn(column);
-        }
-        setIsDeleting((p) => !p);
-    };
 
     function handleDragEnd(event) {
         const { active, over } = event;
@@ -192,25 +185,24 @@ const index = () => {
     }
 
     const handleCreatingColumn = (columnId) => {
-        // create a random string consists of 5 digits, e.g. "12345"
-        const randomStr = Math.floor(Math.random() * 100000).toString();
+        const currentColumnIndex = columns.findIndex((column) => column.id === columnId);
         const newColumn = {
             title: '',
             color: '',
-            counts: 0,
-            id: `column-${columnId}-${randomStr}`,
-            isEditing: true,
+            order: columns[currentColumnIndex].order + 10,
+            createdAt: 0,
         };
         const newColumns = [...columns];
-        const currentIndex = columns.findIndex((column) => column.id === columnId);
-        newColumns.splice(currentIndex + 1, 0, newColumn);
-        setColumns(newColumns);
-    };
 
-    const deleteColumn = () => {
-        const newColumns = columns.filter((column) => column.id !== selectedColumn?.id);
+        newColumns.splice(currentColumnIndex + 1, 0, newColumn);
         setColumns(newColumns);
-        setIsDeleting(false);
+        // createKanban(newColumn, (id) => {
+        //     if (id) {
+
+        //     } else {
+
+        //     }
+        // });
     };
 
     async function getKanbanList() {
@@ -246,6 +238,19 @@ const index = () => {
                 cb();
             }
         } catch (error) {}
+    }
+
+    async function createKanban(payload, cb) {
+        try {
+            const res = await postService(`/superadmin${KANBAN_ENDPOINT}/create`, payload);
+            if (res) {
+                cb(res.id);
+            }
+        } catch (error) {
+            console.log('error');
+
+            cb(false);
+        }
     }
 
     function fetchData() {
@@ -307,36 +312,49 @@ const index = () => {
                         ) : (
                             <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
                                 <motion.div className="tasks-board" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                                    {columns.map((column, index) => (
-                                        <Funnel
-                                            key={index}
-                                            funnelIndex={index}
-                                            column={column}
-                                            leads={groupedLeads[column.id] || []}
-                                            setLeads={setLeads}
-                                            toggleDelete={toggleDeleteModal}
-                                            handleCreatingColumn={handleCreatingColumn}
-                                            activeCardStatus={activeCardStatus}
-                                            fetchData={fetchData}
-                                        />
-                                    ))}
+                                    {columns
+                                        .sort((a, b) => a.order - b.order)
+                                        .map((column, index) => (
+                                            <Funnel
+                                                key={index}
+                                                funnelIndex={index}
+                                                column={column}
+                                                leads={groupedLeads[column.id] || []}
+                                                setLeads={setLeads}
+                                                handleCreatingColumn={handleCreatingColumn}
+                                                activeCardStatus={activeCardStatus}
+                                                fetchData={fetchData}
+                                                toggleCanvas={toggleCanvas}
+                                            />
+                                        ))}
                                 </motion.div>
                             </DndContext>
                         )}
                     </div>
                 </CardBody>
             </Card>
-            <DeleteModal
-                title={
-                    <h4>
-                        Delete Column <img src={warningImage} alt="" width={30} />
-                    </h4>
-                }
-                text={<span className="text-danger">Do you want to delete this column? All information in this column will be deleted.</span>}
-                show={isDeleting}
-                onCloseClick={toggleDeleteModal}
-                onDeleteClick={deleteColumn}
-            />
+
+            {/* Off-canvas */}
+
+            <Offcanvas isOpen={openCanvas} toggle={toggleCanvas} id="offcanvasExample" direction="end" className="offcanvas-end border-0">
+                <OffcanvasHeader toggle={toggleCanvas} id="offcanvasExampleLabel" className="border-bottom">
+                    Recent Acitivity
+                </OffcanvasHeader>
+                <OffcanvasBody className="p-0 overflow-hidden">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, fugit repellat! Voluptatum aliquam autem consequatur sed?
+                    Laborum expedita iste pariatur error dicta facere, non ratione rem? Sequi cupiditate doloremque mollitia totam voluptatibus
+                    recusandae laborum sint perspiciatis qui beatae incidunt labore vero asperiores explicabo, aliquam sed! Architecto quis beatae
+                    molestiae atque sequi, ipsam neque optio laboriosam id ea perferendis porro nulla nemo numquam obcaecati ex ut tempora nobis
+                    soluta, officia quae. Pariatur laboriosam voluptatibus, aliquam ducimus quasi vero nisi eum maxime, possimus quibusdam iusto non
+                    sed tenetur porro distinctio atque fugiat minus consequatur? Accusantium soluta sequi, rem sapiente recusandae pariatur
+                    praesentium.
+                </OffcanvasBody>
+                <div className="offcanvas-foorter border-top p-3 text-center">
+                    <Link to="#" className="link-success">
+                        View All Acitivity <i className="ri-arrow-right-s-line align-middle ms-1"></i>
+                    </Link>
+                </div>
+            </Offcanvas>
         </div>
     );
 };
