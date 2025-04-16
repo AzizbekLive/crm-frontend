@@ -43,12 +43,14 @@
     "Optional": "Optional",
     "Employee": "Employee",
     "Sum": "Sum",
-
     "Send sms": "Send sms",
     "Delete": "Delete",
-
     "Send Sms Immediately": "Send SMS immediately",
     "Choose Time": "Choose Time",
     "SMS": "SMS",
-    "Send": "Send"
+    "Send": "Send",
+
+    "Successfully Added": "Successfully added",
+    "Error Occured": "Error occured",
+    "Date": "Date"
 }

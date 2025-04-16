@@ -64,6 +64,8 @@ class APIClient {
     };
 
     put = (url, data) => {
+        console.log({ url, dataApi: data });
+
         return axios.put(url, data);
     };
     /**

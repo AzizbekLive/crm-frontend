@@ -6,6 +6,7 @@
     display: flex;
     overflow-x: auto;
     align-items: stretch;
+    min-height: 50vh;
 
     .tasks-list {
         min-width: 320px;

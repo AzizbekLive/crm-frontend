@@ -25,7 +25,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import FormTextarea from '../../../Components/Form/FormTextarea';
 
-const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex, activeCardStatus }) => {
+const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData }) => {
     const { t } = useTranslation();
 
     const { setNodeRef, isOver } = useDroppable({ id: column.id });
@@ -168,9 +168,11 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                             <div className="border-bottom"></div>
                         </div>
                         <CardBody>
-                            <Collapse isOpen={isFormOpen}>
-                                <FunnelItemForm closeForm={closeForm} />
-                            </Collapse>
+                            {column.id === -1 && (
+                                <Collapse isOpen={isFormOpen}>
+                                    <FunnelItemForm closeForm={closeForm} fetchData={fetchData} />
+                                </Collapse>
+                            )}
                             {!isFormOpen && (
                                 <div ref={setNodeRef} className="tasks">
                                     <AnimatePresence>
@@ -189,7 +191,7 @@ const Funnel = ({ column, leads, toggleDelete, handleCreatingColumn, funnelIndex
                                         )}
                                     </AnimatePresence>
                                     {leads && leads.length > 0 ? (
-                                        leads.map((lead) => <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} />)
+                                        leads.map((lead, index) => <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} index={index}/>)
                                     ) : (
                                         <div className="p-3 rounded-2 border border-dashed border-dark opacity-50 text-center">
                                             <i className="mdi mdi-folder-alert-outline align-middle fs-18 me-1"></i>

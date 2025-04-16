@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import avatar from '../../../assets/images/users/avatar-1.jpg';
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import avatar3 from '../../../assets/images/users/avatar-3.jpg';
@@ -10,42 +10,19 @@ import SearchOptions from './search-options';
 import './style.css';
 import { DndContext } from '@dnd-kit/core';
 import DeleteModal from '../../../Components/Common/DeleteModal';
-import { getService } from '../../../service';
-import { KANBAN_ENDPOINT } from '../../../helpers/url_helper';
+import { getService, updateService } from '../../../service';
+import { KANBAN_ENDPOINT, LEADS_ENDPOINT } from '../../../helpers/url_helper';
 import warningImage from '../../../assets/images/warning.png';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import EmptyData from '../../../Components/Common/EmptyData';
 
-const INITIAL_COLUMNS = [
+export const INITIAL_COLUMNS = [
     {
         title: 'New Leads',
         color: '#2E90FA',
         counts: 2,
-        id: 'NEW_LEADS',
-    },
-    {
-        title: 'Called',
-        color: '#5925DC',
-        counts: 3,
-        id: 'CALLED',
-    },
-    {
-        title: 'Came to the office',
-        color: '#B54708',
-        counts: 4,
-        id: 'CAME_TO_THE_OFFICE',
-    },
-    {
-        title: 'Contracts',
-        color: '#027A48',
-        counts: 2,
-        id: 'CONTRACTS',
-    },
-    {
-        title: 'Others',
-        color: '#FF00AE',
-        counts: 0,
-        id: 'OTHERS',
+        id: -1,
     },
 ];
 
@@ -145,8 +122,17 @@ const INITIAL_LEADS = [
 const index = () => {
     const { t } = useTranslation();
 
-    const [columns, setColumns] = useState(INITIAL_COLUMNS);
-    const [leads, setLeads] = useState(INITIAL_LEADS);
+    const [columns, setColumns] = useState([]);
+    const [leads, setLeads] = useState([]);
+
+    const groupedLeads = useMemo(() => {
+        return leads.reduce((acc, lead) => {
+            if (!acc[lead.kanbanId]) acc[lead.kanbanId] = [];
+            acc[lead.kanbanId].unshift(lead);
+            return acc;
+        }, {});
+    }, [leads]);
+
     const [loading, setLoading] = useState(false);
 
     const [activeCardStatus, setActiveCardStatus] = useState(null);
@@ -165,14 +151,35 @@ const index = () => {
 
         if (!over) return;
 
-        console.log({ over });
-
         const leadId = active.id;
-        const newStatus = over.id;
+        const newKanbanId = over.id;
+
+        const curLead = leads.find((lead) => lead.id === leadId);
+
+        if (curLead.kanbanId === newKanbanId) return;
 
         setLeads((prevLeads) => {
-            const newLeads = prevLeads.map((lead) => (lead.id === leadId ? { ...lead, status: newStatus } : lead));
-            return newLeads;
+            const leadIndex = prevLeads.findIndex((lead) => lead.id === leadId);
+            if (leadIndex === -1) return prevLeads;
+
+            const updatedLead = {
+                ...prevLeads[leadIndex],
+                kanbanId: newKanbanId,
+                loading: true,
+            };
+
+            // eski massivdan o‘chiramiz
+            const filteredLeads = prevLeads.filter((lead) => lead.id !== leadId);
+
+            // yangilangan leadni massiv boshiga qo‘shamiz
+            return [...filteredLeads, updatedLead];
+        });
+
+        updateLead({ newKanbanId, leadId }, () => {
+            setLeads((prevLeads) => {
+                const newLeads = prevLeads.map((lead) => (lead.id === leadId ? { ...lead, kanbanId: newKanbanId, loading: false } : lead));
+                return newLeads;
+            });
         });
 
         setActiveCardStatus(null);
@@ -181,7 +188,7 @@ const index = () => {
     function handleDragStart(event) {
         const { active } = event;
         const activeCard = leads.find((lead) => active.id === lead.id);
-        setActiveCardStatus(activeCard.status);
+        setActiveCardStatus(activeCard.kanbanId);
     }
 
     const handleCreatingColumn = (columnId) => {
@@ -206,18 +213,48 @@ const index = () => {
         setIsDeleting(false);
     };
 
-    useEffect(() => {
-        async function getKanban() {
-            setLoading(true);
-            try {
-                const res = await getService(KANBAN_ENDPOINT);
-                console.log({ res });
-            } catch (error) {
-            } finally {
-                setLoading(false);
-            }
+    async function getKanbanList() {
+        setLoading(true);
+        try {
+            const res = await getService(KANBAN_ENDPOINT);
+            console.log({ res });
+            setColumns(() => [...INITIAL_COLUMNS, ...res]);
+        } catch (error) {
+        } finally {
+            setLoading(false);
         }
-        // getKanban();
+    }
+
+    async function getLeadsList() {
+        setLoading(true);
+        try {
+            const { leads } = await getService(LEADS_ENDPOINT);
+            console.log({ leads });
+            setLeads(leads);
+        } catch (error) {
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function updateLead({ newKanbanId, leadId }, cb) {
+        try {
+            const res = await updateService(`${LEADS_ENDPOINT}/${leadId}`, {
+                kanbanId: newKanbanId,
+            });
+            if (res) {
+                cb();
+            }
+        } catch (error) {}
+    }
+
+    function fetchData() {
+        getKanbanList();
+        getLeadsList();
+    }
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     return (
@@ -265,6 +302,8 @@ const index = () => {
                             <div className="d-flex justify-content-center w-100 py-5">
                                 <Spinner />
                             </div>
+                        ) : columns.length === 0 ? (
+                            <EmptyData title={t('No Data')} text=" " />
                         ) : (
                             <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
                                 <motion.div className="tasks-board" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
@@ -273,11 +312,12 @@ const index = () => {
                                             key={index}
                                             funnelIndex={index}
                                             column={column}
-                                            leads={leads.filter((lead) => lead.status === column.id)}
+                                            leads={groupedLeads[column.id] || []}
                                             setLeads={setLeads}
                                             toggleDelete={toggleDeleteModal}
                                             handleCreatingColumn={handleCreatingColumn}
                                             activeCardStatus={activeCardStatus}
+                                            fetchData={fetchData}
                                         />
                                     ))}
                                 </motion.div>
