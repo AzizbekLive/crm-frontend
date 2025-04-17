@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal, ModalBody, Spinner } from 'reactstrap';
+import { useTranslation } from 'react-i18next';
 
 const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text, loading }) => {
+    const { t } = useTranslation();
     return (
         <Modal isOpen={show} toggle={onCloseClick} centered={true}>
             <div className="position-relative">
@@ -22,7 +24,7 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text, loading }
                 </div>
                 <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
                     <button type="button" className="btn w-sm btn-light" data-bs-dismiss="modal" onClick={onCloseClick}>
-                        Close
+                        {t('Cancel')}
                     </button>
                     <button
                         type="button"
@@ -31,7 +33,7 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick, title, text, loading }
                         onClick={onDeleteClick}
                         disabled={loading}>
                         {loading && <Spinner size={'sm'} />}
-                        Yes, Delete It!
+                        {t('Yes, Delete It')}
                     </button>
                 </div>
             </ModalBody>

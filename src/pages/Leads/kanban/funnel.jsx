@@ -12,10 +12,11 @@ import {
     Label,
     Modal,
     ModalBody,
-    Spinner,
+    Offcanvas,
+    OffcanvasBody,
+    OffcanvasHeader,
     UncontrolledDropdown,
 } from 'reactstrap';
-import Flatpickr from 'react-flatpickr';
 import { useLayoutStore } from '../../../stores/layouts';
 import FunnelItemForm from './funnel-item-form';
 // import TooltipElement from '../../../Components/Common/Tooltip';
@@ -23,20 +24,34 @@ import ColorPicker from '../../../Components/Common/ColorPicker';
 import { decreaseColor } from '../../../helpers/methods';
 import { useDroppable } from '@dnd-kit/core';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import FormTextarea from '../../../Components/Form/FormTextarea';
 import { deleteService, updateService } from '../../../service';
 import { KANBAN_ENDPOINT } from '../../../helpers/url_helper';
 import DeleteModal from '../../../Components/Common/DeleteModal';
 import warningImage from '../../../assets/images/warning.png';
 import { toast } from 'sonner';
+import FormDatePicker from '../../../Components/Form/FormDatePicker';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import ShowLead from './show-lead';
 
-const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData, toggleCanvas }) => {
+const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData }) => {
     const { t } = useTranslation();
 
     const titleInputElement = useRef(null);
 
     const { setNodeRef, isOver } = useDroppable({ id: column.id });
+
+    const [selectedLead, setSelectedLead] = useState(null);
+
+    const [openCanvas, setOpenCanvas] = useState(false);
+    const toggleCanvas = (lead) => {
+        if (lead) {
+            setSelectedLead(lead);
+        } else {
+            setSelectedLead(null);
+        }
+        setOpenCanvas((p) => !p);
+    };
 
     const layoutModeType = useLayoutStore((state) => state.layoutModeType);
 
@@ -67,14 +82,14 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
     const changeMainColor = (color) => {
         changeFunnel('color', color);
         updateKanban({ color, title: curFunnel.title }, () => {
-            toast.success(t('Successfully Updated'));
+            toast.success(t('Success Updated'));
         });
     };
 
     const changeMainTitle = () => {
         updateKanban({ title: curFunnel.title, color: curFunnel.color }, () => {
             toggleEditing();
-            toast.success(t('Successfully Updated'));
+            toast.success(t('Success Updated'));
         });
     };
 
@@ -107,9 +122,9 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
     async function deleteKanban() {
         setIsLoading(true);
         try {
-            const res = deleteService(`/superadmin${KANBAN_ENDPOINT}/${curFunnel.id}`);
+            const res = await deleteService(`/superadmin${KANBAN_ENDPOINT}/${curFunnel.id}`);
             console.log({ res });
-
+            toast.success(t('Success Deleted'));
             fetchData();
         } catch (error) {
         } finally {
@@ -124,7 +139,6 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                     <Card
                         className={isOver ? 'tasks-list-content-over' : 'bg-light'}
                         style={{ transition: 'all 0.2s linear', borderTop: `3px solid ${curFunnel.color}` }}>
-                        {JSON.stringify(column)}
                         <CardBody className="funnel-header">
                             <div className="d-flex align-items-center position-relative">
                                 <div className="flex-grow-1">
@@ -173,7 +187,7 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                                             <Button
                                                 size="sm"
                                                 className="p-3 btn-icon btn-ghost-dark rounded-circle"
-                                                onClick={() => handleCreatingColumn(column.id)}>
+                                                onClick={() => handleCreatingColumn(column)}>
                                                 <i className="ri-add-line align-middle"></i>
                                             </Button>
                                             <UncontrolledDropdown>
@@ -187,10 +201,6 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                                                     <DropdownItem href="#" onClick={openSmsModal}>
                                                         <i className="bx bx-message-detail me-2 text-muted align-bottom"></i>
                                                         {t('Send sms')}
-                                                    </DropdownItem>
-                                                    <DropdownItem href="#">
-                                                        <i className="ri-share-line me-2 text-muted align-bottom"></i>
-                                                        {t('Forward')}
                                                     </DropdownItem>
                                                     {funnelIndex !== 0 && (
                                                         <DropdownItem href="#" className="text-danger" onClick={toggleDeleteModal}>
@@ -262,10 +272,10 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
             <DeleteModal
                 title={
                     <h4>
-                        Delete Column <img src={warningImage} alt="" width={30} />
+                        {t('Delete Kanban')} <img src={warningImage} alt="" width={30} />
                     </h4>
                 }
-                text={<span className="text-danger">Do you want to delete this column? All information in this column will be deleted.</span>}
+                text={<span className="text-danger">{t('Do you want to delete this column? All information in this column will be deleted')}.</span>}
                 show={showDeleteModal}
                 loading={isLoading}
                 onCloseClick={toggleDeleteModal}
@@ -288,7 +298,7 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                                 type="checkbox"
                                 className="form-check-input"
                                 id="customSwitchsizesm"
-                                defaultChecked={isScheduled}
+                                defaultChecked={!isScheduled}
                                 onChange={() => setIsScheduled((p) => !p)}
                             />
                             <Label className="form-check-label" htmlFor="customSwitchsizesm">
@@ -298,18 +308,12 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                         {isScheduled && (
                             <div>
                                 <Label className="form-label">{t('Choose Time')}</Label>
-                                <Flatpickr
-                                    className="form-control"
-                                    name="time"
-                                    options={{
-                                        enableTime: true,
-                                        dateFormat: 'Y-m-d H:i',
-                                    }}
-                                />
+                                <FormDatePicker />
                             </div>
                         )}
                         <div>
-                            <FormTextarea name="text" label={t('SMS')} />
+                            <Label className="">{t('SMS')}</Label>
+                            <textarea name="text" className="form-control no-resize" rows={5} />
                         </div>
                     </div>
                     <div className="d-flex gap-2 justify-content-end mt-4 mb-2">
@@ -322,6 +326,18 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                     </div>
                 </ModalBody>
             </Modal>
+
+            {/* Off-canvas */}
+
+            <Offcanvas isOpen={openCanvas} toggle={toggleCanvas} id="offcanvasExample" direction="end" className="offcanvas-end border-0">
+                <OffcanvasHeader toggle={toggleCanvas} id="offcanvasExampleLabel" className="border-bottom">
+                    {selectedLead?.name}
+                </OffcanvasHeader>
+                <OffcanvasBody className="verflow-hidden">
+                    <ShowLead lead={selectedLead} />
+                </OffcanvasBody>
+                {/* <div className="offcanvas-foorter border-top p-3 text-center"></div> */}
+            </Offcanvas>
         </React.Fragment>
     );
 };

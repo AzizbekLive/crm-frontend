@@ -31,7 +31,7 @@ const FunnelItemForm = ({ closeForm, fetchData }) => {
         try {
             const res = await postService(LEADS_ENDPOINT, data);
             if (res?.id) {
-                toast.success(t('Successfully Added'));
+                toast.success(t('Success Added'));
             }
             if (formElement.current) {
                 formElement.current.reset();

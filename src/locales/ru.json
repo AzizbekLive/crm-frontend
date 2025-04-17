@@ -48,7 +48,18 @@
     "Send Sms Immediately": "Отправить СМС немедленно",
     "Choose Time": "Выбрать время",
     "SMS": "СМС",
-    "Send": "Отправить"
-
-    
+    "Send": "Отправить",
+    "Success Added": "Успешно добавлено",
+    "Success Created": "Успешно создано",
+    "Success Updated": "Успешно обновлено",
+    "Success Deleted": "Успешно удалено",
+    "Error Occured": "Произошла ошибка",
+    "Date": "Дата",
+    "Title": "Заголовок",
+    "Color": "Цвет",
+    "Submit": "Отправить",
+    "Create": "Создать",
+    "Delete Kanban": "Удалить Канбан",
+    "Do you want to delete this column? All information in this column will be deleted": "Хотите удалить эту колонку? Вся информация в этой колонке будет удалена",
+    "Yes, Delete It": "Да, удалить"
 }

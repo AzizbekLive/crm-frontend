@@ -3,7 +3,6 @@ import { CardBody, CardFooter, Spinner } from 'reactstrap';
 import avatar from '../../../assets/images/users/user-avatar.png';
 import { decreaseColor } from '../../../helpers/methods';
 import { useDraggable } from '@dnd-kit/core';
-import { toast } from 'sonner';
 import { formatDate } from '@fullcalendar/core/index.js';
 // import { formatDate } from '@fullcalendar/core/index.js';
 const FunnelItem = ({ color, lead, toggleCanvas }) => {
@@ -17,8 +16,7 @@ const FunnelItem = ({ color, lead, toggleCanvas }) => {
         : undefined;
 
     const openLead = () => {
-        toast.info('Lead is opened');
-        toggleCanvas();
+        toggleCanvas(lead);
     };
     return (
         <div className="card tasks-box shadow-md" ref={setNodeRef} style={style} {...attributes} {...listeners} onDoubleClick={openLead}>

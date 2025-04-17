@@ -3,19 +3,19 @@ import avatar from '../../../assets/images/users/avatar-1.jpg';
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 import avatar4 from '../../../assets/images/users/avatar-4.jpg';
-import { Button, Card, CardBody, Offcanvas, OffcanvasBody, OffcanvasHeader, Spinner } from 'reactstrap';
+import { Button, Card, CardBody, Input, Label, Modal, ModalBody, Spinner } from 'reactstrap';
 import TooltipElement from '../../../Components/Common/Tooltip';
 import Funnel from './funnel';
 import SearchOptions from './search-options';
-import './style.css';
 import { DndContext } from '@dnd-kit/core';
 import { getService, postService, updateService } from '../../../service';
 import { KANBAN_ENDPOINT, LEADS_ENDPOINT } from '../../../helpers/url_helper';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import EmptyData from '../../../Components/Common/EmptyData';
-import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Sketch } from '@uiw/react-color';
+import './style.css';
 
 export const INITIAL_COLUMNS = [
     {
@@ -23,6 +23,7 @@ export const INITIAL_COLUMNS = [
         color: '#2E90FA',
         counts: 2,
         id: -1,
+        order: -1,
     },
 ];
 
@@ -123,9 +124,12 @@ const index = () => {
     const { t } = useTranslation();
 
     const [columns, setColumns] = useState([]);
+    const [selectedKanban, setSelectedKanban] = useState(null);
+    const [color, setColor] = useState('#000');
     const [leads, setLeads] = useState([]);
-    const [openCanvas, setOpenCanvas] = useState(false);
-    const toggleCanvas = () => setOpenCanvas((p) => !p);
+
+    const [createKanbanModal, setCreateKanbanModal] = useState(false);
+    const toggleCreateKanbanModal = () => setCreateKanbanModal((p) => !p);
 
     const groupedLeads = useMemo(() => {
         return leads.reduce((acc, lead) => {
@@ -136,6 +140,7 @@ const index = () => {
     }, [leads]);
 
     const [loading, setLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     const [activeCardStatus, setActiveCardStatus] = useState(null);
 
@@ -184,25 +189,24 @@ const index = () => {
         setActiveCardStatus(activeCard.kanbanId);
     }
 
-    const handleCreatingColumn = (columnId) => {
-        const currentColumnIndex = columns.findIndex((column) => column.id === columnId);
-        const newColumn = {
-            title: '',
-            color: '',
-            order: columns[currentColumnIndex].order + 10,
-            createdAt: 0,
-        };
-        const newColumns = [...columns];
+    const handleCreatingColumn = (column) => {
+        setSelectedKanban(column);
+        toggleCreateKanbanModal();
+    };
 
-        newColumns.splice(currentColumnIndex + 1, 0, newColumn);
-        setColumns(newColumns);
-        // createKanban(newColumn, (id) => {
-        //     if (id) {
+    const onSubmitCreateKanban = (evt) => {
+        evt.preventDefault();
+        const fd = new FormData(evt.target);
 
-        //     } else {
+        const data = Object.fromEntries(fd.entries());
 
-        //     }
-        // });
+        data.color = color;
+        data.order = selectedKanban.order + 1;
+
+        createKanban(data, () => {
+            fetchData();
+            toggleCreateKanbanModal();
+        });
     };
 
     async function getKanbanList() {
@@ -242,14 +246,18 @@ const index = () => {
 
     async function createKanban(payload, cb) {
         try {
+            setSubmitLoading(true);
             const res = await postService(`/superadmin${KANBAN_ENDPOINT}/create`, payload);
             if (res) {
                 cb(res.id);
+                toast.success(t('Success Created'));
             }
         } catch (error) {
             console.log('error');
 
             cb(false);
+        } finally {
+            setSubmitLoading(false);
         }
     }
 
@@ -316,7 +324,7 @@ const index = () => {
                                         .sort((a, b) => a.order - b.order)
                                         .map((column, index) => (
                                             <Funnel
-                                                key={index}
+                                                key={column.id}
                                                 funnelIndex={index}
                                                 column={column}
                                                 leads={groupedLeads[column.id] || []}
@@ -324,7 +332,6 @@ const index = () => {
                                                 handleCreatingColumn={handleCreatingColumn}
                                                 activeCardStatus={activeCardStatus}
                                                 fetchData={fetchData}
-                                                toggleCanvas={toggleCanvas}
                                             />
                                         ))}
                                 </motion.div>
@@ -334,27 +341,43 @@ const index = () => {
                 </CardBody>
             </Card>
 
-            {/* Off-canvas */}
-
-            <Offcanvas isOpen={openCanvas} toggle={toggleCanvas} id="offcanvasExample" direction="end" className="offcanvas-end border-0">
-                <OffcanvasHeader toggle={toggleCanvas} id="offcanvasExampleLabel" className="border-bottom">
-                    Recent Acitivity
-                </OffcanvasHeader>
-                <OffcanvasBody className="p-0 overflow-hidden">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, fugit repellat! Voluptatum aliquam autem consequatur sed?
-                    Laborum expedita iste pariatur error dicta facere, non ratione rem? Sequi cupiditate doloremque mollitia totam voluptatibus
-                    recusandae laborum sint perspiciatis qui beatae incidunt labore vero asperiores explicabo, aliquam sed! Architecto quis beatae
-                    molestiae atque sequi, ipsam neque optio laboriosam id ea perferendis porro nulla nemo numquam obcaecati ex ut tempora nobis
-                    soluta, officia quae. Pariatur laboriosam voluptatibus, aliquam ducimus quasi vero nisi eum maxime, possimus quibusdam iusto non
-                    sed tenetur porro distinctio atque fugiat minus consequatur? Accusantium soluta sequi, rem sapiente recusandae pariatur
-                    praesentium.
-                </OffcanvasBody>
-                <div className="offcanvas-foorter border-top p-3 text-center">
-                    <Link to="#" className="link-success">
-                        View All Acitivity <i className="ri-arrow-right-s-line align-middle ms-1"></i>
-                    </Link>
+            <Modal isOpen={createKanbanModal} toggle={toggleCreateKanbanModal} centered={true}>
+                <div className="position-relative py-3">
+                    <span
+                        className="position-absolute fs-2"
+                        style={{ top: '10px', right: '20px', cursor: 'pointer', zIndex: '999' }}
+                        onClick={toggleCreateKanbanModal}>
+                        &times;
+                    </span>
                 </div>
-            </Offcanvas>
+                <ModalBody>
+                    <form action="" onSubmit={onSubmitCreateKanban}>
+                        <div className="d-flex flex-column gap-3">
+                            <div>
+                                <Label className="form-label" htmlFor="customSwitchsizesm">
+                                    {t('Title')}
+                                </Label>
+                                <Input type="text" name="title" />
+                            </div>
+                            <div>
+                                <Label className="form-label" htmlFor="customSwitchsizesm">
+                                    {t('Color')}
+                                </Label>
+                                <Sketch color={color} onChange={(color) => setColor(color.hex)} />
+                            </div>
+                        </div>
+                        <div className="d-flex gap-2 justify-content-end mt-4 mb-2">
+                            <button type="button" className="btn w-sm btn-light" data-bs-dismiss="modal" onClick={toggleCreateKanbanModal}>
+                                {t('Cancel')}
+                            </button>
+                            <button type="submit" className="btn w-sm btn-success " id="delete-record" disabled={submitLoading}>
+                                {submitLoading && <Spinner size="sm" className="me-1" />}
+                                {t('Create')}
+                            </button>
+                        </div>
+                    </form>
+                </ModalBody>
+            </Modal>
         </div>
     );
 };
