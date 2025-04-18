@@ -82,19 +82,19 @@ const index = () => {
                                                         <span className="serviceStepId">Step 1</span>{' '}
                                                         <span className="serviceStepDescription">1 Lorem, ipsum.</span>{' '}
                                                     </li>
-                                                    <li className="active">
+                                                    <li className="">
                                                         <span className="serviceStepId">Step 2</span>
                                                         <span className="serviceStepDescription">2 Lorem, ipsum.</span>
                                                     </li>
-                                                    <li className="active">
+                                                    <li className="">
                                                         <span className="serviceStepId">Step 3</span>
                                                         <span className="serviceStepDescription">3 Lorem, ipsum.</span>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            {/* <Step1 /> */}
+                                            <Step1 />
                                             {/* <Step2 apartment={apartment} /> */}
-                                            <Step3 />
+                                            {/* <Step3 /> */}
                                         </div>
                                     </Col>
                                     <Col></Col>
