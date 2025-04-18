@@ -12,10 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useLayoutStore } from '../../../stores/layouts';
 import '../style.css';
 const ApartmentDetails = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const layoutModeType = useLayoutStore((s) => s.layoutModeType);
     const { id } = useParams();
 
     const [apartment, setApartment] = useState(null);
@@ -63,13 +65,24 @@ const ApartmentDetails = () => {
         slidesToScroll: 1,
         nextArrow: (
             <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.5 11L6.5 6L1.5 1" stroke="#344054" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+                <path
+                    d="M1.5 11L6.5 6L1.5 1"
+                    stroke={layoutModeType === 'dark' ? 'gray' : '#344054'}
+                    strokeWidth="1.66667"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
             </svg>
-            
         ),
         prevArrow: (
             <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.5 11L1.5 6L6.5 1" stroke="#344054" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                    d="M6.5 11L1.5 6L6.5 1"
+                    stroke={layoutModeType === 'dark' ? 'gray' : '#344054'}
+                    strokeWidth="1.66667"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
             </svg>
         ),
     };
@@ -77,7 +90,7 @@ const ApartmentDetails = () => {
     return (
         <Row>
             <Col sm={12} className="mb-3">
-                <Button color="dark" outline className="btn btn-ghost-dark border border-dark" onClick={() => navigate('/apartments')}>
+                <Button color="dark" outline className="btn btn-ghost-dark" onClick={() => navigate('/apartments')}>
                     <i className="ri-arrow-left-line align-middle me-1"></i> {t('Back')}
                 </Button>
             </Col>
@@ -95,7 +108,9 @@ const ApartmentDetails = () => {
                                         {apartment.rooms} {t('Rooms')}, {t(apartment.typeOfHousing)}, {apartment.totalArea} {t('M')}²,{' '}
                                         {apartment.block}/{apartment.floor} {t('Floor')}
                                     </h3>
-                                    <Button color="success">{t('Contract')}</Button>
+                                    <Button color="success" onClick={() => navigate(`/contract/${id}`)}>
+                                        {t('Contract')}
+                                    </Button>
                                 </div>
                             </CardHeader>
                             <CardBody>
@@ -111,7 +126,7 @@ const ApartmentDetails = () => {
                                                         <TypeOfApartmentIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted">{t('Type Of Housing')}</span>
+                                                        <span className="text-muted fs-18">{t('Type Of Housing')}</span>
                                                         <h4 className="mb-0">{apartment.typeOfHousing}</h4>
                                                     </div>
                                                 </div>
@@ -122,7 +137,7 @@ const ApartmentDetails = () => {
                                                         <RoomsIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted">{t('Rooms')}</span>
+                                                        <span className="text-muted fs-18">{t('Rooms')}</span>
                                                         <h4 className="mb-0">{apartment.rooms}</h4>
                                                     </div>
                                                 </div>
@@ -133,7 +148,7 @@ const ApartmentDetails = () => {
                                                         <TotalAreaIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted">{t('Total Area')}</span>
+                                                        <span className="text-muted fs-18">{t('Total Area')}</span>
                                                         <h4 className="mb-0">
                                                             {apartment.totalArea} {t('M')}²
                                                         </h4>
@@ -146,7 +161,7 @@ const ApartmentDetails = () => {
                                                         <FloorIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted">{t('Floor')}</span>
+                                                        <span className="text-muted fs-18">{t('Floor')}</span>
                                                         <h4 className="mb-0">{apartment.floor}</h4>
                                                     </div>
                                                 </div>
@@ -157,7 +172,7 @@ const ApartmentDetails = () => {
                                                         <BlockIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted">{t('Block')}</span>
+                                                        <span className="text-muted fs-18">{t('Block')}</span>
                                                         <h4 className="mb-0">{apartment.block}</h4>
                                                     </div>
                                                 </div>
@@ -168,7 +183,7 @@ const ApartmentDetails = () => {
                                                         <TotalPriceIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted">{t('Total Price')}</span>
+                                                        <span className="text-muted fs-18">{t('Total Price')}</span>
                                                         <h4 className="mb-0">{formatUZS(apartment.totalPrice)}</h4>
                                                     </div>
                                                 </div>

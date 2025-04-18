@@ -16,12 +16,30 @@
     height: 70px;
     object-fit: cover;
 }
-.slick-prev:before, .slick-next:before {
+.slick-prev:before,
+.slick-next:before {
     font-family: 'slick';
     font-size: 20px;
     line-height: 1;
-    opacity: .75;
-    color: #902525;
+    opacity: 0.75;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+.slick-prev {
+    left: 45px;
+}
+.slick-next {
+    right: 45px;
+}
+.slick-prev,
+.slick-next {
+    border: 1px solid #d0d5dd;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 15px;
+    z-index: 20;
 }

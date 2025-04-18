@@ -6,6 +6,7 @@ import Leads from '../pages/Leads';
 import Clients from '../pages/Clients';
 import ClientDetail from '../pages/ClientDetail';
 import Dashboard from '../pages/Dashboard';
+import Contract from '../pages/Contract';
 import Login from '../pages/Authentication/Login';
 import Settings from '../pages/Settings';
 import Support from '../pages/Support';
@@ -23,6 +24,7 @@ const authProtectedRoutes = [
     { path: '/support', component: <Support /> },
     { path: '/profile', component: <UserProfile /> },
     { path: '/profile-settings', component: <ProfileSettings /> },
+    { path: '/contract/:apartmentId', component: <Contract /> },
 
     {
         path: '/',
