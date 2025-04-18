@@ -1,19 +1,16 @@
 import React from 'react';
-import { Card, CardHeader, Col, Container, Row } from 'reactstrap';
-import Widgets from './widgets';
+import { Col, Row } from 'reactstrap';
+// import Widgets from './widgets';
 import AllClients from './all-clients';
 
 const index = () => {
     return (
         <React.Fragment>
-            <div className="page-content">
-                <Container fluid>
-                    {/* <Row>
-                        <Widgets />
-                    </Row> */}
+            <Row>
+                <Col sm={12}>
                     <AllClients />
-                </Container>
-            </div>
+                </Col>
+            </Row>
         </React.Fragment>
     );
 };

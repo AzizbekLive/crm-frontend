@@ -7,7 +7,7 @@ const FormSelect = forwardRef(({ validation, options, optionLabel = 'name', opti
     useEffect(() => {
         setOptionList(options);
     }, [options]);
-    return (
+    return validation ? (
         <React.Fragment>
             <Label className="form-label">{props.label}</Label>
             <select
@@ -29,6 +29,25 @@ const FormSelect = forwardRef(({ validation, options, optionLabel = 'name', opti
             {validation && validation.touched[props.name] && validation.errors[props.name] ? (
                 <FormFeedback type="invalid">{validation & validation.errors[props.name]}</FormFeedback>
             ) : null}
+        </React.Fragment>
+    ) : (
+        <React.Fragment>
+            <Label className="form-label">{props.label}</Label>
+            <select
+                {...props}
+                className={`form-select`}
+                onChange={({ target }) => {
+                    const { name, value } = target;
+                    return props.onChange(name, value);
+                }}>
+                <option value="" key={-999}></option>
+                {optionList?.length > 0 &&
+                    optionList.map((option) => (
+                        <option key={option.id} value={option[optionValue]}>
+                            {option[optionLabel]}
+                        </option>
+                    ))}
+            </select>
         </React.Fragment>
     );
 });

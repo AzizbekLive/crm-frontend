@@ -49,7 +49,6 @@
     "Choose Time": "Choose Time",
     "SMS": "SMS",
     "Send": "Send",
-
     "Success Added": "Successfully Added",
     "Success Created": "Successfully created",
     "Success Updated": "Successfully updated",
@@ -60,8 +59,15 @@
     "Color": "Color",
     "Submit": "Submit",
     "Create": "Create",
-
     "Delete Kanban": "Delete Kanban",
     "Do you want to delete this column? All information in this column will be deleted": "Do you want to delete this column? All information in this column will be deleted",
-    "Yes, Delete It": "Yes, Delete it"
+    "Yes, Delete It": "Yes, Delete it",
+    "No Data": "No data",
+    "View": "View",
+    "M": "m",
+    "Th floor": "th floor",
+
+    "Description Of Apartment": "Description of the Apartment",
+    "Type Of Housing": "Type of housing",
+    "Apartment": "Apartment"
 }

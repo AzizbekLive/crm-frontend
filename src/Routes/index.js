@@ -8,6 +8,7 @@ import VerticalLayout from '../Layouts/index';
 //routes
 import { authProtectedRoutes, publicRoutes } from './allRoutes';
 import { AuthProtected } from './AuthProtected';
+import { Container } from 'reactstrap';
 
 const Index = () => {
     return (
@@ -25,7 +26,13 @@ const Index = () => {
                             path={route.path}
                             element={
                                 <AuthProtected>
-                                    <VerticalLayout>{route.component}</VerticalLayout>
+                                    <VerticalLayout>
+                                        <React.Fragment>
+                                            <div className="page-content">
+                                                <Container fluid>{route.component}</Container>
+                                            </div>
+                                        </React.Fragment>
+                                    </VerticalLayout>
                                 </AuthProtected>
                             }
                             key={idx}

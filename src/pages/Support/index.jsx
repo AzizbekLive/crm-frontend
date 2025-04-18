@@ -1,16 +1,12 @@
 import React from 'react';
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
 const Starter = () => {
     return (
         <React.Fragment>
-            <div className="page-content">
-                <Container fluid>
-                    <Row>
-                        <Col xs={12}>Support</Col>
-                    </Row>
-                </Container>
-            </div>
+            <Row>
+                <Col xs={12}>Support</Col>
+            </Row>
         </React.Fragment>
     );
 };

@@ -138,19 +138,19 @@ const AllClients = () => {
                                                 <td>N-001.pdf</td>
                                                 <td className="text-end">
                                                     <div className="d-flex gap-1 justify-content-end">
-                                                        <TooltipElement tooltipText={'Download contract'}>
+                                                        <TooltipElement tooltipText={t('Download Contract')}>
                                                             <Button className="btn-soft-primary btn-icon">
                                                                 <i className="ri-download-cloud-2-line" style={{ transform: 'scale(1.3)' }}></i>
                                                             </Button>
                                                         </TooltipElement>
-                                                        <TooltipElement tooltipText={'Chat'}>
+                                                        <TooltipElement tooltipText={t('Chat')}>
                                                             <Button className="btn-soft-warning btn-icon">
                                                                 <i
                                                                     className="mdi mdi-chat-processing-outline"
                                                                     style={{ transform: 'scale(1.3)' }}></i>
                                                             </Button>
                                                         </TooltipElement>
-                                                        <TooltipElement tooltipText={'View Client'}>
+                                                        <TooltipElement tooltipText={t('View Client')}>
                                                             <Button className="btn-soft-secondary btn-icon" onClick={() => viewClient(1)}>
                                                                 <i className="mdi mdi-eye" style={{ transform: 'scale(1.3)' }}></i>
                                                             </Button>

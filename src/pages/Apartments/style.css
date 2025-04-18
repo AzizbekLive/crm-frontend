@@ -1,0 +1,27 @@
+.slick-custom-images {
+    display: flex !important;
+    list-style-type: none;
+    justify-content: center;
+    gap: 0.5rem !important;
+}
+
+.slick-custom-images li {
+    list-style-type: none;
+    border: 1px solid rgba(128, 128, 128, 0.295);
+    border-radius: 8px;
+    cursor: pointer;
+}
+.slick-custom-images li img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+}
+.slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #902525;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

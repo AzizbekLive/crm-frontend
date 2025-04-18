@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Apartments from '../pages/Apartments';
+import ApartmentDetails from '../pages/Apartments/View';
 import Leads from '../pages/Leads';
 import Clients from '../pages/Clients';
 import ClientDetail from '../pages/ClientDetail';
@@ -13,6 +14,7 @@ import UserProfile from '../pages/Authentication/user-profile';
 
 const authProtectedRoutes = [
     { path: '/apartments', component: <Apartments /> },
+    { path: '/apartments/:id', component: <ApartmentDetails /> },
     { path: '/leads', component: <Leads /> },
     { path: '/clients', component: <Clients /> },
     { path: '/clients/:id', component: <ClientDetail /> },
