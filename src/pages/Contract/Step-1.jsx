@@ -48,7 +48,7 @@ const Step1 = () => {
                 validation.handleSubmit();
                 return false;
             }}>
-            <Row className="gy-4">
+            <Row className="gy-3">
                 <Col sm={6}>
                     <FormInput name="firstName" label={t('First Name')} type="text" validation={validation} />
                 </Col>
@@ -70,7 +70,7 @@ const Step1 = () => {
                 <Col sm={12}>
                     <div className="d-flex justify-content-end gap-2">
                         <Button color="light">{t('Cancel')}</Button>
-                        <Button color="success">{t('Submit')}</Button>
+                        <Button type='submit' color="success">{t('Continue')}</Button>
                     </div>
                 </Col>
             </Row>

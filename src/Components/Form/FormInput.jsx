@@ -4,7 +4,7 @@ import { FormFeedback, Input, Label } from 'reactstrap';
 const FormInput = forwardRef(({ validation, ...props }, ref) => {
     return (
         <React.Fragment>
-            <Label className="form-label">{props.label}</Label>
+            {props?.label && <Label className="form-label">{props.label}</Label>}
             <Input
                 ref={ref}
                 onChange={validation.handleChange}

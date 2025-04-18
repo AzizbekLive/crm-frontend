@@ -8,6 +8,10 @@ import { APARTMENTS_ENDPOINT } from '../../helpers/url_helper';
 import { toast } from 'sonner';
 import Loader from '../../Components/Common/Loader';
 import Step1 from './Step-1';
+import Step2 from './Step-2';
+import Step3 from './Step-3';
+
+import './style.css';
 
 const index = () => {
     const { apartmentId } = useParams();
@@ -66,7 +70,31 @@ const index = () => {
                                     <Col></Col>
                                     <Col xl={6} sm={4}>
                                         <div className="mx-auto">
-                                            <Step1 />
+                                            {/* <div className="progress-container">
+                                                <div className="progress" id="progress" style={{ width: '50%' }}></div>
+                                                <div className="circle active">1</div>
+                                                <div className="circle active">2</div>
+                                                <div className="circle">3</div>
+                                            </div> */}
+                                            <div className="serviceStepsListBox">
+                                                <ul id="serviceSteps" className="serviceStepsList">
+                                                    <li className="active">
+                                                        <span className="serviceStepId">Step 1</span>{' '}
+                                                        <span className="serviceStepDescription">1 Lorem, ipsum.</span>{' '}
+                                                    </li>
+                                                    <li className="active">
+                                                        <span className="serviceStepId">Step 2</span>
+                                                        <span className="serviceStepDescription">2 Lorem, ipsum.</span>
+                                                    </li>
+                                                    <li className="active">
+                                                        <span className="serviceStepId">Step 3</span>
+                                                        <span className="serviceStepDescription">3 Lorem, ipsum.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            {/* <Step1 /> */}
+                                            {/* <Step2 apartment={apartment} /> */}
+                                            <Step3 />
                                         </div>
                                     </Col>
                                     <Col></Col>

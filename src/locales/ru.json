@@ -65,5 +65,20 @@
     "No Data": "Нет данных",
     "View": "Просмотреть",
     "M": "м",
-    "Th floor": "-й этаж"
+    "Th floor": "-й этаж",
+    "Description Of Apartment": "Описание квартиры",
+    "Type Of Housing": "Тип жилья",
+    "Apartment": "Квартира",
+    "First Name": "Имя",
+    "Last Name": "Фамилия",
+    "Passport Series": "Серия паспорта",
+    "Continue": "Продолжить",
+    "Start Date": "Дата начала",
+    "How Many Months": "Сколько месяцев?",
+    "Initial Payment": "Первоначальный взнос",
+    "Remained Price": "Оставшаяся сумма",
+    "Discount": "Скидка",
+    "The Contract Ready": "Контракт готов",
+    "Download PDF": "Скачать PDF",
+    "Print Contract": "Печатать контракт"
 }

@@ -65,5 +65,20 @@
     "No Data": "Ma'lumot yo'q",
     "View": "Ko'rish",
     "M": "m",
-    "Th floor": "-qavat"
+    "Th floor": "-qavat",
+    "Description Of Apartment": "Xonadon tavsifi",
+    "Type Of Housing": "Uy-joy turi",
+    "Apartment": "Xonadon",
+    "First Name": "Ism",
+    "Last Name": "Familiya",
+    "Passport Series": "Pasport seriyasi",
+    "Continue": "Davom etish",
+    "Start Date": "Boshlanish sanasi",
+    "How Many Months": "Necha oy?",
+    "Initial Payment": "Boshlang'ich to'lov",
+    "Remained Price": "Qolgan narx",
+    "Discount": "Chegirma",
+    "The Contract Ready": "Shartnoma tayyor",
+    "Download PDF": "PDF yuklab olish",
+    "Print Contract": "Shartnomani chop etish"
 }

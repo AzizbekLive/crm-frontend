@@ -308,7 +308,7 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                         {isScheduled && (
                             <div>
                                 <Label className="form-label">{t('Choose Time')}</Label>
-                                <FormDatePicker />
+                                <FormDatePicker name="date" enableTime={true} />
                             </div>
                         )}
                         <div>

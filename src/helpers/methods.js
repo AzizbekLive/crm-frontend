@@ -6,11 +6,14 @@ export function decreaseColor(hexColor, alpha = '20') {
     return `${hexColor}${alpha}`;
 }
 
-export function formatUZS(amount) {
-    if (!amount) return 'UZS 0';
-    return new Intl.NumberFormat('uz-UZ', {
+export function formatUZS(amount, noText) {
+    if (!amount) return noText ? '0' : 'UZS 0';
+
+    const formatted = new Intl.NumberFormat('uz-UZ', {
         style: 'currency',
         currency: 'UZS',
         minimumFractionDigits: 0,
     }).format(amount);
+
+    return noText ? formatted.replace('UZS ', '') : formatted;
 }

@@ -68,7 +68,7 @@ const FunnelItemForm = ({ closeForm, fetchData }) => {
                             </div>
                             <div>
                                 <Label className="form-label"> {t('Date')}</Label>
-                                <FormDatePicker />
+                                <FormDatePicker name="date" enableTime={true}/>
                             </div>
                             <div>
                                 <Label className="form-label">

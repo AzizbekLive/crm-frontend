@@ -72,5 +72,14 @@
     "Apartment": "Apartment",
     "First Name": "First name",
     "Last Name": "Last name",
-    "Passport Series": "Passport Series"
+    "Passport Series": "Passport Series",
+    "Continue": "Continue",
+    "Start Date": "Starting date",
+    "How Many Months": "How many months?",
+    "Initial Payment": "Initial payment",
+    "Remained Price": "Remained price",
+    "Discount": "Discount",
+    "The Contract Ready": "The contract is ready",
+    "Download PDF": "Download PDF",
+    "Print Contract": "Print contract"
 }

@@ -1,0 +1,86 @@
+[
+    {
+        "name": "Uzbekistan",
+        "code": "+998",
+        "iso": "UZ",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/uz.svg",
+        "mask": "##-###-####"
+    },
+    {
+        "name": "Afghanistan",
+        "code": "+93",
+        "iso": "AF",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/af.svg",
+        "mask": "##-###-####"
+    },
+    {
+        "name": "Kazakhstan",
+        "code": "+77",
+        "iso": "KZ",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/kz.svg",
+        "mask": ["(###) ### ## ##", "(####) ## ## ##", "(#####) # ## ##"]
+    },
+    {
+        "name": "Pakistan",
+        "code": "+92",
+        "iso": "PK",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/pk.svg",
+        "mask": "(###)###-####"
+    },
+    {
+        "name": "Russia",
+        "code": "+7",
+        "iso": "RU",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/ru.svg",
+        "mask": "(###)###-##-##"
+    },
+    {
+        "name": "Tajikistan",
+        "code": "+992",
+        "iso": "TJ",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/tj.svg",
+        "mask": "##-###-####"
+    },
+    {
+        "name": "Thailand",
+        "code": "+66",
+        "iso": "TH",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/th.svg",
+        "mask": ["##-###-###", "##-###-####"]
+    },
+    {
+        "name": "Turkey",
+        "code": "+90",
+        "iso": "TR",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/tr.svg",
+        "mask": "(###)###-####"
+    },
+    {
+        "name": "Turkmenistan",
+        "code": "+993",
+        "iso": "TM",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/tm.svg",
+        "mask": "#-###-####"
+    },
+    {
+        "name": "Ukraine",
+        "code": "+380",
+        "iso": "UA",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/ua.svg",
+        "mask": "(##)###-##-##"
+    },
+    {
+        "name": "United Kingdom",
+        "code": "+44",
+        "iso": "GB",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/gb.svg",
+        "mask": "##-####-####"
+    },
+    {
+        "name": "United States",
+        "code": "+1",
+        "iso": "US",
+        "flag": "https://cdn.kcak11.com/CountryFlags/countries/us.svg",
+        "mask": "(###)###-####"
+    }
+]

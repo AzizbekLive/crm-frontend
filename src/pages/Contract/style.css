@@ -1,0 +1,330 @@
+/* :root {
+    --line-border-fill: #3498db;
+    --line-border-empty: #e0e0e0;
+    --progress-zIndex: -1;
+}
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    max-width: 100%;
+    position: relative;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-container::before {
+    background-color: var(--line-border-empty);
+    content: '';
+    height: 4px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    z-index: var(--progress-zIndex);
+}
+
+.progress {
+    background-color: var(--line-border-fill);
+    height: 4px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.4s ease;
+    width: 10%;
+    z-index: 1;
+}
+
+.circle {
+    align-items: center;
+    background-color: #fff;
+    border: 3px solid #e0e0e0;
+    border-radius: 50%;
+    color: #999;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    transition: 0.4 ease;
+    width: 30px;
+    z-index: 3;
+}
+
+.circle.active {
+    border-color: var(--line-border-fill);
+} */
+
+/* NEXT CODE */
+
+/* .serviceStepsListBox {
+    margin: 40px 0 10px;
+    position: relative;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+.serviceStepsListBox:before {
+    content: '';
+    color: #f6f8fb;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #388fff;
+    border-radius: 50%;
+    top: 50px;
+    left: 17px;
+    z-index: 3;
+}
+.serviceStepsList {
+    display: table;
+    table-layout: fixed;
+    white-space: nowrap;
+    padding: 0;
+    width: 100%;
+    position: relative;
+    margin-bottom: 0;
+}
+.serviceStepsList li {
+    list-style: none;
+    display: table-cell;
+    color: #868686;
+    position: relative;
+    cursor: help;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+.serviceStepsList li.active::before {
+    content: '';
+    background-image: url('https://oldmy.gov.uz/css/stepArrow.svg');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-position: 4px;
+    font: normal normal normal 14px / 1 FontAwesome;
+    color: #f6f8fb;
+    text-align: center;
+    font-size: 12px;
+    padding: 6px 0;
+    width: 26px;
+    height: 26px;
+    top: 25px;
+}
+.serviceStepsList li::before {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #388fff;
+    border-radius: 50%;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+.serviceStepsList li:first-child::after {
+    left: 10px;
+}
+.serviceStepsList li::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 7px;
+    background-image: repeating-linear-gradient(-45deg, #388fff, #388fff 6px, #559dfa 5px, #559dfa 10px);
+    background-size: 28px 28px;
+    animation: move 1.5s linear infinite;
+    top: 34px;
+    right: 50%;
+}
+.serviceStepsList li.active .serviceStepId {
+    color: #388fff;
+}
+.serviceStepsList li .serviceStepId {
+    display: block;
+    width: 100%;
+    margin-bottom: 40px;
+    margin-top: -5px;
+    font-size: 18px;
+}
+.serviceStepsList li span {
+    transition: 0.2s;
+}
+.serviceStepsList li.active .serviceStepDescription {
+    color: #388fff;
+    font-size: 17px;
+}
+.serviceStepsList li .serviceStepDescription {
+    overflow: hidden;
+    white-space: normal;
+    color: #949596;
+    text-align: center;
+    font-family: 'm_r', serif;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 0;
+    display: block;
+}
+.serviceStepsList li.active ~ li:before, .serviceStepsList li.active ~ li:after {
+    background: #ebebeb;
+} */
+
+.serviceStepsListBox {
+    margin: 40px 0 10px;
+    position: relative;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.serviceStepsListBox:before {
+    content: '';
+    color: #f6f8fb;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #388fff;
+    border-radius: 50%;
+    top: 50px;
+    left: 17px;
+    z-index: 3;
+}
+
+.serviceStepsListBox:after {
+    content: '\f00c';
+    /* font: normal normal normal 14px/1 FontAwesome; */
+    color: #c5c5c5;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #ebebeb;
+    border-radius: 50%;
+    top: 45px;
+    right: 20px;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.serviceStepsList {
+    display: table;
+    table-layout: fixed;
+    white-space: nowrap;
+    padding: 0;
+    width: 100%;
+    position: relative;
+    margin-bottom: 0;
+}
+
+.serviceStepsList li {
+    list-style: none;
+    display: table-cell;
+    color: #868686;
+    position: relative;
+    cursor: help;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+.serviceStepsList li.active .serviceStepDescription {
+    color: #388fff;
+    font-size: 17px;
+}
+.serviceStepsList li span {
+    transition: 0.2s;
+}
+.serviceStepsList li.active:before {
+    content: '';
+    background-image: url('https://oldmy.gov.uz/css/stepArrow.svg');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-position: 4px;
+    color: #f6f8fb;
+    text-align: center;
+    font-size: 12px;
+    padding: 6px 0;
+    width: 26px;
+    height: 26px;
+    top: 25px;
+}
+
+.serviceStepsList li:before {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #388fff;
+    border-radius: 50%;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+
+.serviceStepsList li:first-child:after {
+    left: 10px;
+}
+
+.serviceStepsList li:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 7px;
+    /*background: #388fff;*/
+    background-image: repeating-linear-gradient(-45deg, #388fff, #388fff 6px, #559dfa 5px, #559dfa 10px);
+    background-size: 28px 28px;
+    animation: move 1.5s linear infinite;
+    top: 34px;
+    right: 50%;
+}
+
+.serviceStepsList li .serviceStepId {
+    display: block;
+    width: 100%;
+    margin-bottom: 40px;
+    margin-top: -5px;
+    font-size: 18px;
+}
+
+.serviceStepsList li .serviceStepDescription {
+    overflow: hidden;
+    white-space: normal;
+    color: #949596;
+    text-align: center;
+    font-family: 'm_r', serif;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 0;
+    display: block;
+}
+
+.serviceStepsList li.active .serviceStepId {
+    color: #388fff;
+}
+.serviceStepsList li.active ~ li:before,
+.serviceStepsList li.active ~ li:after {
+    background: #ebebeb;
+}
+
+.serviceStepsList li span {
+    display: block;
+}
+
+.serviceStepsList li:last-child span:before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 7px;
+    background: #ebebeb;
+    top: 34px;
+    right: 0;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 28px 0;
+    }
+}

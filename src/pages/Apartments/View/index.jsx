@@ -106,7 +106,7 @@ const ApartmentDetails = () => {
                                 <div className="d-flex align-items-center w-100 justify-content-between">
                                     <h3 className="flex-flow-1 mb-0">
                                         {apartment.rooms} {t('Rooms')}, {t(apartment.typeOfHousing)}, {apartment.totalArea} {t('M')}²,{' '}
-                                        {apartment.block}/{apartment.floor} {t('Floor')}
+                                        {apartment.block}/{apartment.floor}
                                     </h3>
                                     <Button color="success" onClick={() => navigate(`/contract/${id}`)}>
                                         {t('Contract')}
@@ -116,74 +116,62 @@ const ApartmentDetails = () => {
                             <CardBody>
                                 <Row>
                                     <Col sm={4}>
-                                        <div className="border p-3 rounded-3">
+                                        <div className="border p-3 rounded-3 h-100">
                                             <h5 className="mb-4 mt-2">{t('Description Of Apartment')}</h5>
-                                            <div className="d-flex flex-column gap-5">
+                                            <div className="d-flex flex-column gap-4">
                                                 <div className="d-flex gap-3 align-items-center">
-                                                    <div
-                                                        style={{ width: '60px', height: '60px' }}
-                                                        className="rounded-circle bg-soft-danger d-flex align-items-center justify-content-center">
+                                                    <div className="circle-icon bg-soft-danger">
                                                         <TypeOfApartmentIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted fs-18">{t('Type Of Housing')}</span>
+                                                        <span className="text-muted">{t('Type Of Housing')}</span>
                                                         <h4 className="mb-0">{apartment.typeOfHousing}</h4>
                                                     </div>
                                                 </div>
                                                 <div className="d-flex gap-3 align-items-center">
-                                                    <div
-                                                        style={{ width: '60px', height: '60px' }}
-                                                        className="rounded-circle bg-soft-danger d-flex align-items-center justify-content-center">
+                                                    <div className="circle-icon bg-soft-danger">
                                                         <RoomsIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted fs-18">{t('Rooms')}</span>
+                                                        <span className="text-muted">{t('Rooms')}</span>
                                                         <h4 className="mb-0">{apartment.rooms}</h4>
                                                     </div>
                                                 </div>
                                                 <div className="d-flex gap-3 align-items-center">
-                                                    <div
-                                                        style={{ width: '60px', height: '60px' }}
-                                                        className="rounded-circle bg-soft-danger d-flex align-items-center justify-content-center">
+                                                    <div className="circle-icon bg-soft-danger">
                                                         <TotalAreaIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted fs-18">{t('Total Area')}</span>
+                                                        <span className="text-muted">{t('Total Area')}</span>
                                                         <h4 className="mb-0">
                                                             {apartment.totalArea} {t('M')}²
                                                         </h4>
                                                     </div>
                                                 </div>
                                                 <div className="d-flex gap-3 align-items-center">
-                                                    <div
-                                                        style={{ width: '60px', height: '60px' }}
-                                                        className="rounded-circle bg-soft-danger d-flex align-items-center justify-content-center">
+                                                    <div className="avatar-sm circle-icon bg-soft-danger">
                                                         <FloorIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted fs-18">{t('Floor')}</span>
+                                                        <span className="text-muted">{t('Floor')}</span>
                                                         <h4 className="mb-0">{apartment.floor}</h4>
                                                     </div>
                                                 </div>
                                                 <div className="d-flex gap-3 align-items-center">
-                                                    <div
-                                                        style={{ width: '60px', height: '60px' }}
-                                                        className="rounded-circle bg-soft-danger d-flex align-items-center justify-content-center">
+                                                    <div className="circle-icon bg-soft-danger">
                                                         <BlockIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted fs-18">{t('Block')}</span>
+                                                        <span className="text-muted">{t('Block')}</span>
                                                         <h4 className="mb-0">{apartment.block}</h4>
                                                     </div>
                                                 </div>
                                                 <div className="d-flex gap-3 align-items-center">
-                                                    <div
-                                                        style={{ width: '60px', height: '60px' }}
-                                                        className="rounded-circle bg-soft-danger d-flex align-items-center justify-content-center">
+                                                    <div className="circle-icon bg-soft-danger">
                                                         <TotalPriceIcon />
                                                     </div>
                                                     <div>
-                                                        <span className="text-muted fs-18">{t('Total Price')}</span>
+                                                        <span className="text-muted">{t('Total Price')}</span>
                                                         <h4 className="mb-0">{formatUZS(apartment.totalPrice)}</h4>
                                                     </div>
                                                 </div>

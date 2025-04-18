@@ -6,7 +6,8 @@ import Russian from 'flatpickr/dist/l10n/ru.js';
 // import 'flatpickr/dist/themes/dark.css';
 // import 'flatpickr/dist/themes/light.css';
 import { useLayoutStore } from '../../stores/layouts';
-const FormDatePicker = () => {
+import { Label } from 'reactstrap';
+const FormDatePicker = ({ ...props }) => {
     const { i18n } = useTranslation();
     const layoutModeType = useLayoutStore((s) => s.layoutModeType);
 
@@ -39,13 +40,18 @@ const FormDatePicker = () => {
 
         return {
             locale: locales[i18n.language] || 'en', // fallback to uz
-            enableTime: true,
-            dateFormat: 'Y-m-d H:i',
+            enableTime: props?.enableTime,
+            dateFormat: props?.enableTime ? 'Y-m-d H:i' : 'Y-m-d',
             defaultDate: new Date(),
         };
     }, [i18n.language]);
 
-    return <Flatpickr className="form-control" name="date" options={options} />;
+    return (
+        <>
+            {props?.label && <Label>{props.label}</Label>}
+            <Flatpickr className="form-control" name={props.name} {...props} options={options} />
+        </>
+    );
 };
 
 export default FormDatePicker;
