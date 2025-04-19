@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Progress, Row } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -13,10 +13,30 @@ import Step3 from './Step-3';
 
 import './style.css';
 
+const steps = [
+    {
+        value: 1,
+        position: 0,
+        component: Step1,
+    },
+    {
+        value: 2,
+        position: 50,
+        component: Step2,
+    },
+    {
+        value: 3,
+        position: 100,
+        component: Step3,
+    },
+];
+
 const index = () => {
     const { apartmentId } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
+
+    const [activeStep, setActiveStep] = useState(1);
 
     const [apartment, setApartment] = useState({
         rooms: 0,
@@ -70,13 +90,16 @@ const index = () => {
                                     <Col></Col>
                                     <Col xl={6} sm={4}>
                                         <div className="mx-auto">
+                                            {/* 1 */}
                                             {/* <div className="progress-container">
                                                 <div className="progress" id="progress" style={{ width: '50%' }}></div>
                                                 <div className="circle active">1</div>
                                                 <div className="circle active">2</div>
                                                 <div className="circle">3</div>
                                             </div> */}
-                                            <div className="serviceStepsListBox">
+
+                                            {/* 2 */}
+                                            {/* <div className="serviceStepsListBox">
                                                 <ul id="serviceSteps" className="serviceStepsList">
                                                     <li className="active">
                                                         <span className="serviceStepId">Step 1</span>{' '}
@@ -91,10 +114,31 @@ const index = () => {
                                                         <span className="serviceStepDescription">3 Lorem, ipsum.</span>
                                                     </li>
                                                 </ul>
+                                            </div> */}
+
+                                            {/* 3 */}
+
+                                            <div className="position-relative m-4 mb-5 pb-3">
+                                                <Progress value={(activeStep - 1) * 50} style={{ height: '1px' }} color="danger" />
+                                                {steps.map((step, index) => (
+                                                    <Button
+                                                        size="sm"
+                                                        color={activeStep >= step.value ? 'danger' : 'light'}
+                                                        onClick={() => setActiveStep(step.value)}
+                                                        className={`position-absolute top-0 start-${step.position} translate-middle rounded-pill avatar-xs `}
+                                                        // style={{ width: '2rem', height: '2rem' }}
+                                                    >
+                                                        {step.value}
+                                                    </Button>
+                                                ))}
                                             </div>
-                                            <Step1 />
-                                            {/* <Step2 apartment={apartment} /> */}
-                                            {/* <Step3 /> */}
+                                            {(() => {
+                                                const currentStep = steps.find((step) => step.value === activeStep);
+                                                return <currentStep.component apartment={apartment} />;
+                                            })()}
+                                            {/* <Step1 />
+                                            <Step2 apartment={apartment} />
+                                            <Step3 /> */}
                                         </div>
                                     </Col>
                                     <Col></Col>

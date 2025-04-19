@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, CardTitle, Col, Input, Label, Nav, NavItem, NavLink, Row, Table, Spinner } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Input, Row, Table, Spinner } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import TooltipElement from '../../Components/Common/Tooltip';
-import SearchOptions from '../Leads/kanban/search-options';
 import EmptyData from '../../Components/Common/EmptyData';
 import FormCheckbox from '../../Components/Form/FormCheckbox';
 import { getService } from '../../service';
@@ -21,8 +20,8 @@ const AllClients = () => {
     const [clients, setClients] = useState([]);
 
     const [filter, setFilter] = useState({ ...initialFilter });
-    const onFilterChange = ({ target }) => {
-        const { name, value } = target;
+    const onFilterChange = (evt) => {
+        const { name, value } = evt.target;
 
         if (name === 'search') {
             setFilter((prev) => ({ ...prev, search: value }));
@@ -30,6 +29,7 @@ const AllClients = () => {
             setFilter((prev) => {
                 const exists = prev.status.includes(value);
                 const updatedStatus = exists ? prev.status.filter((item) => item !== value) : [...prev.status, value];
+
                 return {
                     ...prev,
                     status: updatedStatus,
@@ -66,27 +66,36 @@ const AllClients = () => {
     return (
         <Row>
             <Col sm={12}>
-                {/* {loading ? (
-                    <div className="py-5 text-center">
-                        <Spinner />
-                    </div>
-                ) : clients.length > 0 ? (
-                    
-                ) : (
-                    <EmptyData />
-                )} */}
                 <Card>
                     <CardHeader className="border-bottom-0">
                         <div className="d-flex align-items-center justify-content-between">
                             <div className="col-lg-3 col-auto">
-                                <SearchOptions initialValue={filter.search} onInitialChange={onFilterChange} />
+                                <Input value={filter.search} name="search" onChange={onFilterChange} placeholder="Search" />
                             </div>
                             <div className="d-flex gap-3 align-items-center">
-                                <FormCheckbox value="debtors" label="Debtors" name="status" onChange={onFilterChange} />
-                                <FormCheckbox value="fixed_payment" label="Fixed payment" name="status" onChange={onFilterChange} />
-                                <FormCheckbox value="mortgage" label="Mortgage" name="status" onChange={onFilterChange} />
+                                <FormCheckbox
+                                    value="debtors"
+                                    label="Debtors"
+                                    name="status"
+                                    onChange={onFilterChange}
+                                    checked={filter.status.includes('debtors')}
+                                />
+                                <FormCheckbox
+                                    value="fixed_payment"
+                                    label="Fixed payment"
+                                    name="status"
+                                    onChange={onFilterChange}
+                                    checked={filter.status.includes('fixed_payment')}
+                                />
+                                <FormCheckbox
+                                    value="mortgage"
+                                    label="Mortgage"
+                                    name="status"
+                                    onChange={onFilterChange}
+                                    checked={filter.status.includes('mortgage')}
+                                />
                                 {!isEmptyFilter() && (
-                                    <Button type="button" color="primary" outline>
+                                    <Button type="button" color="primary" outline onClick={() => setFilter(initialFilter)}>
                                         <i className="bx bx-refresh me-1 align-middle fs-5" />
                                         {t('Clear')}
                                     </Button>

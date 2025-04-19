@@ -15,22 +15,26 @@ import TooltipElement from '../../Components/Common/Tooltip';
 
 const _terraceOptions = [
     {
-        id: 1,
-        name: 'Terrace 1',
+        id: false,
+        name: 'Not Exist',
     },
     {
-        id: 2,
-        name: 'Terrace 2',
+        id: true,
+        name: 'Exist',
     },
 ];
 const _roomOptions = [
     {
         id: 1,
-        name: 'Room 1',
+        name: '1x Room',
     },
     {
         id: 2,
-        name: 'Room 2',
+        name: '2x Rooms',
+    },
+    {
+        id: 3,
+        name: '3x Rooms',
     },
 ];
 const _floorOptions = [
@@ -42,6 +46,18 @@ const _floorOptions = [
         id: 2,
         name: 'Floor 2',
     },
+    {
+        id: 3,
+        name: 'Floor 3',
+    },
+    {
+        id: 4,
+        name: 'Floor 4',
+    },
+    {
+        id: 5,
+        name: 'Floor 5',
+    },
 ];
 const _blockOptions = [
     {
@@ -52,7 +68,32 @@ const _blockOptions = [
         id: 2,
         name: 'Block 2',
     },
+    {
+        id: 3,
+        name: 'Block 3',
+    },
+    {
+        id: 4,
+        name: 'Block 4',
+    },
+    {
+        id: 5,
+        name: 'Block 5',
+    },
+    {
+        id: 6,
+        name: 'Block 6',
+    },
 ];
+
+const initialFilters = {
+    rooms: '',
+    floor: '',
+    block: '',
+    terrace: '',
+    page: 1,
+    pageSize: 10,
+};
 
 const Apartments = () => {
     const navigate = useNavigate();
@@ -68,14 +109,7 @@ const Apartments = () => {
     const [floorOptions, setFloorOptions] = useState(_floorOptions);
     const [blockOptions, setBlockOptions] = useState(_blockOptions);
 
-    const [filter, setFilter] = useState({
-        rooms: '',
-        floor: '',
-        block: '',
-        terrace: '',
-        page: 1,
-        pageSize: 10,
-    });
+    const [filter, setFilter] = useState({ ...initialFilters });
     const [pagination, setPagination] = useState({
         total: 0,
         page: 1,
@@ -166,7 +200,7 @@ const Apartments = () => {
                                 <FormSelect options={blockOptions} label={t('Block')} name="block" onChange={onChangeFilter} value={filter.block} />
                             </Col>
                             <Col lg={2} md={4} sm={6} className="ms-auto align-self-end d-flex justify-content-end">
-                                <Button type="button" color="info" outline className="ms-auto">
+                                <Button type="button" color="info" outline className="ms-auto" onClick={() => setFilter(initialFilters)}>
                                     <i className="bx bx-refresh me-1 align-middle fs-5" />
                                     {t('Clear')}
                                 </Button>
