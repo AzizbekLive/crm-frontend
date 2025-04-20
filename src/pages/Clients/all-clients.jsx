@@ -100,10 +100,10 @@ const AllClients = () => {
                                         {t('Clear')}
                                     </Button>
                                 )}
-                                <Button type="button" color="success">
+                                {/* <Button type="button" color="success">
                                     <i className="ri-add-line me-1 align-bottom" />
                                     Create New User
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                     </CardHeader>
@@ -169,7 +169,13 @@ const AllClients = () => {
                                             </tr>
                                         ))
                                     ) : (
-                                        <EmptyData />
+                                        <tr>
+                                            <td colSpan={7}>
+                                                <div className="py-5 text-center">
+                                                    <EmptyData />
+                                                </div>
+                                            </td>
+                                        </tr>
                                     )}
                                 </tbody>
                             </Table>
