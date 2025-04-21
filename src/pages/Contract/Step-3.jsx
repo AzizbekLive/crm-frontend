@@ -8,7 +8,7 @@ const Step3 = () => {
         <Row className="gy-3">
             <Col sm={12}>
                 <h5>{t('The Contract Ready')}.</h5>
-                <Card className="mt-3 border">
+                <Card className="mt-3 border shadow-none">
                     <CardBody>
                         <div className="d-flex gap-3 align-items-center">
                             <div className="circle-icon-sm bg-soft-danger">
@@ -24,7 +24,7 @@ const Step3 = () => {
             </Col>
             <Col sm={12}>
                 <div className="d-flex justify-content-end gap-2">
-                    <Button color="primary">
+                    <Button color="primary" onClick={() => window.print()}>
                         <i className="ri-printer-line align-bottom me-1"></i> {t('Print Contract')}
                     </Button>
                     <Button type="submit" color="success">

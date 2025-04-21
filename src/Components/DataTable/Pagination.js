@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 const Paginations = (props) => {
     const { t } = useTranslation();
 
-    const [itemsPerPage, setItemsPerPage] = useState(props.itemsPerPage);
+    const [itemsPerPage, setItemsPerPage] = useState();
     const [currentPage, setCurrentPage] = useState(1);
 
     // const totalItems = 50;
@@ -58,6 +58,10 @@ const Paginations = (props) => {
         if (!props?.page) return;
         setCurrentPage(props?.page);
     }, [props?.page]);
+
+    useEffect(() => {
+        setItemsPerPage(props?.itemsPerPage);
+    }, [props?.itemsPerPage]);
     const renderPagination = () => {
         const pageNumbers = [];
 
@@ -144,7 +148,7 @@ const Paginations = (props) => {
                         <select
                             className="form-control p-0 text-center"
                             style={{ width: '42.8px', height: '35px' }}
-                            defaultValue={String(itemsPerPage)}
+                            value={`${itemsPerPage}`}
                             onChange={handlePerPageChange}>
                             {props.rangeOptions ? (
                                 props.rangeOptions.map((item, index) => (

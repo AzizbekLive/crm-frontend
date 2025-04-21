@@ -70,7 +70,9 @@ const Step1 = () => {
                 <Col sm={12}>
                     <div className="d-flex justify-content-end gap-2">
                         <Button color="light">{t('Cancel')}</Button>
-                        <Button type='submit' color="success">{t('Continue')}</Button>
+                        <Button type="submit" color="success">
+                            {t('Continue')}
+                        </Button>
                     </div>
                 </Col>
             </Row>

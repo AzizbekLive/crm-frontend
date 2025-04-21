@@ -1,11 +1,11 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import Dashboard from '../pages/Dashboard';
 import Apartments from '../pages/Apartments';
 import ApartmentDetails from '../pages/Apartments/View';
 import Leads from '../pages/Leads';
 import Clients from '../pages/Clients';
-import ClientDetail from '../pages/ClientDetail';
-import Dashboard from '../pages/Dashboard';
+import ClientDetail from '../pages/Clients/View';
 import Contract from '../pages/Contract';
 import Login from '../pages/Authentication/Login';
 import Settings from '../pages/Settings';

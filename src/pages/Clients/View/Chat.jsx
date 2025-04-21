@@ -1,7 +1,6 @@
-import { Link } from 'feather-icons-react/build/IconComponents';
 import React from 'react';
 import { Button, Card, CardBody, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Input, Row, UncontrolledDropdown } from 'reactstrap';
-import avatar from '../../assets/images/users/avatar-1.jpg';
+import avatar from '../../../assets/images/users/avatar-1.jpg';
 import { messages } from './data';
 import SimpleBar from 'simplebar-react';
 

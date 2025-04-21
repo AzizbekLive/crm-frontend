@@ -1,7 +1,9 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import { FormFeedback, Label } from 'reactstrap';
+import { useTranslation } from 'react-i18next';
 
 const FormSelect = forwardRef(({ validation, options, optionLabel = 'name', optionValue = 'id', ...props }, ref) => {
+    const { t } = useTranslation();
     const [optionList, setOptionList] = useState([]);
 
     useEffect(() => {
@@ -18,11 +20,13 @@ const FormSelect = forwardRef(({ validation, options, optionLabel = 'name', opti
                 onChange={validation && validation.handleChange}
                 onBlur={validation && validation.handleBlur}
                 value={(validation && validation.values[props.name]) || ''}>
-                <option value="" key={-999}></option>
+                <option value="" key={-999}>
+                    {t('All')}
+                </option>
                 {optionList?.length > 0 &&
                     optionList.map((option) => (
                         <option key={option.id} value={option[optionValue]}>
-                            {option[optionLabel]}
+                            {t(option[optionLabel])}
                         </option>
                     ))}
             </select>
@@ -40,11 +44,13 @@ const FormSelect = forwardRef(({ validation, options, optionLabel = 'name', opti
                     const { name, value } = target;
                     return props.onChange(name, value);
                 }}>
-                <option value="" key={-999}></option>
+                <option value="" key={-999}>
+                    {t('All')}
+                </option>
                 {optionList?.length > 0 &&
                     optionList.map((option) => (
                         <option key={option.id} value={option[optionValue]}>
-                            {option[optionLabel]}
+                            {t(option[optionLabel])}
                         </option>
                     ))}
             </select>

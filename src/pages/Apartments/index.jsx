@@ -15,12 +15,12 @@ import TooltipElement from '../../Components/Common/Tooltip';
 
 const _terraceOptions = [
     {
-        id: false,
-        name: 'Not Exist',
-    },
-    {
         id: true,
         name: 'Exist',
+    },
+    {
+        id: false,
+        name: 'Not Exist',
     },
 ];
 const _roomOptions = [
@@ -179,7 +179,7 @@ const Apartments = () => {
                             </div>
                         </div>
                     </CardHeader>
-                    <CardHeader className="border-0 bg-light">
+                    <CardHeader className="border-0">
                         <Row>
                             <Col lg={2} md={4} sm={6}>
                                 <FormSelect
@@ -207,73 +207,71 @@ const Apartments = () => {
                             </Col>
                         </Row>
                     </CardHeader>
-                    <CardBody>
-                        <Table className="align-middle" hover>
-                            <thead className="table-light">
+                    <Table className="align-middle" hover>
+                        <thead className="table-light">
+                            <tr>
+                                <th>{t('Rooms')}</th>
+                                <th>{t('Total Area')}</th>
+                                <th>{t('Floor')}</th>
+                                <th>{t('Block')}</th>
+                                <th>
+                                    {t('Price For Per')} m<sup>2</sup>
+                                </th>
+                                <th>{t('Total Price')}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
                                 <tr>
-                                    <th>{t('Rooms')}</th>
-                                    <th>{t('Total Area')}</th>
-                                    <th>{t('Floor')}</th>
-                                    <th>{t('Block')}</th>
-                                    <th>
-                                        {t('Price For Per')} m<sup>2</sup>
+                                    <th colSpan={7}>
+                                        <Loader />
                                     </th>
-                                    <th>{t('Total Price')}</th>
-                                    <th></th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? (
-                                    <tr>
-                                        <th colSpan={7}>
-                                            <Loader />
-                                        </th>
-                                    </tr>
-                                ) : apartments.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={7}>
-                                            <EmptyData title={t('No Data')} text=" " />
+                            ) : apartments.length === 0 ? (
+                                <tr>
+                                    <td colSpan={7}>
+                                        <EmptyData title={t('No Data')} text=" " />
+                                    </td>
+                                </tr>
+                            ) : (
+                                apartments.map((apartment) => (
+                                    <tr key={apartment.id}>
+                                        <td>
+                                            {apartment.rooms} {t('Rooms')}
+                                        </td>
+                                        <td>
+                                            {apartment.totalArea} {t('M')}
+                                            <sup>2</sup>
+                                        </td>
+                                        <td>
+                                            {apartment.floor}
+                                            {t('Th floor')}{' '}
+                                        </td>
+                                        <td>{apartment.block}</td>
+                                        <td>{formatUZS(apartment.totalPricePerMeter)}</td>
+                                        <td>{formatUZS(apartment.totalPrice)}</td>
+                                        <td>
+                                            <TooltipElement tooltipText={t('View')}>
+                                                <Button
+                                                    className="btn-soft-secondary btn-icon"
+                                                    onClick={() => navigate(`/apartments/${apartment.id}`)}>
+                                                    <i className="mdi mdi-eye" style={{ transform: 'scale(1.3)' }}></i>
+                                                </Button>
+                                            </TooltipElement>
                                         </td>
                                     </tr>
-                                ) : (
-                                    apartments.map((apartment) => (
-                                        <tr key={apartment.id}>
-                                            <td>
-                                                {apartment.rooms} {t('Rooms')}
-                                            </td>
-                                            <td>
-                                                {apartment.totalArea} {t('M')}
-                                                <sup>2</sup>
-                                            </td>
-                                            <td>
-                                                {apartment.floor}
-                                                {t('Th floor')}{' '}
-                                            </td>
-                                            <td>{apartment.block}</td>
-                                            <td>{formatUZS(apartment.totalPricePerMeter)}</td>
-                                            <td>{formatUZS(apartment.totalPrice)}</td>
-                                            <td>
-                                                <TooltipElement tooltipText={t('View')}>
-                                                    <Button
-                                                        className="btn-soft-secondary btn-icon"
-                                                        onClick={() => navigate(`/apartments/${apartment.id}`)}>
-                                                        <i className="mdi mdi-eye" style={{ transform: 'scale(1.3)' }}></i>
-                                                    </Button>
-                                                </TooltipElement>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </Table>
-                        <Paginations
-                            page={pagination.page}
-                            totalItems={pagination.total}
-                            itemsPerPage={pagination.pageSize}
-                            perPageChange={(val) => onChangeFilter('pageSize', val)}
-                            currentPage={(val) => onChangeFilter('page', val)}
-                        />
-                    </CardBody>
+                                ))
+                            )}
+                        </tbody>
+                    </Table>
+                    <Paginations
+                        page={pagination.page}
+                        totalItems={pagination.total}
+                        itemsPerPage={filter.pageSize}
+                        perPageChange={(val) => onChangeFilter('pageSize', val)}
+                        currentPage={(val) => onChangeFilter('page', val)}
+                    />
                 </Card>
             </Col>
         </Row>

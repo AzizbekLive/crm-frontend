@@ -81,5 +81,9 @@
     "Discount": "Discount",
     "The Contract Ready": "The contract is ready",
     "Download PDF": "Download PDF",
-    "Print Contract": "Print contract"
+    "Print Contract": "Print contract",
+
+    "Exist": "Exist",
+    "Not Exist": "Not exist",
+    "All": "All"
 }

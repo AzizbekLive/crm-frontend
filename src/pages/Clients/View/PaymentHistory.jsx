@@ -62,7 +62,7 @@ const PaymentHistory = () => {
                                                         suffix={item.suffix}
                                                         separator={item.separator}
                                                         end={item.counter}
-                                                        duration={4}
+                                                        duration={2}
                                                     />
                                                 </span>
                                             ))}
@@ -83,7 +83,7 @@ const PaymentHistory = () => {
             <Row>
                 <Col sm={12}>
                     <Table className="align-middle" hover>
-                        <thead className='table-light'>
+                        <thead className="table-light">
                             <tr>
                                 <th style={{ width: '42px' }}>№</th>
                                 <th>Payment due payment</th>

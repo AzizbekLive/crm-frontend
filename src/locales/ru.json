@@ -80,5 +80,9 @@
     "Discount": "Скидка",
     "The Contract Ready": "Контракт готов",
     "Download PDF": "Скачать PDF",
-    "Print Contract": "Печатать контракт"
+    "Print Contract": "Печатать контракт",
+
+    "Exist": "Существует",
+    "Not Exist": "Не существует",
+    "All": "Все"
 }
