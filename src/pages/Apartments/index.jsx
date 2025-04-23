@@ -86,7 +86,23 @@ const _blockOptions = [
     },
 ];
 
+const _totalAreaOptions = [
+    {
+        id: 80,
+        name: 80,
+    },
+    {
+        id: 90,
+        name: 90,
+    },
+    {
+        id: 100,
+        name: 100,
+    },
+];
+
 const initialFilters = {
+    area: '',
     rooms: '',
     floor: '',
     block: '',
@@ -108,6 +124,7 @@ const Apartments = () => {
     const [roomOptions, setRoomOptions] = useState(_roomOptions);
     const [floorOptions, setFloorOptions] = useState(_floorOptions);
     const [blockOptions, setBlockOptions] = useState(_blockOptions);
+    const [totalAreaOptions, setTotalAreaOptions] = useState(_totalAreaOptions);
 
     const [filter, setFilter] = useState({ ...initialFilters });
     const [pagination, setPagination] = useState({
@@ -181,21 +198,45 @@ const Apartments = () => {
                     </CardHeader>
                     <CardHeader className="border-0">
                         <Row>
-                            <Col lg={2} md={4} sm={6}>
-                                <FormSelect
-                                    options={terraceOptions}
-                                    label={t('Terrace')}
-                                    name="terrace"
-                                    onChange={onChangeFilter}
-                                    value={filter.terrace}
-                                />
-                            </Col>
-                            <Col lg={2} md={4} sm={6}>
-                                <FormSelect options={roomOptions} label={t('Room')} name="rooms" onChange={onChangeFilter} value={filter.rooms} />
-                            </Col>
-                            <Col lg={2} md={4} sm={6}>
-                                <FormSelect options={floorOptions} label={t('Floor')} name="floor" onChange={onChangeFilter} value={filter.floor} />
-                            </Col>
+                            {activeTab == '#parking' && (
+                                <Col lg={2} md={4} sm={6}>
+                                    <FormSelect
+                                        options={totalAreaOptions}
+                                        label={t('Total Area')}
+                                        name="area"
+                                        onChange={onChangeFilter}
+                                        value={filter.area}
+                                    />
+                                </Col>
+                            )}
+                            {activeTab == '#apartments' && (
+                                <Col lg={2} md={4} sm={6}>
+                                    <FormSelect
+                                        options={terraceOptions}
+                                        label={t('Terrace')}
+                                        name="terrace"
+                                        onChange={onChangeFilter}
+                                        value={filter.terrace}
+                                    />
+                                </Col>
+                            )}
+                            {activeTab == '#apartments' && (
+                                <Col lg={2} md={4} sm={6}>
+                                    <FormSelect options={roomOptions} label={t('Room')} name="rooms" onChange={onChangeFilter} value={filter.rooms} />
+                                </Col>
+                            )}
+                            {['#apartments', '#stores'].includes(activeTab) && (
+                                <Col lg={2} md={4} sm={6}>
+                                    <FormSelect
+                                        options={floorOptions}
+                                        label={t('Floor')}
+                                        name="floor"
+                                        onChange={onChangeFilter}
+                                        value={filter.floor}
+                                    />
+                                </Col>
+                            )}
+
                             <Col lg={2} md={4} sm={6}>
                                 <FormSelect options={blockOptions} label={t('Block')} name="block" onChange={onChangeFilter} value={filter.block} />
                             </Col>
@@ -210,14 +251,17 @@ const Apartments = () => {
                     <Table className="align-middle" hover>
                         <thead className="table-light">
                             <tr>
-                                <th>{t('Rooms')}</th>
-                                <th>{t('Total Area')}</th>
-                                <th>{t('Floor')}</th>
+                                {activeTab === '#apartments' && <th>{t('Rooms')}</th>}
+                                {['#apartments', '#parking'].includes(activeTab) && <th>{t('Total Area')}</th>}
+                                {['#apartments', '#stores'].includes(activeTab) && <th>{t('Floor')}</th>}
                                 <th>{t('Block')}</th>
-                                <th>
-                                    {t('Price For Per')} m<sup>2</sup>
-                                </th>
-                                <th>{t('Total Price')}</th>
+                                {activeTab === '#apartments' && (
+                                    <th>
+                                        {t('Price For Per')} {t('M')}
+                                        <sup>2</sup>
+                                    </th>
+                                )}
+                                {activeTab === '#apartments' && <th>{t('Total Price')}</th>}
                                 <th></th>
                             </tr>
                         </thead>
@@ -237,21 +281,27 @@ const Apartments = () => {
                             ) : (
                                 apartments.map((apartment) => (
                                     <tr key={apartment.id}>
-                                        <td>
-                                            {apartment.rooms} {t('Rooms')}
-                                        </td>
-                                        <td>
-                                            {apartment.totalArea} {t('M')}
-                                            <sup>2</sup>
-                                        </td>
-                                        <td>
-                                            {apartment.floor}
-                                            {t('Th floor')}{' '}
-                                        </td>
+                                        {activeTab === '#apartments' && (
+                                            <td>
+                                                {apartment.rooms} {t('Rooms')}
+                                            </td>
+                                        )}
+                                        {['#apartments', '#parking'].includes(activeTab) && (
+                                            <td>
+                                                {apartment.totalArea} {t('M')}
+                                                <sup>2</sup>
+                                            </td>
+                                        )}
+                                        {['#apartments', '#stores'].includes(activeTab) && (
+                                            <td>
+                                                {apartment.floor}
+                                                {t('Th floor')}{' '}
+                                            </td>
+                                        )}
                                         <td>{apartment.block}</td>
-                                        <td>{formatUZS(apartment.totalPricePerMeter)}</td>
-                                        <td>{formatUZS(apartment.totalPrice)}</td>
-                                        <td>
+                                        {activeTab === '#apartments' && <td>{formatUZS(apartment.totalPricePerMeter)}</td>}
+                                        {activeTab === '#apartments' && <td>{formatUZS(apartment.totalPrice)}</td>}
+                                        <td className="d-flex justify-content-end">
                                             <TooltipElement tooltipText={t('View')}>
                                                 <Button
                                                     className="btn-soft-secondary btn-icon"

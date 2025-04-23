@@ -12,6 +12,7 @@ import {
     Input,
     Label,
     Row,
+    Spinner,
     UncontrolledDropdown,
 } from 'reactstrap';
 import { BlockIcon, FloorIcon, RoomsIcon, TotalAreaIcon, TotalPriceIcon, TypeOfApartmentIcon } from '../../assets/icons';
@@ -20,12 +21,12 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import FormInput from '../../Components/Form/FormInput';
-import FormMoneyInput from '../../Components/Form/FormMoneyInput';
+// import FormMoneyInput from '../../Components/Form/FormMoneyInput';
 import FormDatePicker from '../../Components/Form/FormDatePicker';
 import Cleave from 'cleave.js/react';
-import { formatDate } from '@fullcalendar/core';
+// import { formatDate } from '@fullcalendar/core';
 
-const Step2 = ({ apartment }) => {
+const Step2 = ({ form, apartment, handleGetFormData }) => {
     const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false);
@@ -35,31 +36,23 @@ const Step2 = ({ apartment }) => {
         enableReinitialize: true,
 
         initialValues: {
-            initialPayment: '',
-            months: '',
-            discount: '',
-            startDate: formatDate(new Date(), {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                // timeZone: 'Asia/Tashkent',
-                locale: 'uz',
-                hour12: false,
-            }),
+            initialPayment: form.initialPayment,
+            monthsDuration: form.monthsDuration,
+            discount: form.discount,
+            paymentStartDate: form.paymentStartDate,
         },
         validationSchema: Yup.object({
             initialPayment: Yup.string().required(t('This field is required')),
-            months: Yup.number(t('This field should be number')).required(t('This field is required')),
+            monthsDuration: Yup.number(t('This field should be number')).required(t('This field is required')),
             discount: Yup.number().max(100, t('Should be less than 100')),
         }),
         onSubmit: async (values) => {
-            console.log('values', values);
+            values.initialPayment = Number(values.initialPayment.replace(/,/g, ''));
             setLoading(true);
-            try {
-            } catch (error) {
-            } finally {
+            handleGetFormData(values, 3);
+            setTimeout(() => {
                 setLoading(false);
-            }
+            }, 300);
         },
     });
 
@@ -151,7 +144,7 @@ const Step2 = ({ apartment }) => {
                     <Row className="gy-3">
                         <Col sm={6}>
                             <Label>{t('Initial Payment')}</Label>
-                            <div className="input-group">
+                            <div className="input-group flex-shrink-0">
                                 <Cleave
                                     options={{
                                         numeral: true,
@@ -165,7 +158,7 @@ const Step2 = ({ apartment }) => {
                                     } `}
                                     onBlur={validation.handleBlur}
                                 />
-                                <span className="input-group-text">UZS</span>
+                                <span className="input-group-text bg-transparent">UZS</span>
                             </div>
                             {validation.touched.initialPayment && validation.errors.initialPayment ? (
                                 <FormFeedback className="d-block" type="invalid">
@@ -174,14 +167,19 @@ const Step2 = ({ apartment }) => {
                             ) : null}
                         </Col>
                         <Col sm={6}>
-                            <FormInput name="months" label={t('How Many Months')} type="number" validation={validation} />
+                            <FormInput name="monthsDuration" label={t('How Many Months')} type="number" validation={validation} />
                         </Col>
                         <Col sm={6}>
                             <Label>{t('Discount')}</Label>
-                            <div className="input-group">
-                                <FormInput name="discount" type="number" validation={validation} />
-                                <span className="input-group-text">%</span>
+                            <div className="input-group flex-shrink-0">
+                                <FormInput name="discount" type="number" validation={validation} noFeedBack />
+                                <span className="input-group-text bg-transparent">%</span>
                             </div>
+                            {validation.touched.discount && validation.errors.discount ? (
+                                <FormFeedback className="d-block" type="invalid">
+                                    {validation.errors.discount}
+                                </FormFeedback>
+                            ) : null}
                             {validation.values.discount && (
                                 <ul>
                                     <li>
@@ -200,12 +198,13 @@ const Step2 = ({ apartment }) => {
                             )}
                         </Col>
                         <Col sm={6}>
-                            <FormDatePicker name="startDate" label={t('Start Date')} validation={validation} enableTime={false} />
+                            <FormDatePicker name="paymentStartDate" label={t('Start Date')} validation={validation} enableTime={false} />
                         </Col>
                         <Col sm={12}>
                             <div className="d-flex justify-content-end gap-2">
                                 <Button color="light">{t('Cancel')}</Button>
-                                <Button type="submit" color="success">
+                                <Button type="submit" color="success" disabled={loading} className="d-flex align-items-center gap-1">
+                                    {loading && <Spinner size={'sm'} />}
                                     {t('Continue')}
                                 </Button>
                             </div>

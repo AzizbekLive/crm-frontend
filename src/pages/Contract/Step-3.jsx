@@ -2,8 +2,9 @@ import React from 'react';
 import { Button, Card, CardBody, Col, Row } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { FileIcon } from '../../assets/icons';
-const Step3 = () => {
+const Step3 = ({ contract }) => {
     const { t } = useTranslation();
+
     return (
         <Row className="gy-3">
             <Col sm={12}>
@@ -19,6 +20,7 @@ const Step3 = () => {
                                 <span className="text-muted">200 KB</span>
                             </div>
                         </div>
+                        {JSON.stringify(contract)}
                     </CardBody>
                 </Card>
             </Col>

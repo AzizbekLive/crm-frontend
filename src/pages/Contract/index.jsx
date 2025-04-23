@@ -3,8 +3,8 @@ import { Button, Card, CardBody, CardHeader, Col, Progress, Row } from 'reactstr
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { getService } from '../../service';
-import { APARTMENTS_ENDPOINT } from '../../helpers/url_helper';
+import { getService, postService } from '../../service';
+import { APARTMENTS_ENDPOINT, CLIENTS_ENDPOINT } from '../../helpers/url_helper';
 import { toast } from 'sonner';
 import Loader from '../../Components/Common/Loader';
 import Step1 from './Step-1';
@@ -12,6 +12,7 @@ import Step2 from './Step-2';
 import Step3 from './Step-3';
 
 import './style.css';
+import { formatDate } from '@fullcalendar/core/index.js';
 
 const steps = [
     {
@@ -35,6 +36,27 @@ const index = () => {
     const { apartmentId } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const [contract, setContract] = useState(null);
+
+    const [form, setForm] = useState({
+        firstName: '',
+        lastName: '',
+        passportSeries: '',
+        phoneNumber1: '',
+        phoneNumber2: '',
+        address: '',
+        currentAddress: '',
+        initialPayment: '',
+        monthsDuration: '',
+        discount: '',
+        paymentStartDate: formatDate(new Date(), {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            locale: 'uz',
+            hour12: false,
+        }),
+    });
 
     const [activeStep, setActiveStep] = useState(1);
 
@@ -64,6 +86,21 @@ const index = () => {
         fetchApartment();
         return () => setApartment(null);
     }, []);
+
+    const handleGetFormData = async (data, nextStep) => {
+        setForm((prev) => ({ ...prev, ...data }));
+        setActiveStep(nextStep);
+        if (nextStep === 3) {
+            try {
+                const res = await postService(CLIENTS_ENDPOINT, { ...form, ...data, apartmentId: Number(apartmentId) });
+                if (res) {
+                    setContract(res);
+                    toast.success(t('Contract Created'));
+                    setActiveStep(3);
+                }
+            } catch (error) {}
+        }
+    };
 
     return (
         <Row>
@@ -120,25 +157,27 @@ const index = () => {
 
                                             <div className="position-relative m-4 mb-5 pb-3">
                                                 <Progress value={(activeStep - 1) * 50} style={{ height: '1px' }} color="danger" />
-                                                {steps.map((step, index) => (
+                                                {steps.map((step) => (
                                                     <Button
                                                         size="sm"
                                                         color={activeStep >= step.value ? 'danger' : 'light'}
                                                         onClick={() => setActiveStep(step.value)}
-                                                        className={`position-absolute top-0 start-${step.position} translate-middle rounded-pill avatar-xs `}
-                                                        // style={{ width: '2rem', height: '2rem' }}
-                                                    >
+                                                        className={`position-absolute top-0 start-${step.position} translate-middle rounded-pill avatar-xs `}>
                                                         {step.value}
                                                     </Button>
                                                 ))}
                                             </div>
                                             {(() => {
                                                 const currentStep = steps.find((step) => step.value === activeStep);
-                                                return <currentStep.component apartment={apartment} />;
+                                                return (
+                                                    <currentStep.component
+                                                        apartment={apartment}
+                                                        form={form}
+                                                        handleGetFormData={handleGetFormData}
+                                                        contract={contract}
+                                                    />
+                                                );
                                             })()}
-                                            {/* <Step1 />
-                                            <Step2 apartment={apartment} />
-                                            <Step3 /> */}
                                         </div>
                                     </Col>
                                     <Col></Col>

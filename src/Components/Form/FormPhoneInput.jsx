@@ -13,6 +13,7 @@ const FormPhoneInput = forwardRef(({ validation, ...props }, ref) => {
                     blocks: [4, 2, 3, 2, 2],
                 }}
                 className={`form-control ${validation && validation.touched[props.name] && validation.errors[props.name] && 'is-invalid'} `}
+                onChange={validation && validation.handleChange}
                 onBlur={validation && validation.handleBlur}
                 {...props}
             />

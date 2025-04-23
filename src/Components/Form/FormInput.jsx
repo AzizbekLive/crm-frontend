@@ -13,7 +13,7 @@ const FormInput = forwardRef(({ validation, ...props }, ref) => {
                 invalid={validation.touched[props.name] && validation.errors[props.name] ? true : false}
                 {...props}
             />
-            {validation.touched[props.name] && validation.errors[props.name] ? (
+            {!props?.noFeedBack && validation.touched[props.name] && validation.errors[props.name] ? (
                 <FormFeedback type="invalid">{validation.errors[props.name]}</FormFeedback>
             ) : null}
         </React.Fragment>

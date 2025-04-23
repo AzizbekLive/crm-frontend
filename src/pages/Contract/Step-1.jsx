@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { Button, Col, Form, Row } from 'reactstrap';
+import { Button, Col, Form, Row, Spinner } from 'reactstrap';
 import FormInput from '../../Components/Form/FormInput';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import FormPhoneInput from '../../Components/Form/FormPhoneInput';
 
-const Step1 = () => {
+const Step1 = ({ form, handleGetFormData }) => {
     const [loading, setLoading] = useState(false);
     const { t } = useTranslation();
 
@@ -15,30 +15,31 @@ const Step1 = () => {
         enableReinitialize: true,
 
         initialValues: {
-            firstName: '',
-            lastName: '',
-            passport: '',
-            phone1: '',
-            phone2: '',
-            address1: '',
-            address2: '',
+            firstName: form.firstName,
+            lastName: form.lastName,
+            passportSeries: form.passportSeries,
+            phoneNumber1: form.phoneNumber1,
+            phoneNumber2: form.phoneNumber2,
+            address: form.address,
+            currentAddress: form.currentAddress,
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required(t('This field is required')),
             lastName: Yup.string().required(t('This field is required')),
-            passport: Yup.string().required(t('This field is required')),
-            phone1: Yup.string().required(t('This field is required')),
-            phone2: Yup.string().required(t('This field is required')),
-            address1: Yup.string().required(t('This field is required')),
-            address2: Yup.string().required(t('This field is required')),
+            passportSeries: Yup.string().required(t('This field is required')),
+            phoneNumber1: Yup.string().required(t('This field is required')),
+            phoneNumber2: Yup.string().required(t('This field is required')),
+            address: Yup.string().required(t('This field is required')),
+            currentAddress: Yup.string().required(t('This field is required')),
         }),
-        onSubmit: async (values) => {
+        onSubmit: (values) => {
+            console.log('values', values);
+
+            handleGetFormData(values, 2);
             setLoading(true);
-            try {
-            } catch (error) {
-            } finally {
+            setTimeout(() => {
                 setLoading(false);
-            }
+            }, 300);
         },
     });
     return (
@@ -56,21 +57,25 @@ const Step1 = () => {
                     <FormInput name="lastName" label={t('Last Name')} type="text" validation={validation} />
                 </Col>
                 <Col sm={12}>
-                    <FormInput name="passport" label={t('Passport Series')} type="text" validation={validation} />
+                    <FormInput name="passportSeries" label={t('Passport Series')} type="text" validation={validation} />
                 </Col>
                 <Col sm={6}>
-                    <FormPhoneInput name="phone1" label={t('Phone') + ' 1'} type="text" validation={validation} />
+                    <FormPhoneInput name="phoneNumber1" label={t('Phone') + ' 1'} type="text" validation={validation} />
                 </Col>
                 <Col sm={6}>
-                    <FormPhoneInput name="phone2" label={t('Phone') + ' 2'} type="text" validation={validation} />
+                    <FormPhoneInput name="phoneNumber2" label={t('Phone') + ' 2'} type="text" validation={validation} />
                 </Col>
                 <Col sm={12}>
-                    <FormInput name="address1" label={t('Address')} type="text" validation={validation} />
+                    <FormInput name="address" label={t('Address')} type="text" validation={validation} />
+                </Col>
+                <Col sm={12}>
+                    <FormInput name="currentAddress" label={t('Current Address')} type="text" validation={validation} />
                 </Col>
                 <Col sm={12}>
                     <div className="d-flex justify-content-end gap-2">
                         <Button color="light">{t('Cancel')}</Button>
-                        <Button type="submit" color="success">
+                        <Button type="submit" color="success" disabled={loading} className="d-flex align-items-center gap-1">
+                            {loading && <Spinner size={'sm'} />}
                             {t('Continue')}
                         </Button>
                     </div>
