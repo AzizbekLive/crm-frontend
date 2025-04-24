@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Container, Label, Nav, NavItem, NavLink, Row, Table } from 'reactstrap';
+import { Badge, Button, Card, CardBody, CardHeader, Col, Container, Label, Nav, NavItem, NavLink, Row, Table } from 'reactstrap';
 import classnames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import FormSelect from '../../Components/Form/FormSelect';
@@ -262,6 +262,7 @@ const Apartments = () => {
                                     </th>
                                 )}
                                 {activeTab === '#apartments' && <th>{t('Total Price')}</th>}
+                                {activeTab === '#apartments' && <th>{t('Status')}</th>}
                                 <th></th>
                             </tr>
                         </thead>
@@ -301,6 +302,15 @@ const Apartments = () => {
                                         <td>{apartment.block}</td>
                                         {activeTab === '#apartments' && <td>{formatUZS(apartment.totalPricePerMeter)}</td>}
                                         {activeTab === '#apartments' && <td>{formatUZS(apartment.totalPrice)}</td>}
+                                        {activeTab === '#apartments' && (
+                                            <td>
+                                                {apartment.isAvailable ? (
+                                                    <Badge color="success">{t('Available')}</Badge>
+                                                ) : (
+                                                    <Badge color="danger">{t('Owned')}</Badge>
+                                                )}
+                                            </td>
+                                        )}
                                         <td className="d-flex justify-content-end">
                                             <TooltipElement tooltipText={t('View')}>
                                                 <Button

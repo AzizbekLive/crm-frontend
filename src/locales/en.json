@@ -85,5 +85,8 @@
 
     "Exist": "Exist",
     "Not Exist": "Not exist",
-    "All": "All"
+    "All": "All",
+
+    "Available": "Available",
+    "Owned": "Owned"
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
+import { Badge, Button, Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { getService } from '../../../service';
@@ -105,12 +105,17 @@ const ApartmentDetails = () => {
                             <CardHeader>
                                 <div className="d-flex align-items-center w-100 justify-content-between">
                                     <h3 className="flex-flow-1 mb-0">
-                                        {apartment.rooms} {t('Rooms')}, {t(apartment.typeOfHousing)}, {apartment.totalArea} {t('M')}²,{' '}
-                                        {apartment.block}/{apartment.floor}
+                                        {apartment.rooms} {t('Rooms')}, {apartment.totalArea} {t('M')}², {apartment.block}/{apartment.floor}
                                     </h3>
-                                    <Button color="success" onClick={() => navigate(`/contract/${id}`)}>
-                                        {t('Contract')}
-                                    </Button>
+                                    {apartment.isAvailable ? (
+                                        <Button color="success" onClick={() => navigate(`/contract/${id}`)}>
+                                            {t('Contract')}
+                                        </Button>
+                                    ) : (
+                                        <Badge color="danger" className="fs-14">
+                                            {t('Owned')}
+                                        </Badge>
+                                    )}
                                 </div>
                             </CardHeader>
                             <CardBody>

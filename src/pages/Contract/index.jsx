@@ -118,7 +118,7 @@ const index = () => {
                             <CardHeader>
                                 <h3>{t('Contract')}</h3>
                                 <p className="text-muted mb-0">
-                                    {apartment.rooms} {t('Rooms')}, {t(apartment.typeOfHousing)}, {apartment.totalArea} {t('M')}², {apartment.block}/
+                                    {apartment.rooms} {t('Rooms')}, {apartment.totalArea} {t('M')}², {apartment.block}/
                                     {apartment.floor} {t('Floor')}
                                 </p>
                             </CardHeader>

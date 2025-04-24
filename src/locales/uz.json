@@ -84,5 +84,8 @@
 
     "Exist": "Mavjud",
     "Not Exist": "Mavjud emas",
-    "All": "Hammasi"
+    "All": "Hammasi",
+
+    "Available": "Mavjud",
+    "Owned": "Egalik qilingan"
 }
