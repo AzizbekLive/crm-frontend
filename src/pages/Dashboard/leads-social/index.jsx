@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 import instagram from '../../../assets/images/instagram.png';
 import telegram from '../../../assets/images/telegram.png';
-const Leads = () => {
+const LeadsSocial = () => {
     return (
         <Card>
             <CardHeader>Total Leads</CardHeader>
@@ -110,4 +110,4 @@ const Leads = () => {
     );
 };
 
-export default Leads;
+export default LeadsSocial;

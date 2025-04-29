@@ -3,7 +3,8 @@ import { Col, Row } from 'reactstrap';
 import { Widgets } from './widgets';
 // import Budgets from './budgets';
 import AprtmentSale from './apartment-sale';
-import Leads from './leads';
+import LeadsSocial from './leads-social';
+import LeadsBudget from './leads-budget';
 const Starter = () => {
     return (
         <React.Fragment>
@@ -15,10 +16,12 @@ const Starter = () => {
                     <Widgets />
                 </Col>
                 <Col xl={12}>
-                    <Leads />
+                    <LeadsSocial />
+                </Col>
+                <Col xl={12}>
+                    <LeadsBudget />
                 </Col>
             </Row>
-            <Row></Row>
         </React.Fragment>
     );
 };
