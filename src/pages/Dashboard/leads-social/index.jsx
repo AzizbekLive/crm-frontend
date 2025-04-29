@@ -16,7 +16,7 @@ const LeadsSocial = () => {
                                 <div className="w-100">
                                     <div className="d-flex mb-2">
                                         <div className="flex-grow-1">
-                                            <div>Progress</div>
+                                            <div>Instagram</div>
                                         </div>
                                         <div className="flex-shrink-0">
                                             <span className="badge badge-soft-primary text-primary fs-14 rounded-pill badge-pill">
