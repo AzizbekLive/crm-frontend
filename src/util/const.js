@@ -12,3 +12,9 @@ export const apartmentTabs = [
         label: 'Stores',
     },
 ];
+
+export const roles = {
+    SUPERADMIN: 'superadmin',
+    MANAGER: 'manager',
+    USER: 'user',
+};

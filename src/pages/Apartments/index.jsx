@@ -4,14 +4,17 @@ import classnames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import FormSelect from '../../Components/Form/FormSelect';
 import { useTranslation } from 'react-i18next';
-import { apartmentTabs } from '../../util/const';
+import { apartmentTabs, roles } from '../../util/const';
 import { APARTMENTS_ENDPOINT } from '../../helpers/url_helper';
 import Paginations from '../../Components/DataTable/Pagination';
-import { getService } from '../../service/index';
+import { deleteService, getService } from '../../service/index';
 import Loader from '../../Components/Common/Loader';
 import EmptyData from '../../Components/Common/EmptyData';
 import { formatUZS } from '../../helpers/methods';
 import TooltipElement from '../../Components/Common/Tooltip';
+import { useProfileStore } from '../../stores/profile';
+import DeleteModal from '../../Components/Common/DeleteModal';
+import { toast } from 'sonner';
 
 const _terraceOptions = [
     {
@@ -114,11 +117,16 @@ const initialFilters = {
 const Apartments = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const profile = useProfileStore((state) => state.profile);
 
     const [activeTab, setActiveTab] = useState(window.location.hash || '#apartments');
 
     const [apartments, setApartments] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const toggleDeleteModal = () => setDeleteModal((p) => !p);
 
     const [terraceOptions, setTerraceOptions] = useState(_terraceOptions);
     const [roomOptions, setRoomOptions] = useState(_roomOptions);
@@ -170,6 +178,29 @@ const Apartments = () => {
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
+    const startDeleting = (item) => {
+        setSelectedItem(item);
+        toggleDeleteModal();
+    };
+
+    const deleteApartment = async () => {
+        setIsDeleting(true);
+        try {
+            await deleteService(`${APARTMENTS_ENDPOINT}/${selectedItem.id}`);
+            toggleDeleteModal();
+            fetchData();
+        } catch (error) {
+            console.log(error);
+
+            toast.error(error?.message || t('Error Occured'), {
+                duration: 5000,
+            });
+        } finally {
+            setIsDeleting(false);
+            setSelectedItem(null);
+        }
+    };
 
     return (
         <Row>
@@ -240,11 +271,15 @@ const Apartments = () => {
                             <Col lg={2} md={4} sm={6}>
                                 <FormSelect options={blockOptions} label={t('Block')} name="block" onChange={onChangeFilter} value={filter.block} />
                             </Col>
-                            <Col lg={2} md={4} sm={6} className="ms-auto align-self-end d-flex justify-content-end">
-                                <Button type="button" color="info" outline className="ms-auto" onClick={() => setFilter(initialFilters)}>
+                            <Col lg={2} md={4} sm={6} className="ms-auto align-self-end d-flex justify-content-end gap-2">
+                                <Button type="button" color="info" outline onClick={() => setFilter(initialFilters)}>
                                     <i className="bx bx-refresh me-1 align-middle fs-5" />
                                     {t('Clear')}
                                 </Button>
+                                {/* <Button type="button" color="success">
+                                    <i className="ri-add-fill me-1 align-bottom" />
+                                    {t('Create')}
+                                </Button> */}
                             </Col>
                         </Row>
                     </CardHeader>
@@ -311,26 +346,44 @@ const Apartments = () => {
                                                 )}
                                             </td>
                                         )}
-                                        <td className="d-flex justify-content-end">
+                                        <td className="d-flex justify-content-end gap-2">
                                             <TooltipElement tooltipText={t('View')}>
                                                 <Button
-                                                    className="btn-soft-secondary btn-icon"
+                                                    className="btn-soft-secondary btn-icon btn-sm"
                                                     onClick={() => navigate(`/apartments/${apartment.id}`)}>
                                                     <i className="mdi mdi-eye" style={{ transform: 'scale(1.3)' }}></i>
                                                 </Button>
                                             </TooltipElement>
+                                            {profile.role === roles.SUPERADMIN && (
+                                                <TooltipElement tooltipText={t('Delete')}>
+                                                    <Button className="btn-soft-danger btn-icon btn-sm" onClick={() => startDeleting(apartment)}>
+                                                        <i className="ri-delete-bin-6-line" style={{ transform: 'scale(1.3)' }}></i>
+                                                    </Button>
+                                                </TooltipElement>
+                                            )}
                                         </td>
                                     </tr>
                                 ))
                             )}
                         </tbody>
                     </Table>
+                    {/* Pagination */}
                     <Paginations
                         page={pagination.page}
                         totalItems={pagination.total}
                         itemsPerPage={filter.pageSize}
                         perPageChange={(val) => onChangeFilter('pageSize', val)}
                         currentPage={(val) => onChangeFilter('page', val)}
+                    />
+
+                    {/* Delete modal */}
+                    <DeleteModal
+                        show={deleteModal}
+                        onDeleteClick={deleteApartment}
+                        onCloseClick={toggleDeleteModal}
+                        title={<h4>{t('Delete Apartment')}</h4>}
+                        text={t('Are you sure you want to delete this apartment?')}
+                        loading={isDeleting}
                     />
                 </Card>
             </Col>

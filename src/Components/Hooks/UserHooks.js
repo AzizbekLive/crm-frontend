@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getLoggedinUser } from '../../helpers/api_helper';
-import { fetchProfile } from '../../service/profile';
+import { getService } from '../../service';
+import { USER_ENDPOINT } from '../../helpers/url_helper';
 
 const useProfile = () => {
     const userProfileSession = getLoggedinUser();
@@ -12,7 +13,7 @@ const useProfile = () => {
         setLoading(true);
         const getProfile = async () => {
             try {
-                const res = await fetchProfile();
+                const res = await getService(USER_ENDPOINT);
                 setUserProfile(res);
             } catch (error) {
             } finally {

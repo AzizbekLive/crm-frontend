@@ -4,3 +4,9 @@ html {
 .no-resize {
     resize: none;
 }
+.radialbar-apartments .apexcharts-radialbar-track path {
+    stroke: #ffe6d5 !important;
+}
+.radialbar-apartments-dark .apexcharts-radialbar-track path {
+    stroke: #f195582c !important;
+}
