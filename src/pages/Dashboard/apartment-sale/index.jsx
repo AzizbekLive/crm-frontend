@@ -89,8 +89,8 @@ const AprtmentSale = () => {
                             <span
                                 className="position-absolute"
                                 style={{ left: -20, top: 9, width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#FF4405' }}></span>
-                            <p className="mb-0 fs-18">Sold</p>
-                            <h5 className="fs-3">100</h5>
+                            <p className="mb-0 fs-16">Sold</p>
+                            <h5 className="fs-4">100</h5>
                         </div>
                         <div className="position-relative">
                             <span
@@ -103,8 +103,8 @@ const AprtmentSale = () => {
                                     borderRadius: '50%',
                                     backgroundColor: layoutModeType === 'dark' ? '#f195582c' : '#FFE6D5',
                                 }}></span>
-                            <p className="mb-0 fs-18">Apartments for sale</p>
-                            <h5 className="fs-3">100</h5>
+                            <p className="mb-0 fs-16">Apartments for sale</p>
+                            <h5 className="fs-4">100</h5>
                         </div>
                     </div>
                 </div>

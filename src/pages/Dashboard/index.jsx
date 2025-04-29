@@ -9,10 +9,10 @@ const Starter = () => {
     return (
         <React.Fragment>
             <Row>
-                <Col xl={4}>
+                <Col xl={5}>
                     <AprtmentSale />
                 </Col>
-                <Col xl={8}>
+                <Col xl={7}>
                     <Widgets />
                 </Col>
                 <Col xl={12}>
