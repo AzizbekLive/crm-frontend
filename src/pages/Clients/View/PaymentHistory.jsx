@@ -1,7 +1,6 @@
 import React from 'react';
 import CountUp from 'react-countup';
 import { Card, CardBody, Col, Row, Table } from 'reactstrap';
-import FeatherIcon from 'feather-icons-react';
 
 const projectsWidgets = [
     {

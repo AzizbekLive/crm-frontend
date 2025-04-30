@@ -1,17 +1,17 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import Dashboard from '../pages/Dashboard';
-import Apartments from '../pages/Apartments';
-import ApartmentDetails from '../pages/Apartments/View';
-import Leads from '../pages/Leads';
-import Clients from '../pages/Clients';
-import ClientDetail from '../pages/Clients/View';
-import Contract from '../pages/Contract';
-import Login from '../pages/Authentication/Login';
-import Settings from '../pages/Settings';
-import Support from '../pages/Support';
-import ProfileSettings from '../pages/Profile/Settings/Settings';
-import UserProfile from '../pages/Authentication/user-profile';
+const Dashboard = React.lazy(() => import('../pages/Dashboard'));
+const Apartments = React.lazy(() => import('../pages/Apartments'));
+const ApartmentDetails = React.lazy(() => import('../pages/Apartments/View'));
+const Leads = React.lazy(() => import('../pages/Leads'));
+const Clients = React.lazy(() => import('../pages/Clients'));
+const ClientDetail = React.lazy(() => import('../pages/Clients/View'));
+const Contract = React.lazy(() => import('../pages/Contract'));
+const Login = React.lazy(() => import('../pages/Authentication/Login'));
+const Settings = React.lazy(() => import('../pages/Settings'));
+const Support = React.lazy(() => import('../pages/Support'));
+const ProfileSettings = React.lazy(() => import('../pages/Profile/Settings/Settings'));
+const UserProfile = React.lazy(() => import('../pages/Authentication/user-profile'));
 
 const authProtectedRoutes = [
     { path: '/apartments', component: <Apartments /> },

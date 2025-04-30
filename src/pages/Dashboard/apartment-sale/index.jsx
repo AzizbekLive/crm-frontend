@@ -60,7 +60,7 @@ const Chart = () => {
             stroke: {
                 lineCap: 'round',
             },
-            labels: ['Total apartments'],
+            labels: [''],
             colors: ['#FF4405'],
         }),
         [layoutModeType, i18n.language]
