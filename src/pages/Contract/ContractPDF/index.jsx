@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         textAlign: 'center',
-        fontFamily: 'Oswald',
     },
     author: {
         fontSize: 12,
@@ -20,7 +19,6 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 18,
         margin: 12,
-        fontFamily: 'Oswald',
     },
     text: {
         margin: 12,
@@ -94,7 +92,6 @@ const ContractPDF = () => {
                 <Text style={styles.text}>{contract.lastName}</Text>
                 <Text style={styles.text}>{contract.passportSeries}</Text>
                 <Text style={styles.text}>{contract.currentAddress}</Text>
-                <Text style={styles.text}>{JSON.stringify(contract)}</Text>
 
                 <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} fixed={true} />
             </Page>

@@ -4,6 +4,7 @@ import avatar from '../../../assets/images/users/user-avatar.png';
 import { decreaseColor } from '../../../helpers/methods';
 import { useDraggable } from '@dnd-kit/core';
 import { formatDate } from '@fullcalendar/core/index.js';
+import TooltipElement from '../../../Components/Common/Tooltip';
 // import { formatDate } from '@fullcalendar/core/index.js';
 const FunnelItem = ({ color, lead, toggleCanvas }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id: lead.id });
@@ -71,7 +72,15 @@ const FunnelItem = ({ color, lead, toggleCanvas }) => {
                     <div className="flex-shrink-0">
                         {/* <TooltipElement tooltipText={lead.name}> */}
                         <div className="avatar-group-item">
-                            {lead?.loading ? <Spinner size={'sm'} /> : <img src={avatar} alt="" className="rounded-circle avatar-xxs" />}
+                            {lead?.loading ? (
+                                <Spinner size={'sm'} />
+                            ) : (
+                                <TooltipElement tooltipText={lead?.employee?.name}>
+                                    <div className="avatar-group-item">
+                                        {lead?.employee?.image && <img src={lead?.employee?.image} alt="" className="rounded-circle avatar-xxs" />}
+                                    </div>
+                                </TooltipElement>
+                            )}
                         </div>
                         {/* </TooltipElement> */}
                     </div>

@@ -56,7 +56,6 @@ const Step3 = ({ contract }) => {
                                 <span className="text-muted">200 KB</span>
                             </div>
                         </div>
-                        {JSON.stringify(contract)}
                     </CardBody>
                 </Card>
             </Col>
