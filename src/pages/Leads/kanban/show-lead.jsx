@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import {
+    Accordion,
+    AccordionBody,
+    AccordionHeader,
+    AccordionItem,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane,
+    UncontrolledAccordion,
+} from 'reactstrap';
 import classnames from 'classnames';
+import AudioPlayer from '../../../Components/ui/AudioPlayer';
 const ShowLead = ({ lead }) => {
     const [data, setData] = useState(lead);
     const [customActiveTab, setcustomActiveTab] = useState('1');
@@ -75,10 +87,37 @@ const ShowLead = ({ lead }) => {
 
             <TabContent activeTab={customActiveTab} className="text-muted">
                 <TabPane tabId="1" id="home1">
-                    <div className="d-flex"></div>
+                    <AudioPlayer src="/music.mp3" />
                 </TabPane>
                 <TabPane tabId="2">
-                    
+                    <UncontrolledAccordion defaultOpen={['1', '2', '3', '4', '5']} stayOpen>
+                        <AccordionItem>
+                            <AccordionHeader targetId="1">How long have you been living in the apartment?</AccordionHeader>
+                            <AccordionBody accordionId="1">Less than 6 months</AccordionBody>
+                        </AccordionItem>
+                        <AccordionItem>
+                            <AccordionHeader targetId="2">
+                                How would you rate the overall condition of your apartment (cleanliness, maintenance, layout)?
+                            </AccordionHeader>
+                            <AccordionBody accordionId="2">Excellent</AccordionBody>
+                        </AccordionItem>
+                        <AccordionItem>
+                            <AccordionHeader targetId="3">Have you faced any issues with plumbing, electricity, or other utilities?</AccordionHeader>
+                            <AccordionBody accordionId="3">No</AccordionBody>
+                        </AccordionItem>
+                        <AccordionItem>
+                            <AccordionHeader targetId="4">
+                                How satisfied are you with the common facilities (elevator, parking, garbage disposal, etc.)?
+                            </AccordionHeader>
+                            <AccordionBody accordionId="4">Very Satisfied</AccordionBody>
+                        </AccordionItem>
+                        <AccordionItem>
+                            <AccordionHeader targetId="5">
+                                How responsive is the apartment management team to complaints or maintenance requests?
+                            </AccordionHeader>
+                            <AccordionBody accordionId="5">Very responsive</AccordionBody>
+                        </AccordionItem>
+                    </UncontrolledAccordion>
                 </TabPane>
             </TabContent>
         </div>
