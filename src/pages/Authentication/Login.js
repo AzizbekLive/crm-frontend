@@ -144,7 +144,7 @@ const Login = () => {
                                                     <Button
                                                         disabled={loading ? true : false}
                                                         color="success"
-                                                        className="btn btn-success w-100"
+                                                        className="btn btn-danger w-100"
                                                         type="submit">
                                                         {loading ? <Spinner size="sm" className="me-2" /> : null}
                                                         Войти
