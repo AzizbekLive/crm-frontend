@@ -253,9 +253,14 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                                         )}
                                     </AnimatePresence>
                                     {leads && leads.length > 0 ? (
-                                        leads.map((lead) => (
-                                            <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
-                                        ))
+                                        // leads.map((lead) => (
+                                        //     <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
+                                        // ))
+                                        <AnimatePresence>
+                                            {leads.map((lead) => (
+                                                <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
+                                            ))}
+                                        </AnimatePresence>
                                     ) : (
                                         <div className="p-3 rounded-2 border border-dashed border-dark opacity-50 text-center">
                                             <i className="mdi mdi-folder-alert-outline align-middle fs-18 me-1"></i>

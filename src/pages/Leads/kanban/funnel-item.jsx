@@ -5,6 +5,7 @@ import { decreaseColor } from '../../../helpers/methods';
 import { useDraggable } from '@dnd-kit/core';
 import { formatDate } from '@fullcalendar/core/index.js';
 import TooltipElement from '../../../Components/Common/Tooltip';
+import { motion } from 'framer-motion';
 // import { formatDate } from '@fullcalendar/core/index.js';
 const FunnelItem = ({ color, lead, toggleCanvas }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id: lead.id });
@@ -20,7 +21,7 @@ const FunnelItem = ({ color, lead, toggleCanvas }) => {
         toggleCanvas(lead);
     };
     return (
-        <div className="card tasks-box shadow-md" ref={setNodeRef} style={style} {...attributes} {...listeners} onDoubleClick={openLead}>
+        <motion.div layout className="card tasks-box shadow-md" ref={setNodeRef} style={style} {...attributes} {...listeners} onDoubleClick={openLead}>
             <CardBody>
                 <div className="d-flex mb-2 align-items-center">
                     <h5 className="fs-15 mb-0 flex-grow-1 text-truncate task-title">
@@ -86,7 +87,7 @@ const FunnelItem = ({ color, lead, toggleCanvas }) => {
                     </div>
                 </div>
             </CardFooter>
-        </div>
+        </motion.div>
     );
 };
 
