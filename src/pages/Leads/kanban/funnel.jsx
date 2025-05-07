@@ -237,30 +237,18 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                             )}
                             {!isFormOpen && (
                                 <div ref={setNodeRef} className="tasks">
-                                    <AnimatePresence>
-                                        {isOver && column.id !== activeCardStatus && (
-                                            <motion.div
-                                                className="tasks-box bg"
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 0.2, height: 188, backgroundColor: '#e0e0e0' }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                                                style={{
-                                                    borderRadius: '4px',
-                                                    marginBottom: '8px',
-                                                }}
-                                            />
-                                        )}
-                                    </AnimatePresence>
+                                    {isOver && column.id !== activeCardStatus && (
+                                        <motion.div
+                                            className="tasks-box bg"
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 0.2, height: 188, backgroundColor: '#e0e0e0' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                        />
+                                    )}
                                     {leads && leads.length > 0 ? (
-                                        // leads.map((lead) => (
-                                        //     <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
-                                        // ))
-                                        <AnimatePresence>
-                                            {leads.map((lead) => (
-                                                <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
-                                            ))}
-                                        </AnimatePresence>
+                                        leads.map((lead) => (
+                                            <FunnelItem key={lead.id} lead={lead} color={curFunnel.color} toggleCanvas={toggleCanvas} />
+                                        ))
                                     ) : (
                                         <div className="p-3 rounded-2 border border-dashed border-dark opacity-50 text-center">
                                             <i className="mdi mdi-folder-alert-outline align-middle fs-18 me-1"></i>

@@ -210,9 +210,13 @@ const index = () => {
                                     </TooltipElement>
                                 </div>
                                 <Button type="button" color="primary" className="me-2">
+                                    <i className="ri-survey-line me-1 align-bottom" />
+                                    {t('Edit Notes')}
+                                </Button>
+                                {/* <Button type="button" color="primary" className="me-2">
                                     <i className="ri-edit-line me-1 align-bottom" />
                                     {t('Edit')}
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                     </div>
@@ -247,7 +251,6 @@ const index = () => {
                     </div>
                 </CardBody>
             </Card>
-
             <Modal isOpen={createKanbanModal} toggle={toggleCreateKanbanModal} centered={true}>
                 <div className="position-relative py-3">
                     <span

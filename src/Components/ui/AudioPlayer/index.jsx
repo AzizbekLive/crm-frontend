@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { AudioPlayer as AudioPlayerComponent } from 'react-audio-player-component';
 
-import { useLayoutStore } from '../../../stores/layouts';
+const AudioPlayer = ({ src }) => {
+    const playerRef = useRef(null);
 
-const AudioPlayer = () => {
-    const { layoutModeType } = useLayoutStore();
+    useEffect(() => {
+        return () => {
+            // Stop playback when component unmounts
+            console.log({ playerRef: playerRef });
+
+            if (playerRef.current) {
+                const audioElement = playerRef.current.querySelector('audio');
+                console.log(audioElement);
+
+                if (audioElement) {
+                    audioElement.pause();
+                    audioElement.currentTime = 0; // Optional: reset to beginning
+                }
+            }
+        };
+    }, []);
+
     return (
         <AudioPlayerComponent
-            src="/music.mp3"
+            ref={playerRef}
+            src={src}
             minimal={true}
             width={350}
             trackHeight={75}

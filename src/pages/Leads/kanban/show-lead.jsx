@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Accordion,
     AccordionBody,
@@ -13,8 +13,9 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import AudioPlayer from '../../../Components/ui/AudioPlayer';
+import audioMusic from '../../../assets/music.mp3';
 const ShowLead = ({ lead }) => {
-    const [data, setData] = useState(lead);
+    const [data, setData] = useState(null);
     const [customActiveTab, setcustomActiveTab] = useState('1');
     const toggleCustom = (tab) => {
         if (customActiveTab !== tab) {
@@ -30,7 +31,14 @@ const ShowLead = ({ lead }) => {
             setOpen(id);
         }
     };
-    return (
+
+    useEffect(() => {
+        setData(lead);
+        return () => {
+            setData(null);
+        };
+    }, [lead]);
+    return data ? (
         <div>
             <div className="d-flex mb-2 align-items-center">
                 <h5 className="fs-15 mb-0 flex-grow-1 text-truncate task-title">
@@ -38,7 +46,7 @@ const ShowLead = ({ lead }) => {
                 </h5>
             </div>
             <div className="mb- d-flex flex-column gap-1">
-                {data.phones.map((phone, index) => (
+                {data.phones?.map((phone, index) => (
                     <div className="d-flex" key={phone + index}>
                         <div className="d-flex gap-2 align-items-center">
                             <i className="ri-phone-line align-bottom fs-18"></i>
@@ -54,12 +62,22 @@ const ShowLead = ({ lead }) => {
                         </div>
                     </div>
                 ))}
+
+                <div className="my-2 more-text">
+                    <span className="text-truncate-two-lines">{data.note}</span>
+                    <div className="text-primary text-end">
+                        <span className='cursor-pointer'>
+                            more <i className="ri-arrow-down-s-line align-middle"></i>
+                        </span>
+                    </div>
+                </div>
+
                 {/* <div className="d-flex">
-                        <div className="d-flex gap-2 align-items-center">
-                            <i className="ri-map-pin-line align-bottom fs-18"></i>
-                            <span>{data.address}</span>
-                        </div>
-                    </div> */}
+                <div className="d-flex gap-2 align-items-center">
+                    <i className="ri-map-pin-line align-bottom fs-18"></i>
+                    <span>{data.address}</span>
+                </div>
+            </div> */}
             </div>
 
             <Nav tabs className="nav nav-tabs nav-tabs-custom nav-primary nav-justified mb-3">
@@ -87,7 +105,7 @@ const ShowLead = ({ lead }) => {
 
             <TabContent activeTab={customActiveTab} className="text-muted">
                 <TabPane tabId="1" id="home1">
-                    <AudioPlayer src="/music.mp3" />
+                    <AudioPlayer src={data.id ? audioMusic : null} />
                 </TabPane>
                 <TabPane tabId="2">
                     <UncontrolledAccordion defaultOpen={['1', '2', '3', '4', '5']} stayOpen>
@@ -121,7 +139,7 @@ const ShowLead = ({ lead }) => {
                 </TabPane>
             </TabContent>
         </div>
-    );
+    ) : null;
 };
 
 export default ShowLead;
