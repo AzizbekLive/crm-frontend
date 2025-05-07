@@ -88,5 +88,8 @@
     "All": "All",
 
     "Available": "Available",
-    "Owned": "Sold"
+    "Owned": "Sold",
+
+    "More": "More",
+    "Less": "Less"
 }

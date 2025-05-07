@@ -14,9 +14,18 @@ import {
 import classnames from 'classnames';
 import AudioPlayer from '../../../Components/ui/AudioPlayer';
 import audioMusic from '../../../assets/music.mp3';
+import { useTranslation } from 'react-i18next';
+
 const ShowLead = ({ lead }) => {
+    const { t } = useTranslation();
     const [data, setData] = useState(null);
     const [customActiveTab, setcustomActiveTab] = useState('1');
+    const [isEditingNote, setIsEditingNote] = useState(false);
+    const toggleEditingNote = () => setIsEditingNote((p) => !p);
+
+    const [isMore, setisMore] = useState(false);
+    const toggleMore = () => setisMore((p) => !p);
+
     const toggleCustom = (tab) => {
         if (customActiveTab !== tab) {
             setcustomActiveTab(tab);
@@ -63,13 +72,29 @@ const ShowLead = ({ lead }) => {
                     </div>
                 ))}
 
-                <div className="my-2 more-text">
-                    <span className="text-truncate-two-lines">{data.note}</span>
-                    <div className="text-primary text-end">
-                        <span className='cursor-pointer'>
-                            more <i className="ri-arrow-down-s-line align-middle"></i>
-                        </span>
-                    </div>
+                <div className="my-2 more-text" onDoubleClick={toggleEditingNote}>
+                    {isEditingNote ? (
+                        <textarea className="form-control" value={data.note} rows="3"></textarea>
+                    ) : data.note?.length > 140 ? (
+                        <>
+                            <span className={isMore ? '' : 'text-truncate-two-lines'}>{data.note}</span>
+                            <div className="text-primary text-end">
+                                <span className="cursor-pointer" onClick={toggleMore}>
+                                    {isMore ? (
+                                        <>
+                                            {t('Less')} <i className="ri-arrow-up-s-line align-middle"></i>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {t('More')} <i className="ri-arrow-down-s-line align-middle"></i>
+                                        </>
+                                    )}
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <span>{data.note}</span>
+                    )}
                 </div>
 
                 {/* <div className="d-flex">

@@ -7,6 +7,7 @@ import FormDatePicker from '../../../Components/Form/FormDatePicker';
 import { postService } from '../../../service';
 import { LEADS_ENDPOINT } from '../../../helpers/url_helper';
 import { toast } from 'sonner';
+import OutsideClickHandler from '../../../hooks/OutsideClickHandler';
 
 const FunnelItemForm = ({ closeForm, fetchData }) => {
     const { t } = useTranslation();
@@ -45,52 +46,54 @@ const FunnelItemForm = ({ closeForm, fetchData }) => {
     };
 
     return (
-        <Card className="mb-0">
-            <CardBody>
-                <form action="" onSubmit={onSubmit} ref={formElement}>
-                    <SimpleBar style={{ height: '431px' }} className="px-3 mx-n3 mb-2">
-                        <div className="d-flex flex-column gap-3 pb-3">
-                            <div>
-                                <Label className="form-label">{t('Full Name')}</Label>
-                                <Input type="text" className="form-control" name="name"></Input>
+        <OutsideClickHandler onOutsideClick={() => closeForm()}>
+            <Card className="mb-0">
+                <CardBody>
+                    <form action="" onSubmit={onSubmit} ref={formElement}>
+                        <SimpleBar style={{ height: '431px' }} className="px-3 mx-n3 mb-2">
+                            <div className="d-flex flex-column gap-3 pb-3">
+                                <div>
+                                    <Label className="form-label">{t('Full Name')}</Label>
+                                    <Input type="text" className="form-control" name="name"></Input>
+                                </div>
+                                <div>
+                                    <Label className="form-label">{t('Phone')} 1</Label>
+                                    <FormPhoneInput name="phone1" />
+                                </div>
+                                <div>
+                                    <Label className="form-label"> {t('Phone')} 2</Label>
+                                    <FormPhoneInput name="phone2" />
+                                </div>
+                                <div>
+                                    <Label className="form-label"> {t('Address')}</Label>
+                                    <Input type="text" className="form-control" name="addresses"></Input>
+                                </div>
+                                <div>
+                                    <Label className="form-label"> {t('Date')}</Label>
+                                    <FormDatePicker name="date" enableTime={true} />
+                                </div>
+                                <div>
+                                    <Label className="form-label">
+                                        {t('Note')} <span className="text-muted">({t('Optional')})</span>
+                                    </Label>
+                                    <textarea className="form-control resize-none" name="note" rows={4}></textarea>
+                                </div>
                             </div>
-                            <div>
-                                <Label className="form-label">{t('Phone')} 1</Label>
-                                <FormPhoneInput name="phone1" />
-                            </div>
-                            <div>
-                                <Label className="form-label"> {t('Phone')} 2</Label>
-                                <FormPhoneInput name="phone2" />
-                            </div>
-                            <div>
-                                <Label className="form-label"> {t('Address')}</Label>
-                                <Input type="text" className="form-control" name="addresses"></Input>
-                            </div>
-                            <div>
-                                <Label className="form-label"> {t('Date')}</Label>
-                                <FormDatePicker name="date" enableTime={true}/>
-                            </div>
-                            <div>
-                                <Label className="form-label">
-                                    {t('Note')} <span className="text-muted">({t('Optional')})</span>
-                                </Label>
-                                <textarea className="form-control resize-none" name="note" rows={4}></textarea>
-                            </div>
+                        </SimpleBar>
+                        <div className="border-top mb-3"></div>
+                        <div className="d-flex justify-content-end gap-2">
+                            <Button size="sm" type="button" color="primary" outline className="btn-soft-primary" onClick={closeForm}>
+                                {t('Cancel')}
+                            </Button>
+                            <Button size="sm" type="submit" color="success" outline className="btn-soft-success d-flex gap-1" disabled={loading}>
+                                {loading && <Spinner size={'sm'} />}
+                                {t('Save')}
+                            </Button>
                         </div>
-                    </SimpleBar>
-                    <div className="border-top mb-3"></div>
-                    <div className="d-flex justify-content-end gap-2">
-                        <Button size="sm" type="button" color="primary" outline className="btn-soft-primary" onClick={closeForm}>
-                            {t('Cancel')}
-                        </Button>
-                        <Button size="sm" type="submit" color="success" outline className="btn-soft-success d-flex gap-1" disabled={loading}>
-                            {loading && <Spinner size={'sm'} />}
-                            {t('Save')}
-                        </Button>
-                    </div>
-                </form>
-            </CardBody>
-        </Card>
+                    </form>
+                </CardBody>
+            </Card>
+        </OutsideClickHandler>
     );
 };
 
