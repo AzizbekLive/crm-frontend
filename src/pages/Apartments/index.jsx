@@ -191,8 +191,6 @@ const Apartments = () => {
             toggleDeleteModal();
             fetchData();
         } catch (error) {
-            console.log(error);
-
             toast.error(error?.message || t('Error Occured'), {
                 duration: 5000,
             });

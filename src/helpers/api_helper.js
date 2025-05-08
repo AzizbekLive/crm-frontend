@@ -15,8 +15,6 @@ axios.interceptors.response.use(
     },
     function (error) {
         if (error) {
-            console.log({ status: error.response?.status });
-
             if (error.response?.status === 401) {
                 sessionStorage.clear();
                 window.location.href = '/login';
@@ -64,8 +62,6 @@ class APIClient {
     };
 
     put = (url, data) => {
-        console.log({ url, dataApi: data });
-
         return axios.put(url, data);
     };
     /**

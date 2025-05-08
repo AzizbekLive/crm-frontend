@@ -51,7 +51,6 @@ const index = () => {
         setLoading(true);
         try {
             const clientData = await getService(`${CLIENTS_ENDPOINT}/${id}`);
-            console.log({ clientData });
             setClient(clientData);
         } catch (error) {
         } finally {

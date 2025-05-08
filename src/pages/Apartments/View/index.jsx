@@ -27,7 +27,6 @@ const ApartmentDetails = () => {
         setLoading(true);
         try {
             const apartmentData = await getService(`${APARTMENTS_ENDPOINT}/${id}`);
-            console.log({ apartmentData });
             setApartment(apartmentData);
         } catch (error) {
         } finally {
@@ -47,7 +46,6 @@ const ApartmentDetails = () => {
 
     const settings = {
         customPaging: function (i, k, j) {
-            console.log({ i, k, j });
             if (!apartment) return '';
 
             return (

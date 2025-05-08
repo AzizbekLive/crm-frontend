@@ -7,12 +7,8 @@ const AudioPlayer = ({ src }) => {
     useEffect(() => {
         return () => {
             // Stop playback when component unmounts
-            console.log({ playerRef: playerRef });
-
             if (playerRef.current) {
                 const audioElement = playerRef.current.querySelector('audio');
-                console.log(audioElement);
-
                 if (audioElement) {
                     audioElement.pause();
                     audioElement.currentTime = 0; // Optional: reset to beginning

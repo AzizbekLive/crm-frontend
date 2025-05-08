@@ -33,8 +33,6 @@ const Step1 = ({ form, handleGetFormData }) => {
             currentAddress: Yup.string().required(t('This field is required')),
         }),
         onSubmit: (values) => {
-            console.log('values', values);
-
             handleGetFormData(values, 2);
             setLoading(true);
             setTimeout(() => {

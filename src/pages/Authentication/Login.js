@@ -46,8 +46,6 @@ const Login = () => {
             const { token } = await postService(AUTH_ENDPOINT, values);
             try {
                 if (token) {
-                    console.log({ token });
-
                     setAuthorization(token);
                     sessionStorage.setItem('authUser', token);
                     navigate('/');

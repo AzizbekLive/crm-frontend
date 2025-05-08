@@ -16,6 +16,7 @@ import EmptyData from '../../../Components/Common/EmptyData';
 import { toast } from 'sonner';
 import { Sketch } from '@uiw/react-color';
 import './style.css';
+import Notes from '../../../Components/ui/Notes';
 
 export const INITIAL_COLUMNS = [
     {
@@ -32,6 +33,8 @@ const index = () => {
 
     const [columns, setColumns] = useState([]);
     const [selectedKanban, setSelectedKanban] = useState(null);
+    const [notesModal, setNotesModal] = useState(null);
+    const toggleNotesModal = () => setNotesModal((p) => !p);
     const [color, setColor] = useState('#000');
     const [leads, setLeads] = useState([]);
 
@@ -120,7 +123,6 @@ const index = () => {
         setLoading(true);
         try {
             const res = await getService(KANBAN_ENDPOINT);
-            console.log({ res });
             setColumns(() => [...INITIAL_COLUMNS, ...res]);
         } catch (error) {
         } finally {
@@ -132,7 +134,6 @@ const index = () => {
         setLoading(true);
         try {
             const { leads } = await getService(LEADS_ENDPOINT);
-            console.log({ leads });
             setLeads(leads);
         } catch (error) {
         } finally {
@@ -160,8 +161,6 @@ const index = () => {
                 toast.success(t('Success Created'));
             }
         } catch (error) {
-            console.log('error');
-
             cb(false);
         } finally {
             setSubmitLoading(false);
@@ -209,7 +208,7 @@ const index = () => {
                                         </div>
                                     </TooltipElement>
                                 </div>
-                                <Button type="button" color="primary" className="me-2">
+                                <Button type="button" color="primary" className="me-2" onClick={toggleNotesModal}>
                                     <i className="ri-survey-line me-1 align-bottom" />
                                     {t('Edit Notes')}
                                 </Button>
@@ -243,6 +242,7 @@ const index = () => {
                                                 handleCreatingColumn={handleCreatingColumn}
                                                 activeCardStatus={activeCardStatus}
                                                 fetchData={fetchData}
+                                                toggleNotesModal={toggleNotesModal}
                                             />
                                         ))}
                                 </motion.div>
@@ -286,6 +286,21 @@ const index = () => {
                             </button>
                         </div>
                     </form>
+                </ModalBody>
+            </Modal>
+
+            {/* NOTES */}
+            <Modal isOpen={notesModal} toggle={toggleNotesModal} centered={true} size="xl">
+                <div className="position-relative py-3">
+                    <span
+                        className="position-absolute fs-2"
+                        style={{ top: '10px', right: '20px', cursor: 'pointer', zIndex: '999' }}
+                        onClick={toggleNotesModal}>
+                        &times;
+                    </span>
+                </div>
+                <ModalBody>
+                    <Notes />
                 </ModalBody>
             </Modal>
         </div>

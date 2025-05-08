@@ -23,8 +23,6 @@ export const postService = async (url, params) => {
         });
 };
 export const updateService = async (url, data) => {
-    console.log({ url, data });
-
     return api
         .put(url, data)
         .then((response) => {

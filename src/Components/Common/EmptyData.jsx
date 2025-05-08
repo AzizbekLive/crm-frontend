@@ -2,9 +2,9 @@ import React from 'react';
 import './style.css';
 import emptyDataImage from '../../assets/images/empty-data.png';
 import { Button } from 'reactstrap';
-const EmptyData = ({ title, text, actionHandler }) => {
+const EmptyData = ({ title, text, actionHandler, size = 'xl' }) => {
     return (
-        <div className="emty-data">
+        <div className={'emty-data ' + size}>
             <img src={emptyDataImage} alt="" />
             <h2>{title || 'No customers available'}</h2>
             <p className="text-muted">{text || 'No customer information has been added. Add a new customer and enter their information.'}</p>

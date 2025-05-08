@@ -32,9 +32,9 @@ import { toast } from 'sonner';
 import FormDatePicker from '../../../Components/Form/FormDatePicker';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import ShowLead from './show-lead';
+import ShowLead from './show-lead-details';
 
-const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData }) => {
+const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardStatus, fetchData, toggleNotesModal }) => {
     const { t } = useTranslation();
 
     const titleInputElement = useRef(null);
@@ -123,7 +123,6 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
         setIsLoading(true);
         try {
             const res = await deleteService(`/superadmin${KANBAN_ENDPOINT}/${curFunnel.id}`);
-            console.log({ res });
             toast.success(t('Success Deleted'));
             fetchData();
         } catch (error) {
@@ -327,7 +326,7 @@ const Funnel = ({ column, leads, handleCreatingColumn, funnelIndex, activeCardSt
                     {selectedLead?.name}
                 </OffcanvasHeader>
                 <OffcanvasBody className="verflow-hidden">
-                    <ShowLead lead={selectedLead} />
+                    <ShowLead lead={selectedLead} toggleNotesModal={toggleNotesModal} />
                 </OffcanvasBody>
                 {/* <div className="offcanvas-foorter border-top p-3 text-center"></div> */}
             </Offcanvas>
