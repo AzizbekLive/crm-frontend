@@ -24,6 +24,7 @@ const NoteItem = ({ item, index, removeItem }) => {
     };
 
     const saveHandler = async () => {
+        if (note.text.trim() === '') return;
         try {
             setIsLoading(true);
             const res = await updateService(`${NOTES_ENDPOINT}/${note.id}`, { ...note });
@@ -31,6 +32,11 @@ const NoteItem = ({ item, index, removeItem }) => {
         } catch (error) {
         } finally {
             setIsLoading(false);
+        }
+    };
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            saveHandler();
         }
     };
 
@@ -46,6 +52,8 @@ const NoteItem = ({ item, index, removeItem }) => {
         }
     };
 
+    useEffect(() => {}, []);
+
     return (
         <tr>
             <td>{index + 1}</td>
@@ -57,6 +65,7 @@ const NoteItem = ({ item, index, removeItem }) => {
                             value={note.text}
                             onChange={(e) => setNote((p) => ({ ...p, [e.target.name]: e.target.value }))}
                             className="w-75"
+                            onKeyDown={handleKeyDown}
                         />
                         <div className="d-flex gap-1">
                             <TooltipElement tooltipText={t('Cancel')}>

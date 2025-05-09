@@ -61,6 +61,7 @@ const Notes = ({}) => {
         toggleCreate();
     };
     const onSaveHandler = async () => {
+        if (newQuestion.trim() === '') return;
         try {
             toggleCreating();
             const res = await postService(NOTES_ENDPOINT, { text: newQuestion });
@@ -74,7 +75,11 @@ const Notes = ({}) => {
             toggleCreating();
         }
     };
-
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            onSaveHandler();
+        }
+    };
     const removeItem = (id) => {
         const newData = data.filter((item) => item.id !== id);
         setData(newData);
@@ -101,7 +106,13 @@ const Notes = ({}) => {
                 </div>
                 <Collapse isOpen={isOpenCreate} className="my-2">
                     <div className="d-flex gap-2 align-items-start">
-                        <Input value={newQuestion} onChange={onChangeNewQuestion} className="w-100" placeholder={t('Enter question') + '...'} />
+                        <Input
+                            value={newQuestion}
+                            onChange={onChangeNewQuestion}
+                            className="w-100"
+                            placeholder={t('Enter question') + '...'}
+                            onKeyDown={handleKeyDown}
+                        />
                         <div className="d-flex gap-1">
                             <TooltipElement tooltipText={t('Cancel')}>
                                 <Button className="btn-soft-secondary btn-icon" color="secondary" onClick={onCancelCreate} disabled={isCreating}>
